@@ -7,6 +7,11 @@ const ClientlistContent = ()=> {
     const [data, setData] = useState<any>(null);
     const token = localStorage.getItem('token');
 
+    const [filter ,setFilter]=useState('');
+    const [currentPage ,setCurrentPage]=useState(1);
+    const itemsPerPage =5;
+    const [searchQuery ,setSearchQuery] =useState("");
+
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -23,15 +28,19 @@ const ClientlistContent = ()=> {
     
         fetchData();
       }, [token]);
+
+      const filterData =data ? data.filter((item:any)=>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())):[];
+        
       
-      console.log(data)
+    //   console.log(data)
     return (
         <>
-            <div style={{ width: '97%' }}>
+            <div style={{ width: '100%' }}>
                 <div className="table-wrap">
                     <div className="client-title">
                         <div>
-                            <input type="text" placeholder="Search by name..."/>
+                            <input type="text" placeholder="Search by name..." value={searchQuery} onChange ={(e)=>setSearchQuery(e.target.value)}/>
                         </div>
                         <abbr title="ADD NEW CUSTOMER">
                             <div className="addnewcustomer">
@@ -58,7 +67,12 @@ const ClientlistContent = ()=> {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    {/* {filteredData.map((item:any,index:number)=>(
+                        <tr key={index}>
+                            <td></td>
+                        </tr>
+                    ))} */}
+                <tr>
                     <td>1</td>
                     <td>Y2K Company</td>
                     <td>Ye Yint Kyaw</td>
@@ -70,6 +84,15 @@ const ClientlistContent = ()=> {
                 <tr>
                     <td>1</td>
                     <td>Y2K Company</td>
+                    <td>Ye Yint Kyaw</td>
+                    <td>yeyeintkyaw@gmail.com</td>
+                    <td>09767606593</td>
+                    <td className="td-category"><span>CEO</span></td>
+                    <td><i className="fa-solid fa-pen-to-square update"></i><i className="fa-solid fa-trash delete"></i><Link to='/client-project-lists'><i className="fa-solid fa-angles-right more"></i></Link></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>zzz</td>
                     <td>Ye Yint Kyaw</td>
                     <td>yeyeintkyaw@gmail.com</td>
                     <td>09767606593</td>
