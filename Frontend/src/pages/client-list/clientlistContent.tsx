@@ -2,32 +2,46 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const ClientlistContent = ()=> {
-
+const ClientlistContent = () => {
     const [data, setData] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const token = localStorage.getItem('token');
-
+  
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await axios.get("http://127.0.0.1:8000/api/customers", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-            setData(response.data);
-          } catch (error) {
-            console.log(error);
-          }
-        };
-    
-        fetchData();
-      }, [token]);
-      
-      console.log(data)
+      const fetchData = async () => {
+        try {
+          const response = await axios.get("http://127.0.0.1:8000/api/customers", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setData(response.data);
+          setIsLoading(false);
+        } catch (error:any) {
+          setError(error);
+          setIsLoading(false);
+        }
+      };
+  
+      fetchData();
+    }, [token]);
+  
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+  
+    if (error) {
+      return <div>Error: {error}</div>;
+    }
+  
+    if (!data || !data.data || data.data.length === 0) {
+      return <div>Data is not available</div>;
+    }
+
     return (
         <>
-            <div style={{ width: '97%' }}>
+            <div style={{ width: '100%' }}>
                 <div className="table-wrap">
                     <div className="client-title">
                         <div>
@@ -46,54 +60,38 @@ const ClientlistContent = ()=> {
 
                     <table className='pj-table'>
                 
-                <thead className="table-header">
-                    <tr>
+                <thead>
+                    <tr className="table-header">
                         <th>No</th>
-                        <th className="client-name">Name</th>
-                        <th>Contact Person</th>
+                        <th className="client-name">Name</th> 
                         <th>Contact Mail</th>
                         <th>Contact Phone</th>
+                        <th>Contact Person</th>
                         <th>Position</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    <td>1</td>
-                    <td>Y2K Company</td>
-                    <td>Ye Yint Kyaw</td>
-                    <td>yeyeintkyaw@gmail.com</td>
-                    <td>09767606593</td>
-                    <td className="td-category"><span>CEO</span></td>
-                    <td><i className="fa-solid fa-pen-to-square update"></i><i className="fa-solid fa-trash delete"></i><Link to='/client-project-lists'><i className="fa-solid fa-angles-right more"></i></Link></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Y2K Company</td>
-                    <td>Ye Yint Kyaw</td>
-                    <td>yeyeintkyaw@gmail.com</td>
-                    <td>09767606593</td>
-                    <td className="td-category"><span>CEO</span></td>
-                    <td><i className="fa-solid fa-pen-to-square update"></i><i className="fa-solid fa-trash delete"></i><Link to='/client-project-lists'><i className="fa-solid fa-angles-right more"></i></Link></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Y2K Company</td>
-                    <td>Ye Yint Kyaw</td>
-                    <td>yeyeintkyaw@gmail.com</td>
-                    <td>09767606593</td>
-                    <td className="td-category"><span>CEO</span></td>
-                    <td><i className="fa-solid fa-pen-to-square update"></i><i className="fa-solid fa-trash delete"></i><Link to='/client-project-lists'><i className="fa-solid fa-angles-right more"></i></Link></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Y2K Company</td>
-                    <td>Ye Yint Kyaw</td>
-                    <td>yeyeintkyaw@gmail.com</td>
-                    <td>09767606593</td>
-                    <td className="td-category"><span>CEO</span></td>
-                    <td><i className="fa-solid fa-pen-to-square update"></i><i className="fa-solid fa-trash delete"></i><Link to='/client-project-lists'><i className="fa-solid fa-angles-right more"></i></Link></td>
-                </tr>
+                {
+                    data.data?.map((item: any) => {
+                        return (
+                        <tr key={item.id}>
+                            <td>1</td>
+                            <td>{item.name}</td>
+                            <td>{item.email}</td>
+                            <td>{item.phone}</td>
+                            <td>{item.contact_person}</td>
+                            <td className="td-category">{item.position}</td>
+                            <td>
+                            <i className="fa-solid fa-pen-to-square update"></i>
+                            <i className="fa-solid fa-trash delete"></i>
+                            <Link to='/client-project-lists'><i className="fa-solid fa-angles-right more"></i></Link>
+                            </td>
+                        </tr>
+                        );
+                    })
+}
+
                 </tbody>
             </table>
 
