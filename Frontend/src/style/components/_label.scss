@@ -1,0 +1,8 @@
+label{
+    font-size: 16px;
+    font-weight: bolder;
+    color: map-get($colors, 'text');
+    // margin-left:50px;
+    float: left;
+    margin-bottom: 8px;
+}
