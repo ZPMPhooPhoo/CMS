@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import importImg from '../../image/logo.png';
 import { Button } from "../../components/button.component";
-import { Checkbox } from "../../components/checkbox";
-import { Input } from "../../components/input";
-import { Label } from "../../components/label";
-import { List } from "../../components/list";
+import { Checkbox } from "../../components/checkbox.component";
+import { Input } from "../../components/input.component";
+import { Label } from "../../components/label.component";
+import { List } from "../../components/list.component";
 
 
 
@@ -41,8 +41,7 @@ export const RoleForm: React.FC = () => {
           type="text"
           value={rowname}
           name="name"
-          placeholder="Enter Role Name"
-        />
+          placeholder="Enter Role Name" id={""}        />
 
         <div className="permissionlist">
           <ul className="ul_perlist">

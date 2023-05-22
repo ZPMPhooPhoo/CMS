@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import importImg from '../../img/sidebar/logo.png';
 import axios from "axios";
 import { Button } from '../../components/button.component';
-import { Input } from '../../components/input';
-import { Label } from '../../components/label';
-import { SelectBox } from "../../components/selectbox";
+import { Input } from '../../components/input.component';
+import { Label } from '../../components/label.component';
+import { SelectBox } from "../../components/selectbox.component";
 
 export const SignupPage: React.FC = () => {
   const [name, setName] = useState<string>("");

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const ClientlistContent = () => {
+const ClientListContent = () => {
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -130,4 +130,4 @@ const ClientlistContent = () => {
     );
 }
 
-export default ClientlistContent;
+export default ClientListContent;

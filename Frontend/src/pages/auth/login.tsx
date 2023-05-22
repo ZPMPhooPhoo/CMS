@@ -132,7 +132,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import importImg from '../../img/ace_plus_logo.png';
 import { Button } from '../../components/button.component';
-import { Input } from '../../components/input';
+import { Input } from '../../components/input.component';
 
 interface Props {
   email: string;

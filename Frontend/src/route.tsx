@@ -1,15 +1,17 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/dashboard/dashboard";
-import Clientlist from "./pages/client-list/clientlist";
+
 import Project from "./pages/projects/projects";
-import Projectdetail from "./pages/project-detail/projectdetail";
-import Clientprojectlist from "./pages/client-project-list/clientprojectlist";
+
 import { Error } from "./pages/notfound";
 // import Service from "./pages/service/service";
 import ClientCreate from "./pages/client_create/clientCreate";
-import { LoginPage } from "./pages/auth/loginn";
-import { SignupPage } from "./pages/auth/registerr";
+import { LoginPage } from "./pages/auth/login";
+import { SignupPage } from "./pages/auth/register";
+import ClientList from "./pages/client_list/clientList";
 
+import ProjectDetail from "./pages/project_detail/projectdetail";
+import ClientProjectList from "./pages/client_project_list/clientProjectList";
 
 const routeList = createBrowserRouter([
   {
@@ -21,13 +23,13 @@ const routeList = createBrowserRouter([
   {
     path: '/client-lists',
     element: (
-       <Clientlist />
+       <ClientList />
     )
   },
   {
     path: '/client-project-lists',
     element: (
-       <Clientprojectlist />
+       <ClientProjectList />
     )
   },
   {
@@ -39,7 +41,7 @@ const routeList = createBrowserRouter([
   {
     path: '/project-detail',
     element: (
-        <Projectdetail />
+        <ProjectDetail />
     )
   },
   {

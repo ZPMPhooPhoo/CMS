@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import importImg from '../../image/logo.png';
 import axios from "axios";
 import { Button } from "../../components/button.component";
-import { Input } from "../../components/input";
-import { Label } from "../../components/label";
-import { SelectBox } from "../../components/selectbox";
+import { Input } from "../../components/input.component";
+import { Label } from "../../components/label.component";
+import { SelectBox } from "../../components/selectbox.component";
 
 
 export const CreateProject: React.FC  = () => {
@@ -46,9 +46,9 @@ return (
           </div>
           
           <Label htmlFor="project_name" text="Project_Name:" />
-          <Input onChange={(e) => setName(e.target.value)} type="text" value={name} name="project_naem" placeholder="Project Name" />
+          <Input onChange={(e) => setName(e.target.value)} type="text" value={name} name="project_naem" placeholder="Project Name" id={""} />
           <Label htmlFor="prj_des" text="Project description:" />
-          <Input onChange ={(e)=> setdescription(e.target.value)} name="description" type="text" value={description} placeholder="description" />
+          <Input onChange={(e) => setdescription(e.target.value)} name="description" type="text" value={description} placeholder="description" id={""} />
           
           <Label htmlFor="role" text="Role:" />
           <SelectBox name="categories" options={options} onChange={handleSelectChange} />
