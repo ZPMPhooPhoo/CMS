@@ -1,3 +1,7 @@
+table{
+    background: silver;
+}
+
 .table-wrap{
     .table-bar{
         display: flex;
@@ -61,9 +65,9 @@
     tr:nth-child(even) {
       background-color: #ffffff;
     }
-    tr:nth-child(odd) {
-        background-color: silver;
-      }
+    // tr:nth-child(odd) {
+    //     background-color: silver;
+    // }
   
     .list-header {
       text-align: center;

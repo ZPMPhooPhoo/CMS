@@ -17,11 +17,13 @@ export const ProjectContact = () => {
                 <table className='pj-table'>
                 
                     <thead className="table-header">
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Maintainance Active</th>
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Maintainance Active</th>
+                        </tr>
                     </thead>
                     <tr>
                         <td>1</td>

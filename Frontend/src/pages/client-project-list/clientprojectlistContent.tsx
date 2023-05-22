@@ -27,12 +27,14 @@ export const ClientprojectlistContent = () => {
 
                 <table className='pj-table'>
                 
-                    <thead className="table-header">
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Quotation</th>
-                        <th>Actions</th>
+                    <thead>
+                        <tr className="table-header">
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Quotation</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
                     <tr>
                         <td>1</td>

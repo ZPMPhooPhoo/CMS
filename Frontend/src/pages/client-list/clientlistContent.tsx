@@ -7,23 +7,6 @@ const ClientlistContent = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const token = localStorage.getItem('token');
-    // const [filter, setFilter] = useState("");
-
-
-    // const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setFilter(event.target.value);
-    //   };
-
-
-  //   const filteredData = data.data.filter((item: any) =>
-  //   item.name.toLowerCase().includes(filter.toLowerCase())
-  // );
-
-
-    // const [filter ,setFilter]=useState('');
-    // const [currentPage ,setCurrentPage]=useState(1);
-    // const itemsPerPage =5;
-    // const [searchQuery ,setSearchQuery] =useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,13 +24,6 @@ const ClientlistContent = () => {
     
         fetchData();
       }, [token]);
-
-    //   const filterData =data ? data.filter((item:any)=>
-    //   item.name.toLowerCase().includes(searchQuery.toLowerCase())):[];
-        
-    //   const filteredData = data.data.filter((item: any) =>
-    //   item.name.toLowerCase().includes(searchQuery.toLowerCase())
-    // );
       
     //   console.log(data)
     
@@ -97,6 +73,7 @@ const ClientlistContent = () => {
                                 // value={filter}
                                 // onChange={handleFilterChange}
                             />
+
                         </div>
                         <abbr title="ADD NEW CUSTOMER">
                             <div className="addnewcustomer">
@@ -142,7 +119,7 @@ const ClientlistContent = () => {
                         </tr>
                         );
                     })
-}
+                }
                 </tbody>
             </table>
 
