@@ -1,5 +1,5 @@
 import { Dropdown } from "./dropdown"
-import { Burger } from "../components/burger"
+import { Burger } from "../components/burger.component"
 import { Link } from "react-router-dom"
 type props = {
     clickHandler : () => void;

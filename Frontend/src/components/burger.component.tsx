@@ -3,13 +3,8 @@ import { AppContext } from "../appContext"
 export const Burger = () => {
 
     // const {sidebarOpen, setSidebarOpen} = useContext(AppContext);
-
-    
-
-
     return(
         <>
-        
             <div className="burger-container">
                 <div className="burger">
                     <span></span>
@@ -17,9 +12,6 @@ export const Burger = () => {
                     <span></span>
                 </div>
             </div>
-
-
-        
         </>
     )
 }

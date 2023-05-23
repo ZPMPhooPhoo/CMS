@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/button.component";
-import { Input } from "../../components/input";
-import { SelectBox } from "../../components/selectbox";
-import { Checkbox } from "../../components/checkbox";
+import { Input } from "../../components/input.component";
+import { SelectBox } from "../../components/selectbox.component";
+import { Checkbox } from "../../components/checkbox.component";
 
 interface Category {
   id: number;

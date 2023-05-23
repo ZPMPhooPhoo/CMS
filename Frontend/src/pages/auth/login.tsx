@@ -132,14 +132,14 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import importImg from '../../img/ace_plus_logo.png';
 import { Button } from '../../components/button.component';
-import { Input } from '../../components/input';
+import { Input } from '../../components/input.component';
 
 interface Props {
   email: string;
   password: string;
 }
 
-export const LoginPage: React.FC<Props> = ({}) => {
+export const Login: React.FC<Props> = ({}) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState<any>({});

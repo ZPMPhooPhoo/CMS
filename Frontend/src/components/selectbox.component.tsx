@@ -25,6 +25,6 @@ export const SelectBox: React.FC<SelectBoxProps> = ({name, options, onChange }) 
           {option}
         </option>
       ))}
-    </select> 
+    </select>
   );
 };

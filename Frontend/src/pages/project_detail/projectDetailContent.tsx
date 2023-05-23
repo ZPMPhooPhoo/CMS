@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
-import { ProjectCard } from "./projecrCard"
-export const ProjectdetailContent=()=>{
+import { ProjectCard } from "./projectCard"
+export const ProjectDetailContent=()=>{
 
 
     const [showQuotationModal, setShowQuotationModal] = useState<boolean>(false);
