@@ -1,23 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import importImg from '../../img/sidebar/logo.png';
 import axios from "axios";
 import { Button } from '../../components/button.component';
 import { Input } from '../../components/input.component';
-import { Label } from '../../components/label.component';
 import { SelectBox } from "../../components/selectbox.component";
 
-export const SignupPage: React.FC = () => {
+interface Role {
+  id: number;
+  name: string;
+}
+
+export const Register: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [role, setRole] = useState<string>("");
+  const [password_confirmation, setPasswordConfirmation] = useState<string>("");
   const [errors, setErrors] = useState<any>({});
-  const options = ['Super Admin', 'Admin', 'Manager'];
+  const token = localStorage.getItem('token');
+  const [options, setOptions] = useState<Role[]>([]);
+  const [role_id, setRole] = useState<number>();
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/roles', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = response.data.data;
+        const mappedOptions: Role[] = data.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+        }));
+
+      setOptions(mappedOptions);
+        
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+
+  const handleSelectChange = (selectedOption: string, selectedIndex: number) => {
+    setRole(options[selectedIndex].id);
+    console.log(options[selectedIndex].id);
+  };
+  
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
     // Reset errors
@@ -34,14 +68,11 @@ export const SignupPage: React.FC = () => {
     if (password.trim() === "") {
       validationErrors.password = "Password is required *";
     }
-    if (confirmPassword.trim() === "") {
+    if (password_confirmation.trim() === "") {
       validationErrors.confirmPassword = "Confirm Password is required *";
     }
-    if (confirmPassword.trim() !== password.trim()) {
+    if (password_confirmation.trim() !== password.trim()) {
       validationErrors.confirmPassword = "Passwords do not match *";
-    }
-    if (role === "") {
-      validationErrors.role = "Role is required *";
     }
 
     if (Object.keys(validationErrors).length > 0) {
@@ -54,7 +85,8 @@ export const SignupPage: React.FC = () => {
         name,
         email,
         password,
-        role,
+        password_confirmation,
+        role_id
       })
       .then((response) => {
         console.log(response.data);
@@ -100,19 +132,20 @@ export const SignupPage: React.FC = () => {
           />
           <p className="error-message">{errors.password && errors.password }</p>
           <Input
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            name="password_comfirmation"
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            name="password_confirmation"
             type="password"
-            value={confirmPassword}
+            value={password_confirmation}
             placeholder="Confirm Password"
             id={""}
           />
           <p className="error-message">{errors.confirmPassword && errors.confirmPassword }</p>
+          
           <SelectBox
-            name="role"
-            options={options}
-            onChange={(selectedOption: string) => setRole(selectedOption)}
-          />
+                name="role_id"
+                options= {options.map((item) => item.name)}
+                onChange={handleSelectChange}
+                />
           <p className="error-message">{errors.role && errors.role }</p>
           <Button type="submit" className="button" text="Register" />
         </form>

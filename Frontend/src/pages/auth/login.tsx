@@ -139,7 +139,7 @@ interface Props {
   password: string;
 }
 
-export const LoginPage: React.FC<Props> = ({}) => {
+export const Login: React.FC<Props> = ({}) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState<any>({});

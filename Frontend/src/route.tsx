@@ -6,8 +6,8 @@ import Project from "./pages/projects/projects";
 import { Error } from "./pages/notfound";
 // import Service from "./pages/service/service";
 import ClientCreate from "./pages/client_create/clientCreate";
-import { LoginPage } from "./pages/auth/login";
-import { SignupPage } from "./pages/auth/register";
+import { Login } from "./pages/auth/login";
+import { Register } from "./pages/auth/register";
 import ClientList from "./pages/client_list/clientList";
 
 import ProjectDetail from "./pages/project_detail/projectdetail";
@@ -66,13 +66,13 @@ const routeList = createBrowserRouter([
   {
     path: '/login',
     element: (
-      <LoginPage email="" password="" />
+      <Login email="" password="" />
     )
   },
   {
     path: '/register',
     element: (
-      <SignupPage />
+      <Register />
     )
   },
   {
