@@ -62,6 +62,16 @@
       font-size:medium;
       font-weight:bold;
   }
+tr td, tr th{
+      // width: 150px;
+      // white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+     
+}
+.pj-table th:first-child{
+  width: 5%;
+}
 
   .client-title{
     display: flex;
@@ -112,16 +122,13 @@
       }
       tr td{
         padding: 25px;
+        font-size: 10px;
       }
   }
   .custtable tr, .custtable thead{
       display:flex;
       flex-wrap:wrap;
-      align-items:center;
-      // width:100% !important;
-      // padding: 10px;
-      // background:green;
-      /* margin-top:10px; */
+      
      transition:all 0.3s;
       border-bottom:solid 0.7px rgba(0,0,0,0.3);
   }

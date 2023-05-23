@@ -1,3 +1,4 @@
+import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/dashboard/dashboard";
 import Clientlist from "./pages/client-list/clientlist";
@@ -9,6 +10,8 @@ import { Error } from "./pages/notfound";
 import ClientCreate from "./pages/client_create/clientCreate";
 import { LoginPage } from "./pages/auth/loginn";
 import { SignupPage } from "./pages/auth/registerr";
+import ProjectCreate from "./pages/project_create/projectCreate";
+
 
 
 const routeList = createBrowserRouter([
@@ -40,6 +43,12 @@ const routeList = createBrowserRouter([
     path: '/project-detail',
     element: (
         <Projectdetail />
+    )
+  },
+  {
+    path: '/add-client-project',
+    element: (
+        <ProjectCreate/>
     )
   },
   {
