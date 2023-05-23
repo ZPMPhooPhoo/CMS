@@ -5,13 +5,32 @@ import { Link } from "react-router-dom";
 
 // const navigate =useNavigate();
 
-const ClientlistContent = () => {
+const UserListCompon = () => {
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const token = localStorage.getItem('token');
     const [filter,setFilter]=useState("");
     const [searchResults, setSearchResults] = useState<any[]>([]);
+    const [roles, setRoles] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchRoles = async () => {
+          try {
+            const response = await axios.get("http://127.0.0.1:8000/api/roles", {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            setRoles(response.data.data);
+            // console.log(response.data.data)
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchRoles();
+        console.log(fetchRoles());
+      }, [token]);
 
      
     const handleFilterChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +55,7 @@ const ClientlistContent = () => {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get("http://127.0.0.1:8000/api/customers", {
+          const response = await axios.get("http://127.0.0.1:8000/api/users", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -105,53 +124,39 @@ const ClientlistContent = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {(filter && searchResults.length > 0
-                      ? searchResults
-                      : data.data
+                {(filter && searchResults.length > 0
+                        ? searchResults
+                        : data.data
                     ).map((item: any, index: number) => {
-                      return (
-                        <tr key={item.id}>
-                          <td>{index + 1}</td>
-                          <td>{item.name}</td>
-                          <td>{item.email}</td>
-                          <td>{item.phone}</td>
-                          <td>{item.contact_person}</td>
-                          <td className="td-category">{item.position}</td>
-                          <td>
-                            <Link to={`/client_edit/${item.id}`}>
-                                <i className="fa-solid fa-pen-to-square update"></i>
-                            </Link>
-                            <Link to={`/client_delete/${item.id}`}>
-                              <i className="fa-solid fa-trash delete"></i>
-                            </Link>
-                            <Link to="/client-project-lists">
-                              <i className="fa-solid fa-angles-right more"></i>
-                            </Link>
-                          </td>
-                        </tr>
-                      );
-                    })}
-
-
-                {/* {
-                    data.data?.map((item: any,index :number) => {
+                        // Find the related role based on role_id
+                        const relatedRole = roles.find((role) => role.id === item.role_id);
+                        console.log();
                         return (
                         <tr key={item.id}>
-                            <td>{index+1}</td>
+                            <td>{index + 1}</td>
                             <td>{item.name}</td>
                             <td>{item.email}</td>
                             <td>{item.phone}</td>
                             <td>{item.contact_person}</td>
-                            <td className="td-category">{item.position}</td>
+                            <td className="td-category">
+                            {relatedRole ? relatedRole.name : ""}
+                            </td>
                             <td>
-                            <i className="fa-solid fa-pen-to-square update"></i>
-                            <i className="fa-solid fa-trash delete"></i>
-                            <Link to='/client-project-lists'><i className="fa-solid fa-angles-right more"></i></Link>
+                            <Link to={`/client_edit/${item.id}`}>
+                                <i className="fa-solid fa-pen-to-square update"></i>
+                            </Link>
+                            <Link to={`/client_delete/${item.id}`}>
+                                <i className="fa-solid fa-trash delete"></i>
+                            </Link>
+                            <Link to="/client-project-lists">
+                                <i className="fa-solid fa-angles-right more"></i>
+                            </Link>
                             </td>
                         </tr>
                         );
-                    })
-} */}
+                    })}
+
+
                 </tbody>
             </table>
 
@@ -162,4 +167,4 @@ const ClientlistContent = () => {
     );
 }
 
-export default ClientlistContent;
+export default UserListCompon;

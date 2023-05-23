@@ -9,6 +9,9 @@ import { Error } from "./pages/notfound";
 import ClientCreate from "./pages/client_create/clientCreate";
 import { LoginPage } from "./pages/auth/loginn";
 import { SignupPage } from "./pages/auth/registerr";
+import ClientEdit from "./pages/client_edit/client_edit_contex";
+import ClientDelete from "./pages/client_edit/client_delete";
+import UserList from "./pages/user_list/user_list_connect";
 
 
 const routeList = createBrowserRouter([
@@ -49,6 +52,12 @@ const routeList = createBrowserRouter([
     )
   },
   {
+    path:'/users',
+    element:(
+      <UserList/>
+    )
+  },
+  {
     path: '/services',
     element: (
         // <Service/>
@@ -60,6 +69,14 @@ const routeList = createBrowserRouter([
     element: (
         <ClientCreate />
     )
+  },
+  {
+    path: '/client_edit/:customerId',
+    element: <ClientEdit />
+  },
+  {
+    path:"/client_delete/:customerId",
+     element:<ClientDelete />
   },
   {
     path: '/login',
