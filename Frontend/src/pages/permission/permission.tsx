@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import importImg from '../../image/logo.png';
 import { Button  } from '../../components/button.component';
-import { Input } from '../../components/input';
-import { Label } from '../../components/label';
-import { List } from "../../components/list";
+import { Input } from '../../components/input.component';
+import { Label } from '../../components/label.component';
+import { List } from "../../components/list.component";
 
 export const PermissionForm: React.FC  = () => {
   const [permissionname, setpermissionName] = useState<string>("");
@@ -19,7 +19,7 @@ export const PermissionForm: React.FC  = () => {
             </div>
             
             <Label htmlFor="permissionname" text="Permission Name" />
-            <Input onChange={(e) => setpermissionName(e.target.value)} type="text" value={permissionname} name="permissionname" placeholder="Enter Permission Name" />
+            <Input onChange={(e) => setpermissionName(e.target.value)} type="text" value={permissionname} name="permissionname" placeholder="Enter Permission Name" id={""} />
 
             <Button type="submit" text="Create" onClick={handleCreaterow} className="button"/>
 

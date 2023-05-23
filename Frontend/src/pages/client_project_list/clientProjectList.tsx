@@ -4,15 +4,16 @@
 // import { Btn, Txt } from './components'
 
 // import ClientList from "./components/pages/client-list"
-import { ProjectdetailContent } from './projectdetailContent'
+
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
-import { useContext, useEffect, useState } from 'react'
+import { useState } from 'react'
+import { ClientProjectListContent } from './clientProjectListContent';
 
 // type BurgerPropsType = {
 //   onClick :() => void;
 // }
-const Projectdetail = () => {
+const ClientProjectList = () => {
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -27,12 +28,11 @@ const Projectdetail = () => {
         <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
         <div className='content'>
           <div> <Header clickHandler={handleBurgerClick} text='Dashboard' /> </div>
-          <div className='board-div'><ProjectdetailContent /></div>
+          <div className='board-div'><ClientProjectListContent /></div>
         </div>
-        
      </div>
     </>
   )
 }
 
-export default Projectdetail;
+export default ClientProjectList;

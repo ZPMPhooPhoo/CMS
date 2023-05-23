@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-export const ClientprojectlistContent = () => {
+export const ClientProjectListContent = () => {
     return(
         <>
 
@@ -17,11 +17,11 @@ export const ClientprojectlistContent = () => {
                         <p>Project Name</p>
                     </div>
                     <div className="add-btn-wrap">
-                        <a href="/addclient">
+                        <Link to="/add-client-project">
                             <button className="add-btn">
                                 <i className="fa-solid fa-plus"></i>ADD NEW PROJECT
                             </button>
-                        </a>
+                        </Link>
                     </div>
                 </div>
 

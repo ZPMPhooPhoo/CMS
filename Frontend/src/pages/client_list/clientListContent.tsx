@@ -2,17 +2,13 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-
-// const navigate =useNavigate();
-
-const ClientlistContent = () => {
+const ClientListContent = () => {
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const token = localStorage.getItem('token');
     const [filter,setFilter]=useState("");
     const [searchResults, setSearchResults] = useState<any[]>([]);
-
      
     const handleFilterChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
       const filterValue = event.target.value;
@@ -25,6 +21,7 @@ const ClientlistContent = () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
+
           }
         );
         setSearchResults(response.data.data);
@@ -33,6 +30,8 @@ const ClientlistContent = () => {
       }
     };
     
+    
+  
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -79,6 +78,7 @@ const ClientlistContent = () => {
                                 value={filter}
                                 onChange={handleFilterChange}
                             />
+
                         </div>
                         <abbr title="ADD NEW CUSTOMER">
                             <div className="addnewcustomer">
@@ -131,27 +131,6 @@ const ClientlistContent = () => {
                         </tr>
                       );
                     })}
-
-
-                {/* {
-                    data.data?.map((item: any,index :number) => {
-                        return (
-                        <tr key={item.id}>
-                            <td>{index+1}</td>
-                            <td>{item.name}</td>
-                            <td>{item.email}</td>
-                            <td>{item.phone}</td>
-                            <td>{item.contact_person}</td>
-                            <td className="td-category">{item.position}</td>
-                            <td>
-                            <i className="fa-solid fa-pen-to-square update"></i>
-                            <i className="fa-solid fa-trash delete"></i>
-                            <Link to='/client-project-lists'><i className="fa-solid fa-angles-right more"></i></Link>
-                            </td>
-                        </tr>
-                        );
-                    })
-} */}
                 </tbody>
             </table>
 
@@ -162,4 +141,4 @@ const ClientlistContent = () => {
     );
 }
 
-export default ClientlistContent;
+export default ClientListContent;
