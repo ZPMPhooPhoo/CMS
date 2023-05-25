@@ -153,7 +153,7 @@ const status_options = ['Complete' , 'Progress' , 'Cancel'];
     });
   };
 
-  console.log(users)
+  // console.log(status)
   return (
     <>
       <div className="register add-middle">
@@ -210,7 +210,20 @@ const status_options = ['Complete' , 'Progress' , 'Cancel'];
                 <div className="client_phone_parent">
                 <select name="catogory_id" id="" className="selectbox"
                   onChange={(event)=>{
-                    setCategory(categories_options[event.target.selectedIndex-1].id);
+                    // setCategory(categories_options[event.target.selectedIndex-1].id);
+                    // console.log(categories_options[event.target.selectedIndex-1])
+                    // if(!categories_options[event.target.selectedIndex-1]){
+                    //   setCategory(categories_options[event.target.selectedIndex-1].id);
+                    // }else{
+                    //   setCategory(undefined);
+                    // }
+                    if(categories_options[event.target.selectedIndex-1]){
+                      setCategory(categories_options[event.target.selectedIndex-1].id);
+                      // console.log(categories_options[event.target.selectedIndex-1].id)
+                    }else{
+                      setCategory(undefined);
+                      // console.log("Undefined")
+                    }
                     
                   }}
                   >

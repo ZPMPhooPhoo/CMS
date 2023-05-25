@@ -60,7 +60,6 @@ export const ClientProjectListContent = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-  console.log(clientproject)
   return (
     <>
       <div className="table-wrap" style={{ width: "97%" }}>
