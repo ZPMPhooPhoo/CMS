@@ -1,9 +1,18 @@
-import { ClientCreateContent } from './clientCreateContent'
+// import { useState } from 'react'
+// import { Footer, Header } from "./layout"
+// import { Task } from './interface'
+// import { Btn, Txt } from './components'
+
+// import ClientList from "./components/pages/client-list"
+import { ClientEditContent } from './client_edit'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
 
-const ClientCreate = () => {
+// type BurgerPropsType = {
+//   onClick :() => void;
+// }
+const ClientEdit = () => {
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -13,11 +22,12 @@ const ClientCreate = () => {
 
   return (
     <> 
+     {/* <ClientList /> */}
      <div className='pj-container'>
         <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
         <div className='content'>
           <div> <Header clickHandler={handleBurgerClick}  text='Client Lists'/> </div>
-          <div className='board-div'><ClientCreateContent /></div>
+          <div className='board-div'><ClientEditContent /></div>
         </div>
         
      </div>
@@ -25,4 +35,4 @@ const ClientCreate = () => {
   )
 }
 
-export default ClientCreate;
+export default ClientEdit;

@@ -90,7 +90,7 @@ export const Register: React.FC = () => {
       })
       .then((response) => {
         console.log(response.data);
-        navigate("/login");
+        navigate("/users");
       })
       .catch((error) => {
         console.log(error.message);
@@ -143,8 +143,12 @@ export const Register: React.FC = () => {
           
           <SelectBox
                 name="role_id"
-                options= {options.map((item) => item.name)}
+                options={options.map((item) => ({
+                  label: item.name,
+                  value: item.id.toString(),
+                }))}
                 onChange={handleSelectChange}
+                value=""
                 />
           <p className="error-message">{errors.role && errors.role }</p>
           <Button type="submit" className="button" text="Register" />

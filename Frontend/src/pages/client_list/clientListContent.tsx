@@ -7,6 +7,7 @@ const ClientListContent = () => {
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    // const [filter, setFilter] = useState("");
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const id = searchParams.get("id");
@@ -30,7 +31,29 @@ const ClientListContent = () => {
     //   }, [token]);
       
     //   console.log(data)
+
+    const [filter,setFilter]=useState("");
+    const [searchResults, setSearchResults] = useState<any[]>([]);
+     
+    const handleFilterChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const filterValue = event.target.value;
+      setFilter(filterValue);
     
+      try {
+        const response = await axios.get(
+         `http://127.0.0.1:8000/api/customersWithName?searchuser=${filterValue}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+
+          }
+        );
+        setSearchResults(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
   
     useEffect(() => {
       const fetchData = async () => {
@@ -58,21 +81,22 @@ const ClientListContent = () => {
     if (error) {
       return <div>Error: {error}</div>;
     }
+ 
+      console.log(searchResults)
+
   
-
-
     return (
         <>
             <div style={{ width: '100%' }}>
                 <div className="table-wrap">
                     <div className="client-title">
                         <div>
-                            {/* <input type="text" placeholder="Search by name..." /> */}
+                           
                             <input
                                 type="text"
                                 placeholder="Search by name..."
-                                // value={filter}
-                                // onChange={handleFilterChange}
+                                value={filter}
+                                onChange={handleFilterChange}
                             />
 
                         </div>
@@ -89,55 +113,43 @@ const ClientListContent = () => {
 
                     <table className='pj-table'>
                 
-                <thead>
-                    <tr className="table-header">
-                        <th>No</th>
-                        <th className="client-name">Name</th> 
-                        <th>Contact Mail</th>
-                        <th>Contact Phone</th>
-                        <th>Contact Person</th>
-                        <th>Position</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                {
-                   data.data && (
-
-                    data.data?.length === 0 ? (
-                      <tr>
-                        <td colSpan={5}>No projects found.</td>
-                      </tr>
-                    ): 
-                    data.data?.map((item: any, index:number) => {
+                      <thead>
+                          <tr className="table-header">
+                              <th>No</th>
+                              <th className="client-name">Name</th> 
+                              <th>Contact Mail</th>
+                              <th>Contact Phone</th>
+                              <th>Contact Person</th>
+                              <th>Position</th>
+                              <th>Actions</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      {(filter && searchResults.length > 0 ? searchResults: data.data).map((item: any, index: number) => {
                       return (
-                      <tr key={item.id}>
-                          <td>{index+1}</td>
+                        <tr key={item.id}>
+                          <td>{index + 1}</td>
                           <td>{item.name}</td>
                           <td>{item.email}</td>
                           <td>{item.phone}</td>
                           <td>{item.contact_person}</td>
                           <td className="td-category">{item.position}</td>
                           <td>
-                          <i className="fa-solid fa-pen-to-square update"></i>
-                          <i className="fa-solid fa-trash delete"></i>
-                          <Link to={`/client-project-lists?id=${item.id}`}>
-                          <i className="fa-solid fa-angles-right more"></i>
-                        </Link>
-
+                            <Link to={`/client_edit/${item.id}`}>
+                                <i className="fa-solid fa-pen-to-square update"></i>
+                            </Link>
+                            <Link to={`/client_delete/${item.id}`}>
+                              <i className="fa-solid fa-trash delete"></i>
+                            </Link>
+                            <Link to={`/client-project-lists?id=${item.id}`}>
+                              <i className="fa-solid fa-angles-right more"></i>
+                            </Link>
                           </td>
-                      </tr>
-                      
+                        </tr>
                       );
-                    
-                  })
-                   ) 
-                }
-                </tbody>
-            </table>
-
-                 
+                    })}
+                      </tbody>
+                    </table>                
                 </div>
             </div> 
         </>
