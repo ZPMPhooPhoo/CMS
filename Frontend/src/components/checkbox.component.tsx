@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
 interface CheckboxProps {
-    className:string;
-//   label: string;
-  name:string
+  className:string;
+  label: string;
+  name:string;
+  checked?: boolean;
   onChange: (checked: boolean) => void;
 }
 
-export const Checkbox: React.FC<CheckboxProps> = ({name,className, onChange }) => {
+const Checkbox: React.FC<CheckboxProps> = ({name,label,className, onChange }) => {
   const [checked, setChecked] = useState<boolean>(false);
 
   const handleChange = () => {
@@ -17,12 +18,13 @@ export const Checkbox: React.FC<CheckboxProps> = ({name,className, onChange }) =
   };
 
   return (
-    <div>
-      <label>
-        <input type="checkbox"name={name} className={className} checked={checked} onChange={handleChange} />
-      </label>
-    </div>
+
+        <div>
+          <input type="checkbox"name={name} className={className} checked={checked} onChange={handleChange} /> 
+          <label htmlFor="">{label}</label>
+        </div>
+
   );
 };
 
-// export default Checkbox;
+export default Checkbox;
