@@ -2,7 +2,10 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-
+interface Role {
+  id: number;
+  name: string;
+}
 // const navigate =useNavigate();
 
 const UserListCompon = () => {
@@ -12,25 +15,45 @@ const UserListCompon = () => {
     const token = localStorage.getItem('token');
     const [filter,setFilter]=useState("");
     const [searchResults, setSearchResults] = useState<any[]>([]);
-    const [roles, setRoles] = useState<any[]>([]);
+    // const [options, setOptions] = useState<Role[]>([]);
+    const [options, setOptions] = useState<{ [key: number]: string }>({});
 
+    
     useEffect(() => {
-        const fetchRoles = async () => {
-          try {
-            const response = await axios.get("http://127.0.0.1:8000/api/roles", {
+      const fetchData = async () => {
+        try {
+          const [usersResponse, rolesResponse] = await Promise.all([
+            axios.get("http://127.0.0.1:8000/api/users", {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            });
-            setRoles(response.data.data);
-            // console.log(response.data.data)
-          } catch (error) {
-            console.log(error);
-          }
-        };
-        fetchRoles();
-        console.log(fetchRoles());
-      }, [token]);
+            }),
+            axios.get("http://127.0.0.1:8000/api/roles", {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }),
+          ]);
+    
+          setData(usersResponse.data);
+          setIsLoading(false);
+    
+          const rolesData = rolesResponse.data.data;
+          const mappedOptions: { [key: number]: string } = {};
+          rolesData.forEach((item: Role) => {
+            mappedOptions[item.id] = item.name;
+          });
+    
+          setOptions(mappedOptions);
+        } catch (error: any) {
+          setError(error);
+          setIsLoading(false);
+        }
+      };
+    
+      fetchData();
+    }, [token]);
+    
 
      
     const handleFilterChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +62,7 @@ const UserListCompon = () => {
     
       try {
         const response = await axios.get(
-         `http://127.0.0.1:8000/api/customersWithName?searchuser=${filterValue}`,
+         `http://127.0.0.1:8000/api/userAdminWithName?searchuser=${filterValue}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -102,7 +125,7 @@ const UserListCompon = () => {
                         <abbr title="ADD NEW CUSTOMER">
                             <div className="addnewcustomer">
                                     <button className="addcusbtn">
-                                        <Link to="/client-create">
+                                        <Link to="/user_create">
                                             <span className="material-symbols-outlined">add</span>
                                         </Link>
                                     </button>
@@ -118,7 +141,6 @@ const UserListCompon = () => {
                         <th className="client-name">Name</th> 
                         <th>Contact Mail</th>
                         <th>Contact Phone</th>
-                        <th>Contact Person</th>
                         <th>Position</th>
                         <th>Actions</th>
                     </tr>
@@ -128,24 +150,20 @@ const UserListCompon = () => {
                         ? searchResults
                         : data.data
                     ).map((item: any, index: number) => {
-                        // Find the related role based on role_id
-                        const relatedRole = roles.find((role) => role.id === item.role_id);
-                        console.log();
                         return (
                         <tr key={item.id}>
                             <td>{index + 1}</td>
                             <td>{item.name}</td>
                             <td>{item.email}</td>
                             <td>{item.phone}</td>
-                            <td>{item.contact_person}</td>
                             <td className="td-category">
-                            {relatedRole ? relatedRole.name : ""}
+                              {options[item.role_id] || ""}
                             </td>
                             <td>
-                            <Link to={`/client_edit/${item.id}`}>
+                            <Link to={`/user_edit/${item.id}`}>
                                 <i className="fa-solid fa-pen-to-square update"></i>
                             </Link>
-                            <Link to={`/client_delete/${item.id}`}>
+                            <Link to={`/user_delete/${item.id}`}>
                                 <i className="fa-solid fa-trash delete"></i>
                             </Link>
                             <Link to="/client-project-lists">

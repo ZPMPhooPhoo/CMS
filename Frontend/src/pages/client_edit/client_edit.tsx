@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/button.component";
-import { Input } from "../../components/input";
+import { Input } from "../../components/input.component";
 
 export const ClientEditContent: React.FC = () => {
   const [name, setName] = useState<string>("");

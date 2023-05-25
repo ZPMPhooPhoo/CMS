@@ -8,7 +8,9 @@ import { Error } from "./pages/notfound";
 // import Service from "./pages/service/service";
 import ClientCreate from "./pages/client_create/clientCreate";
 import { Login } from "./pages/auth/login";
-import { Register } from "./pages/auth/register";
+import RegisterForm from "./pages/auth/register_sitebar";
+import UserEditFrom from "./pages/user_list/editUser/edit_user_component";
+import UserDelete from "./pages/user_list/editUser/deleteuser";
 
 
 import ProjectDetail from "./pages/project_detail/projectDetail";
@@ -96,9 +98,21 @@ const routeList = createBrowserRouter([
     )
   },
   {
-    path: '/register',
+    path: '/user_create',
     element: (
-      <Register />
+      <RegisterForm />
+    )
+  },
+  {
+    path:'/user_edit/:userId',
+    element:(
+      <UserEditFrom/>
+    )
+  },
+  {
+    path:'/user_delete/:userId',
+    element:(
+      <UserDelete/>
     )
   },
   {
