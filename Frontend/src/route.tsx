@@ -7,15 +7,20 @@ import Project from "./pages/projects/projects";
 import { Error } from "./pages/notfound";
 // import Service from "./pages/service/service";
 import ClientCreate from "./pages/client_create/clientCreate";
-
-import ProjectCreate from "./pages/project_create/projectCreate";
-
 import { Login } from "./pages/auth/login";
 import { Register } from "./pages/auth/register";
 import ClientList from "./pages/client_list/clientList";
 import ProjectDetail from "./pages/project_detail/projectDetail";
 import ClientProjectList from "./pages/client_project_list/clientProjectList";
 import QuotationForm from "./pages/quotation/quotation";
+
+import RegisterForm from "./pages/auth/register_sitebar";
+import UserEditFrom from "./pages/user_list/editUser/edit_user_component";
+import UserDelete from "./pages/user_list/editUser/deleteuser";
+import ProjectCreate from "./pages/project_create/projectCreate";
+import UserList from "./pages/user_list/user_list_connect";
+import ClientEdit from "./pages/client_edit/client_edit_contex";
+import ClientDelete from "./pages/client_edit/client_delete";
 
 const routeList = createBrowserRouter([
   {
@@ -61,6 +66,12 @@ const routeList = createBrowserRouter([
     )
   },
   {
+    path:'/users',
+    element:(
+      <UserList/>
+    )
+  },
+  {
     path: '/services',
     element: (
         // <Service/>
@@ -74,15 +85,35 @@ const routeList = createBrowserRouter([
     )
   },
   {
+    path: '/client_edit/:customerId',
+    element: <ClientEdit />
+  },
+  {
+    path:"/client_delete/:customerId",
+     element:<ClientDelete />
+  },
+  {
     path: '/login',
     element: (
       <Login email="" password="" />
     )
   },
   {
-    path: '/register',
+    path: '/user_create',
     element: (
-      <Register />
+      <RegisterForm />
+    )
+  },
+  {
+    path:'/user_edit/:userId',
+    element:(
+      <UserEditFrom/>
+    )
+  },
+  {
+    path:'/user_delete/:userId',
+    element:(
+      <UserDelete/>
     )
   },
   {

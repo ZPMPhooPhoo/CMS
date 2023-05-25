@@ -7,7 +7,6 @@ interface CheckboxProps {
   checked?: boolean;
   onChange: (checked: boolean) => void;
 }
-
 export const Checkbox: React.FC<CheckboxProps> = ({name,label,className, onChange }) => {
   const [checked, setChecked] = useState<boolean>(false);
 
@@ -18,13 +17,11 @@ export const Checkbox: React.FC<CheckboxProps> = ({name,label,className, onChang
   };
 
   return (
-     
         <div>
           <input type="checkbox"name={name} className={className} checked={checked} onChange={handleChange} /> 
           <label htmlFor="">{label}</label>
         </div>
-      
   );
 };
 
-// export default Checkbox;
+export default Checkbox;

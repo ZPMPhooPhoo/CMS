@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 interface SelectBoxProps {
   options: string[];
   name:string;
+  value:any;
   onChange: (selectedOption: string, selectedIndex: number) => void;
 }
 
-export const SelectBox: React.FC<SelectBoxProps> = ({name, options, onChange }) => {
+export const SelectBox: React.FC<SelectBoxProps> = ({name,value, options, onChange }) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
@@ -19,7 +20,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({name, options, onChange }) 
   };
 
   return (
-    <select name={name} className="selectbox" value={selectedOption} onChange={handleOptionChange}>
+    <select name={name} className="selectbox" value={value} onChange={handleOptionChange}>
       {options.map((option, index) => (
         <option key={index} value={option}>
           {option}

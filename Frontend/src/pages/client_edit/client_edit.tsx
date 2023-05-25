@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/button.component";
 import { Input } from "../../components/input.component";
-import { Link } from "react-router-dom";
 
-
-export const ClientCreateContent: React.FC = () => {
+export const ClientEditContent: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhoneNumber] = useState<string>("");
@@ -15,33 +13,51 @@ export const ClientCreateContent: React.FC = () => {
   const [position, setClientPosition] = useState<string>("");
   const [role_id, setRoleId] = useState<number>(5);
   const [password, setPassword] = useState<string>("0000000000");
-  const [password_confirmation, setConfirmpassword] = useState<string>("0000000000");
   const [errors, setErrors] = useState<any>({});
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const token = localStorage.getItem('token');
 
 
 
-  
 
 
-  // const options = ["Super Admin", "Admin", "Manager"];
-
-  // const handleSelectChange = (selectedOption: string, selectedIndex: number) => {
-  //   console.log("Selected option:", selectedOption);
-  //   console.log("Selected index:", selectedIndex);
-  //   setRoleId(selectedIndex + 1);
-  // };
   
 
   const navigate = useNavigate();
+  const { customerId } = useParams();
+//   console.log("Customer ID:", customerId);
+//   console.log(customerId);
+useEffect(() => {
+    // Fetch customer data from the server using axios
+    axios
+      .get(`http://127.0.0.1:8000/api/users/${customerId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        // Update the state variables with the retrieved data
+        
+        // console.log(response.data.name);
+        const { name, email, phone, address, contact_person, position } = response.data.data;
+        setName(name);
+        console.log(name);
+        setEmail(email);
+        setPhoneNumber(phone);
+        setAddress(address);
+        setContactPerson(contact_person);
+        setClientPosition(position);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }, [customerId, token]);
 
-  const handleClientCreate = (e: React.FormEvent) => {
+
+  const handleClientUpdate = (e: React.FormEvent) => {
     e.preventDefault();
-    // Reset errors
     setErrors({});
-    setLoading(true);
 
-    // Perform validation
     let validationErrors: any = {};
     if (name.trim() === "") {
       validationErrors.name = "Name is required *";
@@ -58,43 +74,37 @@ export const ClientCreateContent: React.FC = () => {
     if (position.trim() === "") {
       validationErrors.clientPosition = "Customer position is required *";
     }
-    
-    
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setLoading(false);
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    
-    
-
-  axios
-    .post("http://127.0.0.1:8000/api/users", {
-      name,
-      email,
-      password,
-      phone,
-      contact_person,
-      position,
-      role_id,
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-      navigate("/client-lists");
-    })
-    .catch((error) => {
-      console.log(error.response.data);
-    }).finally(() => {
-      setLoading(false);
-    });
+    axios
+      .patch(
+        `http://127.0.0.1:8000/api/users/${customerId}`,
+        {
+          name,
+          email,
+          password,
+          phone,
+          contact_person,
+          position,
+          role_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        navigate("/client-lists");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   };
 
   return (
@@ -103,7 +113,7 @@ export const ClientCreateContent: React.FC = () => {
         <div className="main_client_create">
           <h1>ADD A CUSTOMER</h1>
           <div className="form-wrap">
-            <form onSubmit={handleClientCreate}>
+            <form onSubmit={handleClientUpdate}>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
                   <Input
@@ -120,14 +130,14 @@ export const ClientCreateContent: React.FC = () => {
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
-                  <Input
-                    onChange={(e) => setEmail(e.target.value)}
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={email}
-                    placeholder="Enter Email"
-                  />
+                <Input
+                  onChange={(e) => setEmail(e.target.value)}
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={email} // Display the email state variable
+                  placeholder="Enter Email"
+                />
                    <p className="error-message">{errors.email && errors.email }</p>
                 </div>
               </div>
@@ -187,14 +197,7 @@ export const ClientCreateContent: React.FC = () => {
                 </div>
                 
               </div>
-              <div className="allbtn">
-                <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}
-                disabled={isLoading} />
-                <Link to={`/client-lists`}>
-                  <Button type="button" className="button" text="BACK"
-                  />
-                </Link>
-              </div>
+              <Button type="submit" className="button" text="Update" />
             </form>
           </div>
         </div>

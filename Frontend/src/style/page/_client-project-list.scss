@@ -6,6 +6,7 @@ table{
     .table-bar{
         display: flex;
         justify-content: space-between;
+        position:relative;
         .add-btn-wrap{
             margin: 0 2px 10px 0;
             button{

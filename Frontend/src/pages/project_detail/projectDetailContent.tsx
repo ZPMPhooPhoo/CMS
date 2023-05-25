@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
 import { ProjectCard } from "./projectCard"
+import { useLocation } from "react-router-dom";
 export const ProjectDetailContent=()=>{
 
 
@@ -26,49 +27,14 @@ export const ProjectDetailContent=()=>{
       }
     };
 
+    const location = useLocation();
+    const searchID = new URLSearchParams(location.search);
+    const id = searchID.get("id");
+
 
     return (
 
         <>
-
-            {/* <div style={{ width: '900px' }}> */}
-                {/* <div className="mainclientls" >
-                    <div className="clils">
-                        <div className="maincliproli">
-                            <div className="Addproject">
-                                <div className="pro_listincliinfo">
-                                    <i className="fa-solid fa-chevron-left"></i>
-                                    <span className="material-symbols-outlined">
-                                        person
-                                    </span>
-                                    <p>Customer Name / &nbsp; </p>
-                                    <p>Project Name</p>
-                                </div>
-                            </div>
-                            <div className="procard">
-                            
-                                <div className="leftcard_pro">                             
-                                    <ProjectCard />
-                                    <ProjectCard />     
-                                </div>
-                                <div className="right_card_category">
-                                    <div className="category_list">
-                                        <h1>Report</h1>
-                                        <h2>Number Of Quotations:  <span>6</span> </h2>
-                                        <h2>Number Of Contracts:  <span>2</span> </h2>
-                                        <h2>Successful rate</h2>
-                                        <div className="success-rate">
-                                            <p>60%</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-
-                </div> */}
-            {/* </div> */}
             
 
             <div className="mainclientls" >
@@ -76,7 +42,7 @@ export const ProjectDetailContent=()=>{
                         <div className="maincliproli">
                             <div className="Addproject">
                                 <div className="pro_listincliinfo">
-                                    <Link to='/client-project-lists'><i className="fa-solid fa-chevron-left"></i></Link>
+                                    <Link to={`/client-project-lists?id=${id}`}><i className="fa-solid fa-chevron-left"></i></Link>
                                     <span className="material-symbols-outlined">
                                         person
                                     </span>
