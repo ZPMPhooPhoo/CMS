@@ -20,6 +20,7 @@ import ProjectCreate from "./pages/project_create/projectCreate";
 import UserList from "./pages/user_list/user_list_connect";
 import ClientEdit from "./pages/client_edit/client_edit_contex";
 import ClientDelete from "./pages/client_edit/client_delete";
+import QuotationForm from "./pages/quotation/quotation";
 
 const routeList = createBrowserRouter([
   {
@@ -113,6 +114,12 @@ const routeList = createBrowserRouter([
     path:'/user_delete/:userId',
     element:(
       <UserDelete/>
+    )
+  },
+  {
+    path:'/quotation',
+    element:(
+      <QuotationForm/>
     )
   },
   {
