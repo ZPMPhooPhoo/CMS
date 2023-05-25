@@ -1,29 +1,33 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const ClientListContent = () => {
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get("id");
     const token = localStorage.getItem('token');
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await axios.get("http://127.0.0.1:8000/api/customers", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-            setData(response.data);
-          } catch (error) {
-            console.log(error);
-          }
-        };
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //       try {
+    //         const response = await axios.get("http://127.0.0.1:8000/api/customers", {
+    //           headers: {
+    //             Authorization: `Bearer ${token}`,
+    //           },
+    //         }); n
+    //         setData(response.data);
+    //       } catch (error) {
+    //         console.log(error);
+    //       }
+    //     };
     
-        fetchData();
-      }, [token]);
+    //     fetchData();
+    //   }, [token]);
       
     //   console.log(data)
     
@@ -55,9 +59,6 @@ const ClientListContent = () => {
       return <div>Error: {error}</div>;
     }
   
-    if (!data || !data.data || data.data.length === 0) {
-      return <div>Data is not available</div>;
-    }
 
 
     return (
@@ -102,23 +103,36 @@ const ClientListContent = () => {
                 <tbody>
 
                 {
-                    data.data?.map((item: any) => {
-                        return (
-                        <tr key={item.id}>
-                            <td>1</td>
-                            <td>{item.name}</td>
-                            <td>{item.email}</td>
-                            <td>{item.phone}</td>
-                            <td>{item.contact_person}</td>
-                            <td className="td-category">{item.position}</td>
-                            <td>
-                            <i className="fa-solid fa-pen-to-square update"></i>
-                            <i className="fa-solid fa-trash delete"></i>
-                            <Link to='/client-project-lists'><i className="fa-solid fa-angles-right more"></i></Link>
-                            </td>
-                        </tr>
-                        );
-                    })
+                   data.data && (
+
+                    data.data?.length === 0 ? (
+                      <tr>
+                        <td colSpan={5}>No projects found.</td>
+                      </tr>
+                    ): 
+                    data.data?.map((item: any, index:number) => {
+                      return (
+                      <tr key={item.id}>
+                          <td>{index+1}</td>
+                          <td>{item.name}</td>
+                          <td>{item.email}</td>
+                          <td>{item.phone}</td>
+                          <td>{item.contact_person}</td>
+                          <td className="td-category">{item.position}</td>
+                          <td>
+                          <i className="fa-solid fa-pen-to-square update"></i>
+                          <i className="fa-solid fa-trash delete"></i>
+                          <Link to={`/client-project-lists?id=${item.id}`}>
+                          <i className="fa-solid fa-angles-right more"></i>
+                        </Link>
+
+                          </td>
+                      </tr>
+                      
+                      );
+                    
+                  })
+                   ) 
                 }
                 </tbody>
             </table>

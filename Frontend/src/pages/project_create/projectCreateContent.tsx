@@ -1,70 +1,112 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/button.component";
 import { Input } from "../../components/input.component";
 import { SelectBox } from "../../components/selectbox.component";
 import { Checkbox } from "../../components/checkbox.component";
+import { Link } from "react-router-dom";
 
 interface Category {
   id: number;
   category: string;
 }
+interface User {
+  id: number;
+  name: string;
+  isChecked: boolean;
+}
 
 
 export const ProjectCreateContent: React.FC = () => {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhoneNumber] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [contact_person, setContactPerson] = useState<string>("");
-  const [position, setClientPosition] = useState<string>("");
-  const [role_id, setRoleId] = useState<number>(5);
-  const [password, setPassword] = useState<string>("0000000000");
-  const [errors, setErrors] = useState<any>({});
 
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
-  const [maintenance_active, setMaintenance] = useState<boolean>();
-  const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [categories_options, setCategoriesOptions] = useState<Category[]>([]);
-  
-  const [category_id, setCategory] = useState<number>();
-  const [users, setUsers] = useState<[]>([]);
-  
-
-
-  const token = localStorage.getItem('token');
-  const status_options = ['Complete' , 'Progress' , 'Cancel'];
+const location = useLocation();
+const searchID = new URLSearchParams(location.search);
+const id = searchID.get("id");
+let num_id = 0;
+if(id != null){
+  num_id = parseInt(id);
+}else{
+  num_id = 0;
+}
+const [errors, setErrors] = useState<any>({});
+const [title, setTitle] = useState<string>("");
+const [description, setDescription] = useState<string>("");
+const [status, setStatus] = useState<string>("");
+const [maintenance_active, setMaintenance] = useState<boolean>(false);
+const [isChecked, setIsChecked] = useState<boolean>(true);
+const [categories_options, setCategoriesOptions] = useState<Category[]>([]);
+const [category_id, setCategory] = useState<number | undefined>(undefined);
+const [users, setUsers] = useState<number[]>([num_id]);
+const [users_option, setUserOption] = useState<User[]>([]);
+const token = localStorage.getItem('token');
+const status_options = ['Complete' , 'Progress' , 'Cancel'];
 
   
 
   const navigate = useNavigate();
   
   useEffect(() => {
-  
     if (token) {
-      fetchData();
+      fetchCategoriesData();
     }
   }, []);
 
-  const fetchData = async () => {
+  const fetchCategoriesData = async () => {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/categories", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setCategoriesOptions(response.data.data);
+      const data = response.data.data;
+        const mappedOptions: Category[] = data.map((item: any) => ({
+          id: item.id,
+          category: item.category,
+        }));
+
+      setCategoriesOptions(mappedOptions);
     } catch (error: any) {
-      console.log(error.message + "Error");
+      console.log(error.message + " Error");
     }
   };
 
-  // console.log(categories[0].category);
+  useEffect(() => {
+    if (token) {
+      fetchDevelopersData();
+    }
+  }, []);
 
-  const handleClientCreate = (e: React.FormEvent) => {
+  const fetchDevelopersData = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/developers", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserOption(response.data.data);
+    } catch (error: any) {
+      console.log(error.message + " Error");
+    }
+  };
+
+  const handleDevChange = (userId: number) => {
+    const is_devchecked = users.includes(userId);
+  
+    if (is_devchecked) {
+      // User is already in the array, remove it
+      const updatedUsers = users.filter((user) => user !== userId);
+      setUsers(updatedUsers);
+    } else {
+      // User is not in the array, add it
+      const updatedUsers = [...users, userId];
+      setUsers(updatedUsers);
+    }
+  };
+
+
+  const handleProjectCreate = (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
 
@@ -76,41 +118,51 @@ export const ProjectCreateContent: React.FC = () => {
     if (description.trim() === "") {
       validationErrors.description = "Description is required *";
     }
-    if (status.trim() === "") {
+    if (!status) {
       validationErrors.status = "Status is required *";
     }
-    if (contact_person.trim() === "") {
-      validationErrors.contactPerson = "Customer position is required *";
-    }
-    if (position.trim() === "") {
-      validationErrors.clientPosition = "Customer position is required *";
+    if(!category_id){
+      validationErrors.category = "Category is required *";
     }
     
     
-
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-
     
-      
+    const token = localStorage.getItem("token");
 
-   
-
-  
+    axios.post("http://127.0.0.1:8000/api/projects", {
+        title,
+        description,
+        status,
+        category_id,
+        maintenance_active,
+        users,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })  .then((response) => {
+      console.log(response.data);
+      navigate("/client-project-lists");
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+    });
   };
-  const handleCategoryChange = (selectedCategory: string, selectedIndex: number) => {
-    setCategory(categories_options[selectedIndex].id);
-  };
 
+  console.log(users)
   return (
     <>
       <div className="register add-middle">
         <div className="main_client_create">
           <h1>ADD A PROJECT</h1>
           <div className="form-wrap">
-            <form onSubmit={handleClientCreate}>
+            <form onSubmit={handleProjectCreate}>
+             <div className="box">
+             <div className="left">
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
                   <Input
@@ -138,33 +190,79 @@ export const ProjectCreateContent: React.FC = () => {
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
-                  <SelectBox  name="status" options={status_options} onChange={(selectedOption:string)=> setStatus(selectedOption) }  />
+                  <select name="status" id="" className="selectbox"
+                  onChange={(event)=>{
+                    setStatus(status_options[event.target.selectedIndex-1]);
+                  }}
+                  >
+                    <option value="__default">Choose Status</option>
+                    {status_options.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
                   <p className="error-message">{errors.status && errors.status }</p>
                 </div>
                 
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
-                <SelectBox
-                name="category_id"
-                options= {categories_options.map((item) => item.category)}
-                onChange={handleCategoryChange}
-                />
-                   <p className="error-message">{errors.contactPerson && errors.contactPerson }</p>
+                <select name="catogory_id" id="" className="selectbox"
+                  onChange={(event)=>{
+                    setCategory(categories_options[event.target.selectedIndex-1].id);
+                    
+                  }}
+                  >
+                    <option value="__default">Choose Catrgory</option>
+                    {categories_options.map((option, index) => (
+                      <option key={index} value={option.category}>
+                        {option.category}
+                      </option>
+                    ))}
+                  </select>
+                   <p className="error-message">{errors.category && errors.category }</p>
                 </div>
                
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
+                  <Checkbox label="Under Maintenance?" className="maintenence" name="maintenance_active" onChange={(checked: boolean) => {
+                    setIsChecked(!isChecked);
+                    setMaintenance(isChecked);
+                    }} />
+                </div>
+                
+              </div>
+              </div>
+              <div className="right">
+              <div className="client_phoneNO">
+                <div className="client_phone_parent"  style={{ height: "100px", overflowY: "scroll"  , display: 'flex', alignItems: 'center' , flexDirection: 'row'}}>
+                <label> Please select assigned developers. </label>
  
-                  <Checkbox label="Under Maintenance?" className="maintenence" name="maintenance_active" onChange={(checked: boolean) => setIsChecked(checked)} />
+                  {
+                  users_option.map((item:any)=>{
+                    return(
+                      <div key={item.id} style={{ padding: "15px" }}>
+                        <input type="checkbox" name="users" id={item.name} onChange={()=>handleDevChange(item.id)}  />
+                        <label htmlFor={item.name}>{item.name}</label>
+                      </div>
+                    )
+                  })
+                  }
 
                   <p className="error-message">{errors.address && errors.address }</p>
                 </div>
                 
               </div>
-              
-              <Button type="submit" className="button" text="ADD" />
+              </div>
+             </div>
+              <div className="allbtn">
+                  <Button type="submit" className="button" text="ADD" />
+                  <Link to={`/client-project-lists?id=${id}`}>
+                    <Button type="button" className="button" text="BACK" />
+                  </Link>
+              </div>
             </form>
           </div>
         </div>

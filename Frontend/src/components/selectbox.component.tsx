@@ -8,7 +8,7 @@ interface SelectBoxProps {
 
 export const SelectBox: React.FC<SelectBoxProps> = ({name, options, onChange }) => {
   const [selectedOption, setSelectedOption] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [selectedIndex, setSelectedIndex] = useState<number>();
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const index = event.target.selectedIndex;
@@ -20,11 +20,15 @@ export const SelectBox: React.FC<SelectBoxProps> = ({name, options, onChange }) 
 
   return (
     <select name={name} className="selectbox" value={selectedOption} onChange={handleOptionChange}>
+    <option value="__default">Choose</option>
+    <optgroup label="Options">
       {options.map((option, index) => (
         <option key={index} value={option}>
           {option}
         </option>
       ))}
-    </select>
+    </optgroup>
+  </select>
+  
   );
 };
