@@ -1,3 +1,4 @@
+import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/dashboard/dashboard";
 
@@ -8,10 +9,15 @@ import { Error } from "./pages/notfound";
 import ClientCreate from "./pages/client_create/clientCreate";
 import { Login } from "./pages/auth/login";
 import { Register } from "./pages/auth/register";
-import ClientList from "./pages/client_list/clientList";
+
 
 import ProjectDetail from "./pages/project_detail/projectDetail";
 import ClientProjectList from "./pages/client_project_list/clientProjectList";
+import ClientList from "./pages/client_list/clientList";
+import ProjectCreate from "./pages/project_create/projectCreate";
+import UserList from "./pages/user_list/user_list_connect";
+import ClientEdit from "./pages/client_edit/client_edit_contex";
+import ClientDelete from "./pages/client_edit/client_delete";
 
 const routeList = createBrowserRouter([
   {
@@ -45,9 +51,21 @@ const routeList = createBrowserRouter([
     )
   },
   {
+    path: '/add-client-project',
+    element: (
+        <ProjectCreate/>
+    )
+  },
+  {
     path: '/projects',
     element: (
         <Project />
+    )
+  },
+  {
+    path:'/users',
+    element:(
+      <UserList/>
     )
   },
   {
@@ -62,6 +80,14 @@ const routeList = createBrowserRouter([
     element: (
         <ClientCreate />
     )
+  },
+  {
+    path: '/client_edit/:customerId',
+    element: <ClientEdit />
+  },
+  {
+    path:"/client_delete/:customerId",
+     element:<ClientDelete />
   },
   {
     path: '/login',
