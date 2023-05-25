@@ -146,7 +146,7 @@ const status_options = ['Complete' , 'Progress' , 'Cancel'];
       },
     })  .then((response) => {
       console.log(response.data);
-      navigate("/client-project-lists");
+      navigate(`/client-project-lists?id=${id}`);
     })
     .catch((error) => {
       console.log(error.response.data);
