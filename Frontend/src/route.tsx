@@ -10,8 +10,9 @@ import { Login } from "./pages/auth/login";
 import { Register } from "./pages/auth/register";
 import ClientList from "./pages/client_list/clientList";
 
-import ProjectDetail from "./pages/project_detail/projectdetail";
+import ProjectDetail from "./pages/project_detail/projectDetail";
 import ClientProjectList from "./pages/client_project_list/clientProjectList";
+import QuotationForm from "./pages/quotation/quotation";
 
 const routeList = createBrowserRouter([
   {
@@ -73,6 +74,12 @@ const routeList = createBrowserRouter([
     path: '/register',
     element: (
       <Register />
+    )
+  },
+  {
+    path: '/quotation',
+    element: (
+      <QuotationForm />
     )
   },
   {
