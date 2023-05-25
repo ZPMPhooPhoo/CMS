@@ -77,6 +77,7 @@ export const ClientCreateContent: React.FC = () => {
       name,
       email,
       password,
+      password_confirmation,
       phone,
       contact_person,
       position,
