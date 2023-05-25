@@ -105,10 +105,7 @@ const ClientListContent = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {(filter && searchResults.length > 0
-                      ? searchResults
-                      : data.data
-                    ).map((item: any, index: number) => {
+                    {(filter && searchResults.length > 0 ? searchResults: data.data).map((item: any, index: number) => {
                       return (
                         <tr key={item.id}>
                           <td>{index + 1}</td>
@@ -132,7 +129,7 @@ const ClientListContent = () => {
                       );
                     })}
                 </tbody>
-            </table>
+            </table> 
 
                  
                 </div>

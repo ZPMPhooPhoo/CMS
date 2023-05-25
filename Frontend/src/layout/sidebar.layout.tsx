@@ -14,6 +14,7 @@ export const Sidebar = ()=> {
                     <li>  <Link to = '/services'><i className="fa-solid fa-sliders"></i> SERVICES </Link> </li>
                     <li>  <Link to = '/project-detail'><i className="fa-sharp fa-solid fa-right-to-bracket"></i> AUTHORIZATION </Link>  </li>
                     <li>  <Link to='/users'><i className="fa-sharp fa-solid fa-user"></i>User List</Link></li>
+                    <li>  <Link to='/roles'><i className="fa-sharp fa-solid fa-user"></i> Roles</Link></li>
                 </ul>
                 <div className='system-name'>
                     <h2>CLIENT MANAGEMENT SYSTEM</h2>
