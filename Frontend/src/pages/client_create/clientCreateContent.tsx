@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/button.component";
 import { Input } from "../../components/input.component";
+import { Link } from "react-router-dom";
+
 
 export const ClientCreateContent: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -13,8 +15,13 @@ export const ClientCreateContent: React.FC = () => {
   const [position, setClientPosition] = useState<string>("");
   const [role_id, setRoleId] = useState<number>(5);
   const [password, setPassword] = useState<string>("0000000000");
+  const [password_confirmation, setConfirmpassword] = useState<string>("0000000000");
   const [errors, setErrors] = useState<any>({});
-  const token = localStorage.getItem('token');
+  const [isLoading, setLoading] = useState<boolean>(false);
+
+
+
+  
 
 
   // const options = ["Super Admin", "Admin", "Manager"];
@@ -24,6 +31,7 @@ export const ClientCreateContent: React.FC = () => {
   //   console.log("Selected index:", selectedIndex);
   //   setRoleId(selectedIndex + 1);
   // };
+  
 
   const navigate = useNavigate();
 
@@ -31,6 +39,7 @@ export const ClientCreateContent: React.FC = () => {
     e.preventDefault();
     // Reset errors
     setErrors({});
+    setLoading(true);
 
     // Perform validation
     let validationErrors: any = {};
@@ -54,14 +63,14 @@ export const ClientCreateContent: React.FC = () => {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      setLoading(false);
       return;
     }
 
     const token = localStorage.getItem("token");
-    console.log(token);
-    console.log(phone);
-    console.log(contact_person);
-    console.log(position);
+
+    
+    
 
   axios
     .post("http://127.0.0.1:8000/api/users", {
@@ -83,6 +92,8 @@ export const ClientCreateContent: React.FC = () => {
     })
     .catch((error) => {
       console.log(error.response.data);
+    }).finally(() => {
+      setLoading(false);
     });
   };
 
@@ -176,7 +187,14 @@ export const ClientCreateContent: React.FC = () => {
                 </div>
                 
               </div>
-              <Button type="submit" className="button" text="ADD" />
+              <div className="allbtn">
+                <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}
+                disabled={isLoading} />
+                <Link to={`/client-lists`}>
+                  <Button type="button" className="button" text="BACK"
+                  />
+                </Link>
+              </div>
             </form>
           </div>
         </div>

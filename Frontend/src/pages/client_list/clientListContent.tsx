@@ -1,12 +1,37 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const ClientListContent = () => {
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    // const [filter, setFilter] = useState("");
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get("id");
     const token = localStorage.getItem('token');
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //       try {
+    //         const response = await axios.get("http://127.0.0.1:8000/api/customers", {
+    //           headers: {
+    //             Authorization: `Bearer ${token}`,
+    //           },
+    //         }); n
+    //         setData(response.data);
+    //       } catch (error) {
+    //         console.log(error);
+    //       }
+    //     };
+    
+    //     fetchData();
+    //   }, [token]);
+      
+    //   console.log(data)
+
     const [filter,setFilter]=useState("");
     const [searchResults, setSearchResults] = useState<any[]>([]);
      
@@ -27,10 +52,8 @@ const ClientListContent = () => {
         setSearchResults(response.data.data);
       } catch (error) {
         console.log(error);
-      }
+      };
     };
-    
-    
   
     useEffect(() => {
       const fetchData = async () => {
@@ -58,13 +81,10 @@ const ClientListContent = () => {
     if (error) {
       return <div>Error: {error}</div>;
     }
+ 
+      console.log(searchResults)
+
   
-    if (!data || !data.data || data.data.length === 0) {
-      return <div>Data is not available</div>;
-    }
-
-
-
     return (
         <>
             <div style={{ width: '100%' }}>
@@ -105,7 +125,7 @@ const ClientListContent = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {(filter && searchResults.length > 0 ? searchResults: data.data).map((item: any, index: number) => {
+                      {(filter && searchResults.length > 0 ? searchResults: data.data).map((item: any, index: number) => {
                       return (
                         <tr key={item.id}>
                           <td>{index + 1}</td>
@@ -115,13 +135,13 @@ const ClientListContent = () => {
                           <td>{item.contact_person}</td>
                           <td className="td-category">{item.position}</td>
                           <td>
-                            <Link to={`/client_edit/ ${item.id}`}>
+                            <Link to={`/client_edit/${item.id}`}>
                                 <i className="fa-solid fa-pen-to-square update"></i>
                             </Link>
                             <Link to={`/client_delete/${item.id}`}>
                               <i className="fa-solid fa-trash delete"></i>
                             </Link>
-                            <Link to="/client-project-lists">
+                            <Link to={`/client-project-lists?id=${item.id}`}>
                               <i className="fa-solid fa-angles-right more"></i>
                             </Link>
                           </td>
@@ -129,9 +149,7 @@ const ClientListContent = () => {
                       );
                     })}
                 </tbody>
-            </table> 
-
-                 
+            </table>               
                 </div>
             </div> 
         </>

@@ -21,6 +21,7 @@ import UserList from "./pages/user_list/user_list_connect";
 import ClientEdit from "./pages/client_edit/client_edit_contex";
 import ClientDelete from "./pages/client_edit/client_delete";
 import RoleList from "./pages/role/rolelist_compon";
+import QuotationForm from "./pages/quotation/quotation";
 
 const routeList = createBrowserRouter([
   {
@@ -117,9 +118,17 @@ const routeList = createBrowserRouter([
     )
   },
   {
+
     path:'/roles',
     element:(
       <RoleList/>
+    )
+  },
+  {
+    path:'/quotation',
+    element:(
+      <QuotationForm/>
+
     )
   },
   {
