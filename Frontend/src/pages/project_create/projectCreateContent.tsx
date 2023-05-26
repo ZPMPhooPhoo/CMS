@@ -227,7 +227,7 @@ const status_options = ['Complete' , 'Progress' , 'Cancel'];
                     
                   }}
                   >
-                    <option value="__default">Choose Catrgory</option>
+                    <option value="__default">Choose Category</option>
                     {categories_options.map((option, index) => (
                       <option key={index} value={option.category}>
                         {option.category}

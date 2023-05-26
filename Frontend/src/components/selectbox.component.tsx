@@ -17,7 +17,6 @@ export const SelectBox: React.FC<SelectBoxProps> = ({ name, value, options, onCh
 
   return (
     <select name={name} className="selectbox" value={value} onChange={handleOptionChange}>
-
       {options.map((option, index) => (
         <option key={index} value={option.value}>
         {option.label}

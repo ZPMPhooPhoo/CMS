@@ -16,6 +16,10 @@ import UserList from "./pages/user_list/user_list_connect";
 import ClientEdit from "./pages/client_edit/client_edit_contex";
 import ClientDelete from "./pages/client_edit/client_delete";
 import QuotationForm from "./pages/quotation/quotation";
+import CategoryList from "./pages/category_list/categoryList";
+import CategoryCreate from "./pages/category_create/categoryCreate";
+import CategoryDelete from "./pages/category_edit/category_delete";
+import CategoryEdit from "./pages/category_edit/categoryEdit";
 
 const routeList = createBrowserRouter([
   {
@@ -114,6 +118,30 @@ const routeList = createBrowserRouter([
     path:'/quotation',
     element:(
       <QuotationForm/>
+    )
+  },
+  {
+    path:'/category-list',
+    element:(
+      <CategoryList/>
+    )
+  },
+  {
+    path:'/category-create',
+    element:(
+      <CategoryCreate/>
+    )
+  },
+  {
+    path:'/category-edit/:categoryId',
+    element:(
+      <CategoryEdit />
+    )
+  },
+  {
+    path:'/category-delete/:categoryId',
+    element:(
+      <CategoryDelete />
     )
   },
   {
