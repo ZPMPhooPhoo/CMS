@@ -1,18 +1,13 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/dashboard/dashboard";
-
 import Project from "./pages/projects/projects";
-
 import { Error } from "./pages/notfound";
-// import Service from "./pages/service/service";
 import ClientCreate from "./pages/client_create/clientCreate";
 import { Login } from "./pages/auth/login";
 import RegisterForm from "./pages/auth/register_sitebar";
 import UserEditFrom from "./pages/user_list/editUser/edit_user_component";
 import UserDelete from "./pages/user_list/editUser/deleteuser";
-
-
 import ProjectDetail from "./pages/project_detail/projectDetail";
 import ClientProjectList from "./pages/client_project_list/clientProjectList";
 import ClientList from "./pages/client_list/clientList";
@@ -74,7 +69,6 @@ const routeList = createBrowserRouter([
   {
     path: '/services',
     element: (
-        // <Service/>
         <h1>Service</h1>
    )
   },
@@ -131,7 +125,7 @@ const routeList = createBrowserRouter([
 ]);
 
 export const Router = () => {
-    return(
-        <RouterProvider router={routeList}/>
-    )
+  return(
+    <RouterProvider router={routeList}/>
+  )
 }
