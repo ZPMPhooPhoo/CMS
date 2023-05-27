@@ -20,6 +20,9 @@ import CategoryList from "./pages/category_list/categoryList";
 import CategoryCreate from "./pages/category_create/categoryCreate";
 import CategoryDelete from "./pages/category_edit/category_delete";
 import CategoryEdit from "./pages/category_edit/categoryEdit";
+import PermissionList from "./pages/permission_list/permissionList";
+import RoleList from "./pages/role_list/roleList";
+import RoleEdit from "./pages/role_edit/roleEdit";
 
 const routeList = createBrowserRouter([
   {
@@ -142,6 +145,24 @@ const routeList = createBrowserRouter([
     path:'/category-delete/:categoryId',
     element:(
       <CategoryDelete />
+    )
+  },
+  {
+    path:'/permission-list',
+    element:(
+      <PermissionList />
+    )
+  },
+  {
+    path:'/role-list',
+    element:(
+      <RoleList />
+    )
+  },
+  {
+    path:'/role-edit/:roleId',
+    element:(
+      <RoleEdit />
     )
   },
   {
