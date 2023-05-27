@@ -55,8 +55,6 @@ const UserListCompon = () => {
     
       fetchData();
     }, [token]);
-    
-
      
     const handleFilterChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
       const filterValue = event.target.value;
