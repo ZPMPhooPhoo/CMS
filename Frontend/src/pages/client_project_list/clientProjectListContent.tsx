@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -21,6 +21,7 @@ export const ClientProjectListContent = () => {
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +34,6 @@ export const ClientProjectListContent = () => {
             },
           }
         );
-        setClientproject(response.data.data);
-        setIsLoading(false);
         const newResponse = await axios.get(
           `http://127.0.0.1:8000/api/users/${id}`,
           {
@@ -43,7 +42,14 @@ export const ClientProjectListContent = () => {
             },
           }
         );
-        setName(newResponse.data.data.name);
+        const clientProjects = response.data.data || [];
+        const clientName = newResponse?.data?.data?.name;
+        if (clientName === undefined) {
+          return navigate("/client-lists")
+        }
+        setName(clientName);
+        setClientproject(clientProjects);
+        setIsLoading(false);
       } catch (error: any) {
         setError(error.message);
         setIsLoading(false);
@@ -115,7 +121,7 @@ export const ClientProjectListContent = () => {
                   <td>
                     <i className="fa-solid fa-pen-to-square update"></i>
                     <i className="fa-solid fa-trash delete"></i>
-                    <Link to={`/project-detail?id=${id}`}>
+                    <Link to={`/project-detail?id=${id}&projectID=${project.id}`}>
                       <i className="fa-solid fa-angles-right more"></i>
                     </Link>
                   </td>

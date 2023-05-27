@@ -15,6 +15,8 @@ const UserListCompon = () => {
     const token = localStorage.getItem('token');
     const [filter,setFilter]=useState("");
     const [searchResults, setSearchResults] = useState<any[]>([]);
+    const [currentPage,setCurrentPage]=useState(1);
+    const [perPage,setPerPage]=useState(5);
     // const [options, setOptions] = useState<Role[]>([]);
     const [options, setOptions] = useState<{ [key: number]: string }>({});
 
@@ -107,6 +109,17 @@ const UserListCompon = () => {
     }
 
 
+    let totalItems = data.data.length;
+    if(searchResults.length>0){
+      totalItems = searchResults.length
+    }
+    const totalPages = Math.ceil(totalItems / perPage);
+    const indexOfLastItem = currentPage * perPage;
+    const indexOfFirstItem = indexOfLastItem - perPage;
+    const currentItems = data.data.slice(indexOfFirstItem, indexOfLastItem);
+    const currentSearchItems= searchResults?.slice(indexOfFirstItem, indexOfLastItem);
+
+
 
     return (
         <>
@@ -146,13 +159,16 @@ const UserListCompon = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {(filter && searchResults.length > 0
-                        ? searchResults
-                        : data.data
+                {
+
+                (filter && currentSearchItems.length > 0
+                        ? currentSearchItems
+                        : currentItems
                     ).map((item: any, index: number) => {
+                      const rowNumber = (currentPage - 1) * perPage + index + 1;
                         return (
-                        <tr key={item.id}>
-                            <td>{index + 1}</td>
+                        <tr key={index}>
+                            <td>{rowNumber}</td>
                             <td>{item.name}</td>
                             <td>{item.email}</td>
                             <td>{item.phone}</td>
@@ -172,11 +188,22 @@ const UserListCompon = () => {
                             </td>
                         </tr>
                         );
-                    })}
+                    })
+}
 
 
                 </tbody>
             </table>
+
+            <div className="pagination">
+              <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+                &lt;&lt;
+              </button>
+              <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
+                &gt;&gt;
+              </button>
+              
+            </div>
 
                  
                 </div>
