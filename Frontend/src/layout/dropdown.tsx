@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export const Dropdown = () => {
     return(
         <>
@@ -12,7 +14,7 @@ export const Dropdown = () => {
 
             <ul className="dd-menu">
                 <li>My account</li>
-                <li>Logout</li>
+                <Link to="/logout"><li>Logout</li></Link>
             </ul>
 
             </label>        

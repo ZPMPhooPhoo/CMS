@@ -1,9 +1,3 @@
-// import { useState } from 'react'
-// import { Footer, Header } from "./layout"
-// import { Task } from './interface'
-// import { Btn, Txt } from './components'
-
-// import ClientList from "./components/pages/client-list"
 import { DashboardContent } from './dashboardContent'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
