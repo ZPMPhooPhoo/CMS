@@ -7,32 +7,32 @@
 import { ProjectContact } from './projectContent'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
-import {useState } from 'react'
+import { useState } from 'react'
 
 // type BurgerPropsType = {
 //   onClick :() => void;
 // }
-const Clientlist = () => {
+const Project = () => {
 
-  const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
   const handleBurgerClick = () => {
     setSidebarOpen(!sidebarOpen);
   }
 
   return (
-    <> 
-     {/* <ClientList /> */}
-     <div className='pj-container'>
-        <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
+    <>
+      {/* <ClientList /> */}
+      <div className='pj-container'>
+        <div className={`bar-div ${sidebarOpen ? '' : 'close'} `}><Sidebar /></div>
         <div className='content'>
-          <div> <Header clickHandler={handleBurgerClick} text = "Projects" /> </div>
+          <div> <Header clickHandler={handleBurgerClick} text="Projects" /> </div>
           <div className='board-div'><ProjectContact /></div>
         </div>
-        
-     </div>
+
+      </div>
     </>
   )
 }
 
-export default Clientlist;
+export default Project;

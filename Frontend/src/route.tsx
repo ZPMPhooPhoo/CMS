@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Route, RouterProvider, Routes, createBrowserRouter, BrowserRouter as Router } from "react-router-dom";
 import Dashboard from "./pages/dashboard/dashboard";
 import Project from "./pages/projects/projects";
 import { Error } from "./pages/notfound";
@@ -15,17 +15,21 @@ import UserList from "./pages/user_list/user_list_connect";
 import ClientEdit from "./pages/client_edit/client_edit_contex";
 import ClientDelete from "./pages/client_edit/client_delete";
 import QuotationForm from "./pages/quotation/quotation";
-
 import { Logout } from "./pages/auth/logout";
 import { useEffect, useState } from "react";
+import axios from "axios";
+// import { useEffect, useState } from "react";
+// import { redirect } from "react-router-dom";
 
-import CategoryList from "./pages/category_list/categoryList";
-import CategoryCreate from "./pages/category_create/categoryCreate";
-import CategoryDelete from "./pages/category_edit/category_delete";
-import CategoryEdit from "./pages/category_edit/categoryEdit";
-import PermissionList from "./pages/permission_list/permissionList";
-import RoleList from "./pages/role_list/roleList";
-import RoleEdit from "./pages/role_edit/roleEdit";
+// import CategoryList from "./pages/category_list/categoryList";
+// import CategoryCreate from "./pages/category_create/categoryCreate";
+// import CategoryDelete from "./pages/category_edit/category_delete";
+// import CategoryEdit from "./pages/category_edit/categoryEdit";
+// import PermissionList from "./pages/permission_list/permissionList";
+// import RoleList from "./pages/role_list/roleList";
+// import RoleEdit from "./pages/role_edit/roleEdit";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
 
 
 /*
@@ -39,285 +43,128 @@ import RoleEdit from "./pages/role_edit/roleEdit";
 ]
 */
 
-// const backend_routes = ['dashboard', 'users', 'services']
+const backend_routes = ['dashboard', 'users', 'services']
+const role_id = localStorage.getItem("role_id");
+const token = localStorage.getItem("token");
+// const [backend_routes, setBackendRoutes] = useState<[]>([]);
 
-// const routes = [
-//   {
-//     path: '/',
-//     backend_path: "dashboard",
-//     element: (
-//       <Dashboard />
-//     )
-//   },
-//   {
-//     path: '/client-lists',
-//     backend_path: "clients-lists",
-//     element: (
-//       <ClientList />
-//     )
-//   },
-//   {
-//     path: '/client-project-lists',
-//     backend_path: 'client-project-lists',
-//     element: (
-//       <ClientProjectList />
-//     )
-//   },
-//   {
-//     path: '/client-projects',
-//     backend_path: 'client-projects',
-//     element: (
-//       <Project />
-//     )
-//   },
-//   {
-//     path: '/project-detail',
-//     backend_path: 'project-detail',
-//     element: (
-//       <ProjectDetail />
-//     )
-//   },
-//   {
-//     path: '/add-client-project',
-//     backend_path: 'add-client-project',
-//     element: (
-//       <ProjectCreate />
-//     )
-//   },
-//   {
-//     path: '/projects',
-//     backend_path: 'projects',
-//     element: (
-//       <Project />
-//     )
-//   },
-//   {
-//     path: '/users',
-//     backend_path: 'users',
-//     element: (
-//       <UserList />
-//     )
-//   },
-//   {
-//     path: '/services',
-//     backend_path: 'services',
-//     element: (
-//       // <Service/>
-//       <h1>Service</h1>
-//     )
-//   },
-//   {
-//     path: '/client-create',
-//     backend_path: 'client-create',
-//     element: (
-//       <ClientCreate />
-//     )
-//   },
-//   {
-//     path: '/client_edit/:customerId',
-//     backend_path: 'client_edit',
-//     element: <ClientEdit />
-//   },
-//   {
-//     path: "/client_delete/:customerId",
-//     backend_path: "client_delete",
-//     element: <ClientDelete />
-//   },
-//   {
-//     path: '/login',
-//     backend_path: 'login',
-//     element: (
-//       <Login email="" password="" />
-//     )
-//   },
-//   {
-//     path: '/logout',
-//     backend_path: 'logout',
-//     element: (
-//       <Logout />
-//     )
-//   },
-//   {
-//     path: '/user_create',
-//     backend_path: 'user_create',
-//     element: (
-//       <RegisterForm />
-//     )
-//   },
-//   {
-//     path: '/user_edit/:userId',
-//     backend_path: 'user_edit',
-//     element: (
-//       <UserEditFrom />
-//     )
-//   },
-//   {
-//     path: '/user_delete/:userId',
-//     backend_path: 'user_delete',
-//     element: (
-//       <UserDelete />
-//     )
-//   },
-//   {
-//     path: '/quotation',
-//     backend_path: 'quotation',
-//     element: (
-//       <QuotationForm />
-//     )
-//   },
-
-// ];
-
-const routes = [
+let routes = [
   {
     path: '/',
+    backend_path: "dashboard",
     element: (
       <Dashboard />
     )
   },
   {
     path: '/client-lists',
+    backend_path: "client-lists",
     element: (
       <ClientList />
     )
   },
   {
     path: '/client-project-lists',
+    backend_path: 'client-project-lists',
     element: (
       <ClientProjectList />
     )
   },
   {
-    path: '/client-projects',
-    element: (
-      <Project />
-    )
-  },
-  {
     path: '/project-detail',
+    backend_path: 'project-detail',
     element: (
       <ProjectDetail />
     )
   },
   {
     path: '/add-client-project',
+    backend_path: 'add-client-project',
     element: (
       <ProjectCreate />
     )
   },
   {
     path: '/projects',
+    backend_path: 'projects',
     element: (
       <Project />
     )
   },
   {
     path: '/users',
+    backend_path: 'users',
     element: (
       <UserList />
     )
   },
   {
     path: '/services',
+    backend_path: 'services',
     element: (
-
       // <Service/>
       <h1>Service</h1>
     )
   },
   {
     path: '/client-create',
+    backend_path: 'client-create',
     element: (
       <ClientCreate />
     )
   },
   {
-    path: '/client_edit/:customerId',
+    path: '/client-edit/:customerId',
+    backend_path: 'client-edit',
     element: <ClientEdit />
   },
   {
-    path: "/client_delete/:customerId",
+    path: "/client-delete/:customerId",
+    backend_path: "client-delete",
     element: <ClientDelete />
   },
   {
     path: '/login',
+    backend_path: 'login',
     element: (
       <Login email="" password="" />
     )
   },
   {
     path: '/logout',
+    backend_path: 'logout',
     element: (
       <Logout />
     )
   },
   {
-    path: '/user_create',
+    path: '/user-create',
+    backend_path: 'user-create',
     element: (
       <RegisterForm />
     )
   },
   {
-    path: '/user_edit/:userId',
+    path: '/user-edit/:userId',
+    backend_path: 'user-edit',
     element: (
       <UserEditFrom />
     )
   },
   {
-    path: '/user_delete/:userId',
+    path: '/user-delete/:userId',
+    backend_path: 'user-delete',
     element: (
       <UserDelete />
     )
   },
   {
     path: '/quotation',
+    backend_path: 'quotation',
     element: (
       <QuotationForm />
     )
-  },
-  {
-    path: '/category-list',
-    element: (
-      <CategoryList />
-    )
-  },
-  {
-    path: '/category-create',
-    element: (
-      <CategoryCreate />
-    )
-  },
-  {
-    path: '/category-edit/:categoryId',
-    element: (
-      <CategoryEdit />
-    )
-  },
-  {
-    path: '/category-delete/:categoryId',
-    element: (
-      <CategoryDelete />
-    )
-  },
-  {
-    path: '/permission-list',
-    element: (
-      <PermissionList />
-    )
-  },
-  {
-    path: '/role-list',
-    element: (
-      <RoleList />
-    )
-  },
-  {
-    path: '/role-edit/:roleId',
-    element: (
-      <RoleEdit />
-    )
-  },
-  {
+  }, {
     path: '*',
     element: (
       <Error />
@@ -326,45 +173,59 @@ const routes = [
 
 ];
 
-const notFoundRoute = {
-  path: '*',
-  element: (
-    <Error />
-  )
-}
 
-export const Router = () => {
 
-  /*
-   1. fetch avialable route for logged in user from the backend.
-  
-  */
-  // const [roles, setRoles] = useState<any[]>([notFoundRoute]);
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
+export const Routers = () => {
+  const err = {
+    path: '*',
+    element: (
+      <Error />
+    )
+  }
 
-  // useEffect(() => {
-  //   async function fetchRoles() {
-  //     try {
-  //       // const response = await fetch("/roles");
-  //       // const roles = await response.json()
-  //       const avialable_routes = routes.filter(route => backend_routes.includes(route.backend_path)).map(route => ({ element: route.element, path: route.path }))
-  //       console.log(avialable_routes)
-  //       setRoles(prev => [...avialable_routes, ...prev,]);
-  //     } catch (error) {
-  //       console.log(error)
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   }
-  //   fetchRoles();
-  // }, [])
-  // if (isLoading) {
-  //   return <p>Loading..........</p>;
-  // }
-  // console.log({ roles })
+  const [roles, setRoles] = useState<any[]>([err]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/roles/${role_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        });
+        const backend_routes = response.data.data.rolePermissions;
+        const avialable_routes = routes.filter(route => backend_routes.includes(route.backend_path)).map(route => ({ element: route.element, path: route.path }));
+        setRoles(prev => [...avialable_routes, ...prev])
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [role_id, token]);
+
+  console.log(roles)
   console.log(routes)
-  const routeList = createBrowserRouter(routes);
+  const routeList = createBrowserRouter(roles);
   return (
-    <RouterProvider router={routeList} />
+    <>
+      {localStorage.getItem('token') ? (
+        <RouterProvider router={routeList} />) ||
+        <Router>
+          <Routes>
+            <Route path='/' element={(<Dashboard />)} />
+          </Routes>
+        </Router> : (
+        <Router>
+          <Routes>
+            <Route path="/" element={<Login email="" password="" />} />
+            <Route path="*" element={<Login email="" password="" />} />
+          </Routes>
+        </Router>
+      )}
+    </>
   )
 }

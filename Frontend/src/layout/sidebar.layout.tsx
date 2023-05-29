@@ -58,16 +58,6 @@ export const Sidebar = () => {
                         avialable_routes.map(route => (
                             <li key={route.path}>  <Link to={route.path}>{route.icon} {route.name} </Link> </li>
                         ))
-
-                        //                     <li>  <Link to = '/'> <i className="fa-sharp fa-solid fa-house"></i> DASHBOARD </Link> </li>
-                        //                     <li>  <Link to = '/client-lists'><i className="fa-solid fa-handshake-simple"></i> CLIENT LISTS </Link> </li>
-                        //                     <li>  <Link to = '/projects'><i className="fa-solid fa-circle-info"></i> PROJECTS </Link> </li>
-                        //                     <li>  <Link to = '/services'><i className="fa-solid fa-sliders"></i> SERVICES </Link> </li>
-                        //                     <li>  <Link to = '/project-detail'><i className="fa-sharp fa-solid fa-right-to-bracket"></i> AUTHORIZATION </Link>  </li>
-                        //                     <li>  <Link to='/users'><i className="fa-sharp fa-solid fa-user"></i>User List</Link></li>
-                        //                     <li>  <Link to='/category-list'><i className="fa-sharp fa-solid fa-bracket"></i>Category List</Link></li>
-                        //                     <li>  <Link to='/permission-list'><i className="fa-sharp fa-solid fa-bracket"></i>Permission List</Link></li>
-                        //                     <li>  <Link to='/role-list'><i className="fa-sharp fa-solid fa-bracket"></i>Role List</Link></li>
                     }
 
                 </ul>

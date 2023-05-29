@@ -2,11 +2,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Logout = () => {
-  const navigate = useNavigate();
-
   useEffect(() => {
     localStorage.removeItem("token");
-    navigate("/login");
+    localStorage.removeItem("role_id");
+    window.location.reload();
+    window.location.href = '/';
+
   }, []);
 
   return null;
