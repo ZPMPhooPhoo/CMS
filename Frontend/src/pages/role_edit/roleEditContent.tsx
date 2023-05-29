@@ -44,6 +44,9 @@ useEffect(() => {
         setPermissions(extractedPermissions);
         console.log(extractedPermissions);
 
+        const permissionNames = response.data.data.permissions.map((permission : any) => permission.name);
+        console.log(permissionNames);
+
         const rolePermissionsData = response.data.data.rolePermissions;
         setRolePermissions(rolePermissionsData);
         console.log(rolePermissionsData);
@@ -130,8 +133,6 @@ useEffect(() => {
                 <label> Please select assigned developers. </label>
  
                   {
-                  
-
                   permissions.map((item: Permission) => {
                     const isChecked = rolePermissions.includes(item.id);
                   
