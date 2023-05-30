@@ -18,12 +18,8 @@ import QuotationForm from "./pages/quotation/quotation";
 import { Logout } from "./pages/auth/logout";
 import { useEffect, useState } from "react";
 import axios from "axios";
-<<<<<<< HEAD
 import Profile from "./pages/userprofile/profile";
-
-=======
 import Category from "./pages/category_list/categoryList";
->>>>>>> e7372ae7417bec1f67b3bac2c32392211940eb43
 // import { useEffect, useState } from "react";
 // import { redirect } from "react-router-dom";
 
