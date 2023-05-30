@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import logo from '../img/sidebar/logo.png';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
 
 const sidebar_routes = [
     {
@@ -44,8 +45,35 @@ const sidebar_routes = [
 // const backend_routes = ['dashboard', "users", "services"];
 
 export const Sidebar = () => {
-    // const avialable_routes = useMemo(() => sidebar_routes.filter(route => backend_routes.includes(route.backend_path)), []);
-    const avialable_routes = useMemo(() => sidebar_routes, []);
+    const [role, setRoles] = useState<string[]>([]);
+    const role_id = localStorage.getItem("role_id");
+    const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/roles/${role_id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                });
+                setRoles(response.data.data.rolePermissions);
+
+
+            } catch (error: any) {
+
+            }
+
+        }
+        fetchData();
+
+    }, []);
+
+    //const backend_routes = role.map((item: any) => item.backend_path);
+    //console.log({ sidebar_routes, backend_routes, role });
+    const avialable_routes: any[] = useMemo(() => sidebar_routes.filter(route => role.includes(route.backend_path)), [role]);
+    console.log({ sidebar_routes, role });
+
 
     return (
         <>

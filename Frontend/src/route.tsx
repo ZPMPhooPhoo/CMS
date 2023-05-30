@@ -196,7 +196,14 @@ export const Routers = () => {
           },
         });
         const backend_routes = response.data.data.rolePermissions;
-        const avialable_routes = routes.filter(route => backend_routes.includes(route.backend_path)).map(route => ({ element: route.element, path: route.path }));
+
+        let avialable_routes = routes.filter(route => backend_routes.includes(route.backend_path)).map(route => ({ element: route.element, path: route.path }));
+        // avialable_routes = [
+        //   {
+        //     path: "/logout",
+        //     element: <Logout />
+        //   }
+        // ];
         setRoles(prev => [...avialable_routes, ...prev])
       } catch (error) {
         console.log(error);
@@ -210,6 +217,9 @@ export const Routers = () => {
   console.log(roles)
   console.log(routes)
   const routeList = createBrowserRouter(roles);
+  if (isLoading) {
+    return <p>Loading....</p>
+  }
   return (
     <>
       {localStorage.getItem('token') ? (
