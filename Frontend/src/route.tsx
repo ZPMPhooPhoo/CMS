@@ -4,9 +4,17 @@ import Project from "./pages/projects/projects";
 import { Error } from "./pages/notfound";
 import ClientCreate from "./pages/client_create/clientCreate";
 import { Login } from "./pages/auth/login";
+import { Register } from "./pages/auth/register";
+// import ClientList from "./pages/client_list/clientList";
+// import ProjectDetail from "./pages/project_detail/projectDetail";
+// import ClientProjectList from "./pages/client_project_list/clientProjectList";
+// import QuotationForm from "./pages/quotation/quotation";
+
 import RegisterForm from "./pages/auth/register_sitebar";
 import UserEditFrom from "./pages/user_list/editUser/edit_user_component";
 import UserDelete from "./pages/user_list/editUser/deleteuser";
+
+
 import ProjectDetail from "./pages/project_detail/projectDetail";
 import ClientProjectList from "./pages/client_project_list/clientProjectList";
 import ClientList from "./pages/client_list/clientList";
@@ -18,7 +26,7 @@ import QuotationForm from "./pages/quotation/quotation";
 import { Logout } from "./pages/auth/logout";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Profile from "./pages/userprofile/profile";
+import Profile from "./pages/userprofile/profile_compon";
 import Category from "./pages/category_list/categoryList";
 // import { useEffect, useState } from "react";
 // import { redirect } from "react-router-dom";
@@ -162,8 +170,15 @@ let routes = [
   },
   {
     path:'/user_profile/:userId',
+    backend_path: 'user-profile',
     element:(
       <Profile/>
+    )
+  },
+  {
+    path: '/quotation',
+    element: (
+      <QuotationForm />
     )
   },
   {
