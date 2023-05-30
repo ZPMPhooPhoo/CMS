@@ -18,6 +18,7 @@ import QuotationForm from "./pages/quotation/quotation";
 import { Logout } from "./pages/auth/logout";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Category from "./pages/category_list/categoryList";
 // import { useEffect, useState } from "react";
 // import { redirect } from "react-router-dom";
 
@@ -102,8 +103,8 @@ let routes = [
     path: '/services',
     backend_path: 'services',
     element: (
-      // <Service/>
-      <h1>Service</h1>
+      <Category />
+
     )
   },
   {

@@ -12,7 +12,7 @@ const sidebar_routes = [
     },
     {
         path: "/client-lists",
-        backend_path: "client-list",
+        backend_path: "client-lists",
         name: "Client Lists",
         icon: <i className="fa-solid fa-handshake-simple"></i>,
     },
@@ -28,12 +28,12 @@ const sidebar_routes = [
         name: "Services",
         icon: <i className="fa-solid fa-sliders"></i>
     },
-    {
-        path: "/project-detail",
-        backend_path: "project-detail",
-        name: "​Authorization",
-        icon: <i className="fa-sharp fa-solid fa-right-to-bracket"></i>
-    },
+    // {
+    //     path: "/project-detail",
+    //     backend_path: "project-detail",
+    //     name: "​Authorization",
+    //     icon: <i className="fa-sharp fa-solid fa-right-to-bracket"></i>
+    // },
     {
         path: "/users",
         backend_path: "users",
