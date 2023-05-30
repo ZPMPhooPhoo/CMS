@@ -10,7 +10,7 @@ interface Props {
   password: string;
 }
 
-export const Login: React.FC<Props> = ({}) => {
+export const Login: React.FC<Props> = ({ }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState<any>({});
@@ -46,15 +46,18 @@ export const Login: React.FC<Props> = ({}) => {
       });
 
       const { token } = response.data;
+      const { role_id } = response.data;
       localStorage.setItem('token', token);
+      localStorage.setItem('role_id', role_id);
       setTimeout(() => {
         localStorage.removeItem('token');
       }, 1200000);
-
       console.log(response.data);
       setIsLoading(false); // Stop loading
-      navigate('/');
-    } catch (error:any) {
+
+      window.location.reload();
+
+    } catch (error: any) {
       console.log(error.message);
       if (error.response && error.response.data && error.response.data.message) {
         const apiErrorMessage = error.response.data.message;
