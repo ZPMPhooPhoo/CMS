@@ -19,7 +19,7 @@ export const Register: React.FC = () => {
   const [errors, setErrors] = useState<any>({});
   const token = localStorage.getItem('token');
   const [options, setOptions] = useState<Role[]>([]);
-  const [role_id, setRole] = useState<number>();
+  const [role_id, setRole] = useState<number | undefined>();
 
   const navigate = useNavigate();
 
@@ -37,8 +37,7 @@ export const Register: React.FC = () => {
           name: item.name,
         }));
 
-      setOptions(mappedOptions);
-        
+      setOptions(mappedOptions);        
       } catch (error) {
         console.log(error);
       }
@@ -47,10 +46,10 @@ export const Register: React.FC = () => {
     fetchData();
   }, [token]);
 
-  const handleSelectChange = (selectedOption: string, selectedIndex: number) => {
-    setRole(options[selectedIndex].id);
-    console.log(options[selectedIndex].id);
-  };
+  // const handleSelectChange = (selectedOption: string, selectedIndex: number) => {
+  //   setRole(options[selectedIndex].id);
+  //   console.log([options[selectedIndex].id]);
+  // };
   
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,7 +73,9 @@ export const Register: React.FC = () => {
     if (password_confirmation.trim() !== password.trim()) {
       validationErrors.confirmPassword = "Passwords do not match *";
     }
-
+    if(!role_id){
+      validationErrors.role = "Role is required *";
+    }
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -141,15 +142,32 @@ export const Register: React.FC = () => {
           />
           <p className="error-message">{errors.confirmPassword && errors.confirmPassword }</p>
           
-          <SelectBox
+          {/* <SelectBox
                 name="role_id"
                 options={options.map((item) => ({
                   label: item.name,
                   value: item.id.toString(),
                 }))}
                 onChange={handleSelectChange}
-                value=""
-                />
+                value={role_id !== undefined ? role_id.toString() : ""}
+                /> */}
+
+              <select name="role_id" id="" className="selectbox"
+                  onChange={(event)=>{
+                    if(options[event.target.selectedIndex-1]){
+                      setRole(options[event.target.selectedIndex-1].id);
+                    }else{
+                      setRole(undefined);
+                    }
+                  }}
+                  >
+                    <option value="__default">Choose Role</option>
+                    {options.map((option, index) => (
+                      <option key={index} value={option.name}>
+                        {option.name}
+                      </option>
+                    ))}
+              </select>
           <p className="error-message">{errors.role && errors.role }</p>
           <Button type="submit" className="button" text="Register" />
         </form>

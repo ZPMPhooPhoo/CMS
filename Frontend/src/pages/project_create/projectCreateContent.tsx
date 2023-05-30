@@ -146,14 +146,14 @@ const status_options = ['Complete' , 'Progress' , 'Cancel'];
       },
     })  .then((response) => {
       console.log(response.data);
-      navigate("/client-project-lists");
+      navigate(`/client-project-lists?id=${id}`);
     })
     .catch((error) => {
       console.log(error.response.data);
     });
   };
 
-  console.log(users)
+  // console.log(status)
   return (
     <>
       <div className="register add-middle">
@@ -210,11 +210,24 @@ const status_options = ['Complete' , 'Progress' , 'Cancel'];
                 <div className="client_phone_parent">
                 <select name="catogory_id" id="" className="selectbox"
                   onChange={(event)=>{
-                    setCategory(categories_options[event.target.selectedIndex-1].id);
+                    // setCategory(categories_options[event.target.selectedIndex-1].id);
+                    // console.log(categories_options[event.target.selectedIndex-1])
+                    // if(!categories_options[event.target.selectedIndex-1]){
+                    //   setCategory(categories_options[event.target.selectedIndex-1].id);
+                    // }else{
+                    //   setCategory(undefined);
+                    // }
+                    if(categories_options[event.target.selectedIndex-1]){
+                      setCategory(categories_options[event.target.selectedIndex-1].id);
+                      // console.log(categories_options[event.target.selectedIndex-1].id)
+                    }else{
+                      setCategory(undefined);
+                      // console.log("Undefined")
+                    }
                     
                   }}
                   >
-                    <option value="__default">Choose Catrgory</option>
+                    <option value="__default">Choose Category</option>
                     {categories_options.map((option, index) => (
                       <option key={index} value={option.category}>
                         {option.category}

@@ -26,7 +26,7 @@ export const ProjectContact = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setProjects(response.data);
+        setProjects(response.data.data);
         // console.log(response.data);
         setLoading(false);
       } catch (error) {
@@ -45,6 +45,7 @@ export const ProjectContact = () => {
   if (error) {
     return <div>Error: {error}</div>; // Display an error message
   }
+  console.log(projects)
 
   return (
     <>
@@ -87,26 +88,26 @@ export const ProjectContact = () => {
             </tr>
           </thead>
           <tbody>
-          {Array.isArray(projects) &&
-                     projects.map((project, index) => (
-              <tr key={project.id}>
-                <td>{index + 1}</td>
-                <td>{project.name}</td>
-                <td className="td-category">
-                  {project.categories && Array.isArray(project.categories)
-                    ? project.categories.map((category: string) => (
+            {Array.isArray(projects) &&
+              projects.map((project, index) => (
+                <tr key={project.id}>
+                  <td>{index + 1}</td>
+                  <td>{project.title}</td>
+                  <td className="td-category">
+                    {project.categories && Array.isArray(project.categories)
+                      ? project.categories.map((category: string) => (
                         <span key={category}>{category}</span>
                       ))
-                    : null}
-                </td>
-                <td>{project.status}</td>
-                <td>
-                  {project.maintenanceActive
-                    ? 'Under Maintenance'
-                    : 'No More Active'}
-                </td>
-              </tr>
-            ))}
+                      : null}
+                  </td>
+                  <td>{project.status}</td>
+                  <td>
+                    {project.maintenance_active
+                      ? 'Under Maintenance'
+                      : 'No More Active'}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
