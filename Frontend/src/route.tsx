@@ -26,7 +26,7 @@ import QuotationForm from "./pages/quotation/quotation";
 import { Logout } from "./pages/auth/logout";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Profile from "./pages/userprofile/profile";
+import Profile from "./pages/userprofile/profile_compon";
 import Category from "./pages/category_list/categoryList";
 // import { useEffect, useState } from "react";
 // import { redirect } from "react-router-dom";
@@ -170,6 +170,7 @@ let routes = [
   },
   {
     path:'/user_profile/:userId',
+    backend_path: 'user-profile',
     element:(
       <Profile/>
     )

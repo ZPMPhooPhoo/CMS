@@ -8,9 +8,6 @@ interface Role {
     name: string;
   }
 
-
-
-
 const UserProfile = () => {
     const [userProfile,setUserProfile] =useState<string>("");
     const [name,setName] =useState<string>("");
