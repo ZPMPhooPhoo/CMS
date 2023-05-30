@@ -53,7 +53,8 @@ export const Login: React.FC<Props> = ({}) => {
 
       console.log(response.data);
       setIsLoading(false); // Stop loading
-      navigate('/');
+      // navigate(refresh);
+      window.location.reload();
     } catch (error:any) {
       console.log(error.message);
       if (error.response && error.response.data && error.response.data.message) {

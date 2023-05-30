@@ -166,7 +166,7 @@ const UserListCompon = () => {
                             <Link to={`/user_delete/${item.id}`}>
                                 <i className="fa-solid fa-trash delete"></i>
                             </Link>
-                            <Link to="/client-project-lists">
+                            <Link to={`/user_profile/${item.id}`}>
                                 <i className="fa-solid fa-angles-right more"></i>
                             </Link>
                             </td>

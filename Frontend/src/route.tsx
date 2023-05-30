@@ -1,6 +1,8 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/dashboard/dashboard";
+import { Route, Link, BrowserRouter as Router, Routes } from 'react-router-dom';
+
 
 import Project from "./pages/projects/projects";
 
@@ -22,6 +24,11 @@ import ClientEdit from "./pages/client_edit/client_edit_contex";
 import ClientDelete from "./pages/client_edit/client_delete";
 import RoleList from "./pages/role/rolelist_compon";
 import QuotationForm from "./pages/quotation/quotation";
+import Profile from "./pages/userprofile/profile_compon";
+import {useNavigate} from "react-router-dom";
+
+
+
 
 const routeList = createBrowserRouter([
   {
@@ -106,6 +113,12 @@ const routeList = createBrowserRouter([
     )
   },
   {
+    path:'/user_profile/:userId',
+    element:(
+      <Profile/>
+    )
+  },
+  {
     path:'/user_edit/:userId',
     element:(
       <UserEditFrom/>
@@ -139,8 +152,26 @@ const routeList = createBrowserRouter([
   }
 ]);
 
-export const Router = () => {
+export const Routers = () => {
     return(
-        <RouterProvider router={routeList}/>
+        <>
+         {localStorage.getItem('token') ? ( 
+             <RouterProvider  router={routeList}/>) ||
+             <Router>
+                <Routes>
+                <Route path= '/' element= {(<Dashboard />)} />
+                </Routes>
+              </Router>: (
+              <Router>
+                <Routes>
+                <Route path="/" element={<Login email="" password="" />} />
+                <Route path="*" element ={<Login email="" password=""/>}/>
+                </Routes>
+              </Router>
+            )}
+                
+
+        </>
     )
+        
 }
