@@ -4,9 +4,17 @@ import Project from "./pages/projects/projects";
 import { Error } from "./pages/notfound";
 import ClientCreate from "./pages/client_create/clientCreate";
 import { Login } from "./pages/auth/login";
+import { Register } from "./pages/auth/register";
+// import ClientList from "./pages/client_list/clientList";
+// import ProjectDetail from "./pages/project_detail/projectDetail";
+// import ClientProjectList from "./pages/client_project_list/clientProjectList";
+// import QuotationForm from "./pages/quotation/quotation";
+
 import RegisterForm from "./pages/auth/register_sitebar";
 import UserEditFrom from "./pages/user_list/editUser/edit_user_component";
 import UserDelete from "./pages/user_list/editUser/deleteuser";
+
+
 import ProjectDetail from "./pages/project_detail/projectDetail";
 import ClientProjectList from "./pages/client_project_list/clientProjectList";
 import ClientList from "./pages/client_list/clientList";
@@ -164,6 +172,12 @@ let routes = [
     path:'/user_profile/:userId',
     element:(
       <Profile/>
+    )
+  },
+  {
+    path: '/quotation',
+    element: (
+      <QuotationForm />
     )
   },
   {
