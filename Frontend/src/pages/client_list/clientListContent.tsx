@@ -123,7 +123,7 @@ const ClientListContent = () => {
                       <td>{item.contact_person}</td>
                       <td className="td-category">{item.position}</td>
                       <td>
-                        <Link to={`/client_edit/${item.id}`}>
+                        <Link to={`/client-edit/${item.id}`}>
                           <i className="fa-solid fa-pen-to-square update"></i>
                         </Link>
                         {/* <Link to={`/client_delete/${item.id}`}>

@@ -21,7 +21,7 @@ export const ClientCreateContent: React.FC = () => {
 
 
 
-  
+
 
 
   // const options = ["Super Admin", "Admin", "Manager"];
@@ -31,7 +31,7 @@ export const ClientCreateContent: React.FC = () => {
   //   console.log("Selected index:", selectedIndex);
   //   setRoleId(selectedIndex + 1);
   // };
-  
+
 
   const navigate = useNavigate();
 
@@ -58,8 +58,8 @@ export const ClientCreateContent: React.FC = () => {
     if (position.trim() === "") {
       validationErrors.clientPosition = "Customer position is required *";
     }
-    
-    
+
+
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -69,33 +69,31 @@ export const ClientCreateContent: React.FC = () => {
 
     const token = localStorage.getItem("token");
 
-    
-    
-
-  axios
-    .post("http://127.0.0.1:8000/api/users", {
-      name,
-      email,
-      password,
-      password_confirmation,
-      phone,
-      contact_person,
-      position,
-      role_id,
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-      navigate("/client-lists");
-    })
-    .catch((error) => {
-      console.log(error.response.data);
-    }).finally(() => {
-      setLoading(false);
-    });
+    axios
+      .post("http://127.0.0.1:8000/api/users", {
+        name,
+        email,
+        password,
+        password_confirmation,
+        phone,
+        contact_person,
+        position,
+        address,
+        role_id,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate("/client-lists");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      }).finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -115,9 +113,9 @@ export const ClientCreateContent: React.FC = () => {
                     value={name}
                     placeholder="Enter Name"
                   />
-                  <p className="error-message">{errors.name && errors.name }</p>
+                  <p className="error-message">{errors.name && errors.name}</p>
                 </div>
-                
+
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
@@ -129,7 +127,7 @@ export const ClientCreateContent: React.FC = () => {
                     value={email}
                     placeholder="Enter Email"
                   />
-                   <p className="error-message">{errors.email && errors.email }</p>
+                  <p className="error-message">{errors.email && errors.email}</p>
                 </div>
               </div>
               <div className="client_phoneNO">
@@ -142,9 +140,9 @@ export const ClientCreateContent: React.FC = () => {
                     value={phone}
                     placeholder="Enter Phone Number"
                   />
-                  <p className="error-message">{errors.phoneNumber && errors.phoneNumber }</p>
+                  <p className="error-message">{errors.phoneNumber && errors.phoneNumber}</p>
                 </div>
-                
+
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
@@ -156,9 +154,9 @@ export const ClientCreateContent: React.FC = () => {
                     value={address}
                     placeholder="Address"
                   />
-                  <p className="error-message">{errors.address && errors.address }</p>
+                  <p className="error-message">{errors.address && errors.address}</p>
                 </div>
-                
+
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
@@ -170,9 +168,9 @@ export const ClientCreateContent: React.FC = () => {
                     value={contact_person}
                     placeholder="Contact Person"
                   />
-                   <p className="error-message">{errors.contactPerson && errors.contactPerson }</p>
+                  <p className="error-message">{errors.contactPerson && errors.contactPerson}</p>
                 </div>
-               
+
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
@@ -184,13 +182,13 @@ export const ClientCreateContent: React.FC = () => {
                     value={position}
                     placeholder="Customer Position"
                   />
-                  <p className="error-message">{errors.clientPosition && errors.clientPosition }</p>
+                  <p className="error-message">{errors.clientPosition && errors.clientPosition}</p>
                 </div>
-                
+
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}
-                disabled={isLoading} />
+                  disabled={isLoading} />
                 <Link to={`/client-lists`}>
                   <Button type="button" className="button" text="BACK"
                   />

@@ -14,11 +14,12 @@ import ProjectCreate from "./pages/project_create/projectCreate";
 import UserList from "./pages/user_list/user_list_connect";
 import ClientEdit from "./pages/client_edit/client_edit_contex";
 import ClientDelete from "./pages/client_edit/client_delete";
-import QuotationForm from "./pages/quotation/quotation";
+import Quotation from "./pages/quotation/quotation";
 import { Logout } from "./pages/auth/logout";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Category from "./pages/category_list/categoryList";
+import ContractCreate from "./pages/contract/contractCreate";
 // import { useEffect, useState } from "react";
 // import { redirect } from "react-router-dom";
 
@@ -160,12 +161,20 @@ let routes = [
     )
   },
   {
-    path: '/quotation',
-    backend_path: 'quotation',
+    path: '/quotation-create',
+    backend_path: 'quotation-create',
     element: (
-      <QuotationForm />
+      <Quotation />
     )
-  }, {
+  },
+  {
+    path: '/contract-create',
+    backend_path: 'contract-create',
+    element: (
+      <ContractCreate />
+    )
+  },
+  {
     path: '*',
     element: (
       <Error />

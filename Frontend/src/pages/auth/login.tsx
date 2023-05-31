@@ -109,9 +109,6 @@ export const Login: React.FC<Props> = ({ }) => {
                     <p className="error-message">{errMsg && errMsg}</p>
                   </div>
                   <Button type="submit" className="button" text={isLoading ? 'Loading...' : 'Login'} disabled={isLoading} />
-                  <p>
-                    Don't have an account? <a href="/register">Signup</a>
-                  </p>
                 </form>
               </div>
             </div>
