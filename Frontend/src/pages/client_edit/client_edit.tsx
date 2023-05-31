@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/button.component";
@@ -20,13 +20,13 @@ export const ClientEditContent: React.FC = () => {
 
 
 
-  
+
 
   const navigate = useNavigate();
   const { customerId } = useParams();
-//   console.log("Customer ID:", customerId);
-//   console.log(customerId);
-useEffect(() => {
+  //   console.log("Customer ID:", customerId);
+  //   console.log(customerId);
+  useEffect(() => {
     // Fetch customer data from the server using axios
     axios
       .get(`http://127.0.0.1:8000/api/users/${customerId}`, {
@@ -37,7 +37,7 @@ useEffect(() => {
       .then((response) => {
         console.log(response.data);
         // Update the state variables with the retrieved data
-        
+
         // console.log(response.data.name);
         const { name, email, phone, address, contact_person, position } = response.data.data;
         setName(name);
@@ -90,6 +90,7 @@ useEffect(() => {
           phone,
           contact_person,
           position,
+          address,
           role_id,
         },
         {
@@ -124,21 +125,21 @@ useEffect(() => {
                     value={name}
                     placeholder="Enter Name"
                   />
-                  <p className="error-message">{errors.name && errors.name }</p>
+                  <p className="error-message">{errors.name && errors.name}</p>
                 </div>
-                
+
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
-                <Input
-                  onChange={(e) => setEmail(e.target.value)}
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={email} // Display the email state variable
-                  placeholder="Enter Email"
-                />
-                   <p className="error-message">{errors.email && errors.email }</p>
+                  <Input
+                    onChange={(e) => setEmail(e.target.value)}
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={email} // Display the email state variable
+                    placeholder="Enter Email"
+                  />
+                  <p className="error-message">{errors.email && errors.email}</p>
                 </div>
               </div>
               <div className="client_phoneNO">
@@ -151,9 +152,9 @@ useEffect(() => {
                     value={phone}
                     placeholder="Enter Phone Number"
                   />
-                  <p className="error-message">{errors.phoneNumber && errors.phoneNumber }</p>
+                  <p className="error-message">{errors.phoneNumber && errors.phoneNumber}</p>
                 </div>
-                
+
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
@@ -165,9 +166,9 @@ useEffect(() => {
                     value={address}
                     placeholder="Address"
                   />
-                  <p className="error-message">{errors.address && errors.address }</p>
+                  <p className="error-message">{errors.address && errors.address}</p>
                 </div>
-                
+
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
@@ -179,9 +180,9 @@ useEffect(() => {
                     value={contact_person}
                     placeholder="Contact Person"
                   />
-                   <p className="error-message">{errors.contactPerson && errors.contactPerson }</p>
+                  <p className="error-message">{errors.contactPerson && errors.contactPerson}</p>
                 </div>
-               
+
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
@@ -193,9 +194,9 @@ useEffect(() => {
                     value={position}
                     placeholder="Customer Position"
                   />
-                  <p className="error-message">{errors.clientPosition && errors.clientPosition }</p>
+                  <p className="error-message">{errors.clientPosition && errors.clientPosition}</p>
                 </div>
-                
+
               </div>
               <Button type="submit" className="button" text="Update" />
             </form>

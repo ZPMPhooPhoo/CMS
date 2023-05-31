@@ -114,7 +114,7 @@ export const ClientProjectListContent = () => {
                     )}
                   </td>
                   <td>
-                    <Link to="#" className="link">
+                    <Link to={`/quotation-create?id=${id}&projectID=${project.id}`} className="link">
                       Add Quotation
                     </Link>
                   </td>
