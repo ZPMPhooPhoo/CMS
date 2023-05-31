@@ -18,6 +18,8 @@ interface pj_pass_data {
 
 export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
     const [showQuotationModal, setShowQuotationModal] = useState<boolean>(false);
+    const [isQuotationsEmpty, setIsQuotationsEmpty] = useState<boolean>(false);
+    const [QuotationData, setQuotationData] = useState<any[]>([]);
     const [expandedIndex, setExpandedIndex] = useState(-1);
     const [error, setError] = useState<string | undefined>();
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -28,38 +30,6 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
     const searchID = new URLSearchParams(location.search);
     const id = searchID.get("id");
     const projectID = searchID.get("projectID");
-
-
-
-
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const responsePjData = await axios.get(`http://127.0.0.1:8000/api/projects/${projectID}`, {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`
-    //                 },
-    //             }
-    //             );
-    //             setPjdata(responsePjData.data.data)
-    //             console.log("this is pj data")
-    //             setIsLoading(false);
-    //             const responseDevData = await axios.get(`http://127.0.0.1:8000/api/developerproject/${projectID}`, {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`
-    //                 },
-    //             });
-    //             setDevData(responseDevData.data.data);
-    //             console.log("This is developer data: ")
-    //         } catch (error: any) {
-    //             setError(error.message);
-    //             setIsLoading(false)
-    //             // console.log(error.message)
-    //         }
-    //     }
-    //     fetchData();
-    // }, [id, token])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -80,6 +50,18 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                         },
                     }
                 );
+                const quotationResponse = await axios.get(`
+                    http://127.0.0.1:8000/api/quotations/${projectID}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                if (quotationResponse.data.data.length === 0) {
+                    setIsQuotationsEmpty(true);
+                } else {
+                    setQuotationData(quotationResponse.data.data);
+                }
                 setPjdata(response.data.data)
                 setDevData(newResponse.data.data)
                 setIsLoading(false);
@@ -102,8 +84,10 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
         return <div>We are having trouble when fetching data. Please try again later.</div>;
     }
 
-
-
+    console.log(QuotationData);
+    QuotationData.map((item: any) => {
+        console.log(item.quotation);
+    })
     const handleModalClose = () => {
         setShowQuotationModal(false);
     };
@@ -130,6 +114,34 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
     const category = pjdata?.category.category;
     const status = pjdata?.status;
     const description = pjdata?.description;
+    function handleDownload(url: string, filename: string): void {
+        fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+                // Create a download link
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+
+                // Trigger a click event to start the download
+                link.click();
+                console.log(url)
+            })
+            .catch(error => {
+                console.log("This is url " + url)
+                console.error('Downloading Error:', error);
+
+            });
+        // const fileUrl = url; // Replace with your file URL
+        // const link = document.createElement('a');
+        // link.href = fileUrl;
+        // link.download = name; // Replace with the desired file name
+        // document.body.appendChild(link);
+        // link.click();
+        // document.body.removeChild(link);
+    }
+
+    console.log(QuotationData)
 
     return (
 
@@ -180,7 +192,7 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                 <div className="modal-overlay">
                     <div className="modal">
                         <div className="modal-content">
-                            <div className="accordion">
+                            {/* <div className="accordion">
                                 <h1>Quotations Of Project Name</h1>
                                 <div className="accordion-item">
                                     <div className="accordion-header" onClick={() => toggleAccordion(0)}>
@@ -192,7 +204,7 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                                     {expandedIndex === 0 && (
                                         <div className="accordion-content">
                                             <p>Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1</p>
-                                            <div>
+                                            jm                     <div>
                                                 <a href="#"><i className="fa-solid fa-pen-to-square update"></i></a>
                                                 <a href="#"><i className="fa-solid fa-trash delete"></i></a>
                                                 <a href="#"><i className="fa-solid fa-file-arrow-down download"></i></a>
@@ -237,7 +249,37 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                                         </div>
                                     )}
                                 </div>
-                            </div>
+                            </div> */}
+                            {isQuotationsEmpty ? (
+                                <div>No quotations are added for this project.</div>
+                            ) : (
+                                <div className="accordion">
+                                    {QuotationData.map((quotation: any, index: number) => (
+                                        <div className="accordion-item" key={index}>
+                                            <div className="accordion-header" onClick={() => toggleAccordion(index)}>
+                                                <h3> Quotation_{index + 1} </h3>
+                                                <span className={expandedIndex === index ? "accordion-icon expanded" : "accordion-icon"}>
+                                                    {expandedIndex === index ? "\u25BC" : "\u25B6"}
+                                                </span>
+                                            </div>
+                                            {expandedIndex === index && (
+                                                <div className="accordion-content">
+                                                    <p>{quotation.description}</p>
+                                                    <div>
+                                                        <a href="#"><i className="fa-solid fa-pen-to-square update"></i></a>
+                                                        {/* <a href="#"><i className="fa-solid fa-trash delete"></i></a> */}
+                                                        {quotation.quotation_url &&
+                                                            <button style={{ background: 'none', border: '0', cursor: 'pointer' }} onClick={() => handleDownload(quotation.quotation_url!, quotation.quotation)} ><i className="fa-solid fa-file-arrow-down download"></i></button>
+                                                        }
+
+                                                        {/* <a href={quotation.quotation_url} download={quotation.quotation_url}>Download</a> */}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
 
 
@@ -251,6 +293,9 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                     </div>
                 </div>
             )}
+
+
+
 
         </>
     )

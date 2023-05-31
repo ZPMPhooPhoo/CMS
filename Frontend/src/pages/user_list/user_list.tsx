@@ -136,7 +136,7 @@ const UserListCompon = () => {
             <abbr title="ADD NEW CUSTOMER">
               <div className="addnewcustomer">
                 <button className="addcusbtn">
-                  <Link to="/user_create">
+                  <Link to="/user-create">
                     <span className="material-symbols-outlined">add</span>
                   </Link>
                 </button>
@@ -174,10 +174,10 @@ const UserListCompon = () => {
                         {options[item.role_id] || ""}
                       </td>
                       <td>
-                        <Link to={`/user_edit/${item.id}`}>
+                        <Link to={`/user-edit/${item.id}`}>
                           <i className="fa-solid fa-pen-to-square update"></i>
                         </Link>
-                        <Link to={`/user_delete/${item.id}`}>
+                        <Link to={`/user-delete/${item.id}`}>
                           <i className="fa-solid fa-trash delete"></i>
                         </Link>
                         <Link to="/client-project-lists">
