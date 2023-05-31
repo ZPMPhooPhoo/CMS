@@ -18,7 +18,7 @@ interface Permission {
 export const RoleEditContent: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [permissions, setPermissions] = useState<Permission[]>([]);
-  const [rolePermissions, setRolePermissions] = useState<number[]>([]);
+  const [rolePermission, setRolePermission] = useState<number[]>([]);
   const [errors, setErrors] = useState<any>({});
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -44,12 +44,9 @@ useEffect(() => {
         setPermissions(extractedPermissions);
         console.log(extractedPermissions);
 
-        const permissionNames = response.data.data.permissions.map((permission : any) => permission.name);
-        console.log(permissionNames);
-
-        const rolePermissionsData = response.data.data.rolePermissions;
-        setRolePermissions(rolePermissionsData);
-        console.log(rolePermissionsData);
+        const rolePermissionData = response.data.data.rolePermission;
+        setRolePermission(rolePermissionData);
+        console.log(rolePermissionData);
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -58,7 +55,7 @@ useEffect(() => {
 
 
   const handlePermissionChange = (permissionId: number) => {
-    setRolePermissions((prevPermissions) => {
+    setRolePermission((prevPermissions) => {
       if (prevPermissions.includes(permissionId)) {
         // Permission is currently selected, remove it from the list
         return prevPermissions.filter((id) => id !== permissionId);
@@ -88,7 +85,7 @@ useEffect(() => {
         `http://127.0.0.1:8000/api/roles/${roleId}`,
         {
           name,
-          permissions: rolePermissions,
+          permissions: rolePermission,
         },
         {
           headers: {
@@ -128,34 +125,35 @@ useEffect(() => {
               </div>
               
 
-            <div className="client_phoneNO">
-                <div className="client_phone_parent"  style={{ height: "100px", overflowY: "scroll"  , display: 'flex', alignItems: 'center' , flexDirection: 'row'}}>
-                <label> Please select assigned developers. </label>
- 
-                  {
-                  permissions.map((item: Permission) => {
-                    const isChecked = rolePermissions.includes(item.id);
-                  
+              <div className="client_phoneNO">
+                <div style={{ height: "300px", width: "280px", overflowY: "scroll", alignItems: 'center', flexDirection: 'row' }}>
+                  {/* <label> Please select permissions. </label> */}
+
+                  {permissions.map((item: Permission) => {
+                    const isChecked = rolePermission.includes(item.id);
+
                     return (
-                      <div key={item.id} style={{ padding: "15px" }}>
-                        <input
-                          type="checkbox"
-                          name="permissions"
-                          id={item.name}
-                          checked={isChecked}
-                          onChange={() => handlePermissionChange(item.id)}
-                        />
-                        <label htmlFor={item.name}>{item.name}</label>
+                      <div key={item.id} style={{ display: "flex", padding: "15px" }}>
+                        <div style={{ justifyContent: "flex-start" }}>
+                          <input
+                            type="checkbox"
+                            name="permissions"
+                            id={item.name}
+                            checked={isChecked}
+                            onChange={() => handlePermissionChange(item.id)}
+                          />
+                        </div>
+                        <div style={{ justifyContent: "flex-end" }}>
+                          <label htmlFor={item.name}>{item.name}</label>
+                        </div>
                       </div>
                     );
-                  })
-                  
-                  }
+                  })}
 
-                  <p className="error-message">{errors.address && errors.address }</p>
+                  <p className="error-message">{errors.address && errors.address}</p>
                 </div>
-                
               </div>
+
               <Button type="submit" className="button" text="Update" />
             </form>
           </div>

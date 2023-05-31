@@ -40,6 +40,12 @@ const sidebar_routes = [
         name: "User List",
         icon: <i className="fa-sharp fa-solid fa-user"></i>
     },
+    {
+        path: "/roles",
+        backend_path: "roles",
+        name: "Role List",
+        icon: <i className="fa-sharp fa-solid fa-user"></i>
+    },
 ]
 
 // const backend_routes = ['dashboard', "users", "services"];

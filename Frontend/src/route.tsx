@@ -11,7 +11,7 @@ import { Register } from "./pages/auth/register";
 // import QuotationForm from "./pages/quotation/quotation";
 
 import RegisterForm from "./pages/auth/register_sitebar";
-import UserEditFrom from "./pages/user_list/editUser/edit_user_component";
+import UserEditForm from "./pages/user_list/editUser/edit_user_component";
 import UserDelete from "./pages/user_list/editUser/deleteuser";
 
 
@@ -28,6 +28,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Profile from "./pages/userprofile/profile_compon";
 import Category from "./pages/category_list/categoryList";
+import RoleEdit from "./pages/role_edit/roleEdit";
+import Rolelist from "./pages/role/rolelist";
+import RoleList from "./pages/role_list/roleList";
+import ContractAll from "./pages/contract/contract";
 // import { useEffect, useState } from "react";
 // import { redirect } from "react-router-dom";
 
@@ -158,7 +162,7 @@ let routes = [
     path: '/user-edit/:userId',
     backend_path: 'user-edit',
     element: (
-      <UserEditFrom />
+      <UserEditForm />
     )
   },
   {
@@ -177,17 +181,33 @@ let routes = [
   },
   {
     path: '/quotation',
+    backend_path: 'quotation',
     element: (
       <QuotationForm />
     )
   },
   {
-    path: '/quotation',
-    backend_path: 'quotation',
+    path: '/roles',
+    backend_path: 'roles',
     element: (
-      <QuotationForm />
+      <RoleList />
     )
-  }, {
+  },
+  {
+    path: '/role-edit/:roleId',
+    backend_path: 'role-edit',
+    element: (
+      <RoleEdit />
+    )
+  },
+  {
+    path: '/contract',
+    backend_path: 'contract-edit',
+    element: (
+      <ContractAll />
+    )
+  },
+  {
     path: '*',
     element: (
       <Error />

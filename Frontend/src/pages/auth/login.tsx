@@ -51,6 +51,7 @@ export const Login: React.FC<Props> = ({ }) => {
       localStorage.setItem('role_id', role_id);
       setTimeout(() => {
         localStorage.removeItem('token');
+        localStorage.removeItem('role_id');
       }, 1200000);
       console.log(response.data);
       setIsLoading(false); // Stop loading
