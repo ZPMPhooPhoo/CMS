@@ -13,7 +13,7 @@ const sidebar_routes = [
     {
         path: "/client-lists",
         backend_path: "client-lists",
-        name: "Client Lists",
+        name: "Client List",
         icon: <i className="fa-solid fa-handshake-simple"></i>,
     },
     {
