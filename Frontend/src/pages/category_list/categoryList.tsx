@@ -16,7 +16,7 @@ const Category = () => {
      <div className='pj-container'>
         <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
         <div className='content'>
-          <div> <Header clickHandler={handleBurgerClick}  text='Category Lists'/> </div>
+          <div> <Header clickHandler={handleBurgerClick}  text='Category List'/> </div>
           <div className='board-div'><CategoryListContent /></div>
         </div>
      </div>
