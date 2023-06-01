@@ -98,9 +98,9 @@ const UserListContent = () => {
     return <div className="l-width"><p className="loading"></p></div>
   }
 
-  if (error) {
-    return <div>We are having trouble when fetching data. Please try again later.</div>;
-  }
+  // if (error) {
+  //   return <div>We are having trouble when fetching data. Please try again later.</div>;
+  // }
 
   if (!data || !data.data || data.data.length === 0) {
     return <div>Data is not available</div>;
@@ -153,6 +153,7 @@ const UserListContent = () => {
                 <th>Contact Mail</th>
                 <th>Contact Phone</th>
                 <th>Position</th>
+                <th>UPDATE</th>
               </tr>
             </thead>
             <tbody>
@@ -176,15 +177,14 @@ const UserListContent = () => {
                         <Link to={`/user-edit/${item.id}`}>
                           <i className="fa-solid fa-pen-to-square update"></i>
                         </Link>
-                        <Link to={`/user-delete/${item.id}`}>
+                        {/* <Link to={`/user-delete/${item.id}`}>
                           <i className="fa-solid fa-trash delete"></i>
-                        </Link>
-                        <Link to={`/user_profile/${item.id}`}>
+                        </Link> */}
+                        {/* <Link to="/client-project-lists">
                           <i className="fa-solid fa-angles-right more"></i>
-                        </Link>
+                        </Link> */}
                       </td>
                     </tr>
-
                   );
                 })
               }

@@ -19,20 +19,6 @@ export const ClientCreateContent: React.FC = () => {
   const [errors, setErrors] = useState<any>({});
   const [isLoading, setLoading] = useState<boolean>(false);
 
-
-
-
-
-
-  // const options = ["Super Admin", "Admin", "Manager"];
-
-  // const handleSelectChange = (selectedOption: string, selectedIndex: number) => {
-  //   console.log("Selected option:", selectedOption);
-  //   console.log("Selected index:", selectedIndex);
-  //   setRoleId(selectedIndex + 1);
-  // };
-
-
   const navigate = useNavigate();
 
   const handleClientCreate = (e: React.FormEvent) => {
@@ -58,8 +44,6 @@ export const ClientCreateContent: React.FC = () => {
     if (position.trim() === "") {
       validationErrors.clientPosition = "Customer position is required *";
     }
-
-
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);

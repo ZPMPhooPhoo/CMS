@@ -21,7 +21,7 @@ export const CategoryCreateContent: React.FC = () => {
     // Perform validation
     let validationErrors: any = {};
     if (category.trim() === "") {
-      validationErrors.name = "Category is required *";
+      validationErrors.category = "Category is required *";
     }
 
     if (Object.keys(validationErrors).length > 0) {
