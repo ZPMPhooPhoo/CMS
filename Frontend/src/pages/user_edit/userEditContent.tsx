@@ -16,13 +16,14 @@ export const UserEditContent: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState<string>("09-123456789");
   const [contact_person, setContactPerson] = useState("");
-  const [position, setPosition]=useState("");
+  const [position, setPosition] = useState("");
   const [phone, setPhoneNo] = useState("");
   const [address, setAddress] = useState("");
   const [errors, setErrors] = useState<any>({});
   const token = localStorage.getItem("token");
   const [options, setOptions] = useState<Role[]>([]);
   const [role_id, setRole] = useState<number | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const { userId } = useParams();
@@ -60,8 +61,10 @@ export const UserEditContent: React.FC = () => {
         if (userRole) {
           setRole(userRole.id);
         }
+        setIsLoading(false)
       } catch (error) {
         console.log(error);
+        setIsLoading(false)
       }
     };
 
@@ -125,7 +128,9 @@ export const UserEditContent: React.FC = () => {
         }
       });
   };
-
+  if (isLoading) {
+    return <div className="l-width"><p className="loading"></p></div>
+  }
   return (
     <div className="">
       <div className="registerBox">

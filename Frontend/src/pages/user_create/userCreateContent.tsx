@@ -20,6 +20,7 @@ export const UserCreateContent: React.FC = () => {
   const token = localStorage.getItem('token');
   const [options, setOptions] = useState<Role[]>([]);
   const [role_id, setRole] = useState<number | undefined>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -37,9 +38,11 @@ export const UserCreateContent: React.FC = () => {
           name: item.name,
         }));
 
-      setOptions(mappedOptions);        
+        setOptions(mappedOptions);
+        setIsLoading(false)
       } catch (error) {
         console.log(error);
+        setIsLoading(false)
       }
     };
 
@@ -50,7 +53,7 @@ export const UserCreateContent: React.FC = () => {
   //   setRole(options[selectedIndex].id);
   //   console.log([options[selectedIndex].id]);
   // };
-  
+
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
     // Reset errors
@@ -73,7 +76,7 @@ export const UserCreateContent: React.FC = () => {
     if (password_confirmation.trim() !== password.trim()) {
       validationErrors.confirmPassword = "Passwords do not match *";
     }
-    if(!role_id){
+    if (!role_id) {
       validationErrors.role = "Role is required *";
     }
     if (Object.keys(validationErrors).length > 0) {
@@ -98,6 +101,10 @@ export const UserCreateContent: React.FC = () => {
       });
   };
 
+  if (isLoading) {
+    return <div className="l-width"><p className="loading"></p></div>
+  }
+
   return (
     <div className="">
       <div className="registerBox">
@@ -113,7 +120,7 @@ export const UserCreateContent: React.FC = () => {
             placeholder="Name"
             id={""}
           />
-          <p className="error-message">{errors.name && errors.name }</p>
+          <p className="error-message">{errors.name && errors.name}</p>
           <Input
             onChange={(e) => setEmail(e.target.value)}
             name="email"
@@ -122,7 +129,7 @@ export const UserCreateContent: React.FC = () => {
             placeholder="Email"
             id={""}
           />
-          <p className="error-message">{errors.email && errors.email }</p>
+          <p className="error-message">{errors.email && errors.email}</p>
           <Input
             onChange={(e) => setPassword(e.target.value)}
             name="password"
@@ -131,7 +138,7 @@ export const UserCreateContent: React.FC = () => {
             placeholder="Password"
             id={""}
           />
-          <p className="error-message">{errors.password && errors.password }</p>
+          <p className="error-message">{errors.password && errors.password}</p>
           <Input
             onChange={(e) => setPasswordConfirmation(e.target.value)}
             name="password_confirmation"
@@ -140,35 +147,25 @@ export const UserCreateContent: React.FC = () => {
             placeholder="Confirm Password"
             id={""}
           />
-          <p className="error-message">{errors.confirmPassword && errors.confirmPassword }</p>
-          
-          {/* <SelectBox
-                name="role_id"
-                options={options.map((item) => ({
-                  label: item.name,
-                  value: item.id.toString(),
-                }))}
-                onChange={handleSelectChange}
-                value={role_id !== undefined ? role_id.toString() : ""}
-                /> */}
+          <p className="error-message">{errors.confirmPassword && errors.confirmPassword}</p>
 
-              <select name="role_id" id="" className="selectbox"
-                  onChange={(event)=>{
-                    if(options[event.target.selectedIndex-1]){
-                      setRole(options[event.target.selectedIndex-1].id);
-                    }else{
-                      setRole(undefined);
-                    }
-                  }}
-                  >
-                    <option value="__default">Choose Role</option>
-                    {options.map((option, index) => (
-                      <option key={index} value={option.name}>
-                        {option.name}
-                      </option>
-                    ))}
-              </select>
-          <p className="error-message">{errors.role && errors.role }</p>
+          <select name="role_id" id="" className="selectbox"
+            onChange={(event) => {
+              if (options[event.target.selectedIndex - 1]) {
+                setRole(options[event.target.selectedIndex - 1].id);
+              } else {
+                setRole(undefined);
+              }
+            }}
+          >
+            <option value="__default">Choose Role</option>
+            {options.map((option, index) => (
+              <option key={index} value={option.name}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+          <p className="error-message">{errors.role && errors.role}</p>
           <Button type="submit" className="button" text="Register" />
         </form>
       </div>

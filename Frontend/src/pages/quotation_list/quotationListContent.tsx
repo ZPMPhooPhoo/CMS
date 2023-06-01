@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
@@ -12,6 +12,7 @@ const QuotationListContent: React.FC = () => {
   const [description, setDescription] = useState('');
   const [is_agree, setIsAgree] = useState(false);
   const [quotation_date, setQuotationDate] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const [isCheckbox, setisCheckbox] = useState<boolean>(false);
   const location = useLocation();
@@ -27,6 +28,13 @@ const QuotationListContent: React.FC = () => {
   const [project_id, setProjectId] = useState<number>(pj_id);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,7 +77,9 @@ const QuotationListContent: React.FC = () => {
     console.log(checked);
   }
   console.log(isCheckbox)
-
+  if (isLoading) {
+    return <div className="l-width"><p className="loading"></p></div>
+  }
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];

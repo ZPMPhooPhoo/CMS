@@ -16,23 +16,22 @@ const ProjectCreate = () => {
 
   //hello
 
-  const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
   const handleBurgerClick = () => {
     setSidebarOpen(!sidebarOpen);
   }
 
   return (
-    <> 
-     {/* <ClientList /> */}
-     <div className='pj-container'>
-        <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
+    <>
+      {/* <ClientList /> */}
+      <div className='pj-container'>
+        <div className={`bar-div ${sidebarOpen ? '' : 'close'} `}><Sidebar /></div>
         <div className='content'>
-          <div> <Header clickHandler={handleBurgerClick}  text='Client Lists'/> </div>
+          <div> <Header clickHandler={handleBurgerClick} text='Client Lists' /> </div>
           <div className='board-div top'><ProjectCreateContent /></div>
         </div>
-        
-     </div>
+      </div>
     </>
   )
 }

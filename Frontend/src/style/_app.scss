@@ -1,21 +1,26 @@
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
     display: none;
 }
-body{
+
+body {
     background: #dddddd;
 }
-a{
+
+a {
     color: #000;
     text-decoration: none;
 }
-.pj-container{
+
+.pj-container {
     display: flex;
     justify-content: center;
 }
-.content{
+
+.content {
     width: 1000px;
 }
-.bar-div{
+
+.bar-div {
     width: 20%;
     height: 95vh;
     background: #918d8d;
@@ -28,23 +33,104 @@ a{
     transition: transform 0.5s ease-out;
     position: relative;
 }
-.board-div{
+
+.board-div {
     width: 100%;
     margin: 35px 25px 0;
 }
 
-.close{
+.close {
     display: none;
     transform: translateX(-240px);
 
 }
 
-.update{
+.update {
     color: green;
 }
-.delete{
+
+.delete {
     color: red;
 }
-.download{
+
+.download {
     color: blueviolet;
+}
+
+#root {
+    position: relative;
+
+    .l-width {
+        z-index: 9999;
+        position: absolute;
+        width: 120vw;
+        height: 140vh;
+        background-color: silver;
+        margin-left: -450px;
+        margin-top: -250px;
+    }
+
+    .c-width {
+        z-index: 9999;
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        background-color: silver;
+        margin-left: 0;
+        margin-top: 0;
+    }
+
+}
+
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 8px solid white;
+        border-top-color: #e96f28;
+        animation: loadingAnimation 1s linear infinite;
+    }
+
+    &::after {
+        width: 80px;
+        height: 80px;
+        border-width: 6px;
+        border-top-color: transparent;
+        border-right-color: #e96f28;
+        animation: loadingAnimation 0.8s linear infinite reverse;
+    }
+
+    @keyframes loadingAnimation {
+        0% {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        100% {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+
+    p {
+        color: white;
+    }
 }

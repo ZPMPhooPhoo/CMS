@@ -23,7 +23,7 @@ export const CategoryCreateContent: React.FC = () => {
     if (category.trim() === "") {
       validationErrors.name = "Category is required *";
     }
-    
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setLoading(false);
@@ -49,7 +49,11 @@ export const CategoryCreateContent: React.FC = () => {
     }).finally(() => {
       setLoading(false);
     });
+
   };
+  if (isLoading) {
+    return <div className="l-width"><p className="loading"></p></div>
+  }
 
   return (
     <>
@@ -67,9 +71,9 @@ export const CategoryCreateContent: React.FC = () => {
                     value={category}
                     placeholder="Enter Category"
                   />
-                  <p className="error-message">{errors.category && errors.category }</p>
+                  <p className="error-message">{errors.category && errors.category}</p>
                 </div>
-                
+
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}

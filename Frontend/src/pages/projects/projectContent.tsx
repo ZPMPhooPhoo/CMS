@@ -39,7 +39,7 @@ export const ProjectContent = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // You can show a loading state here
+    return <div className="l-width"><p className="loading"></p></div>
   }
 
   if (error) {

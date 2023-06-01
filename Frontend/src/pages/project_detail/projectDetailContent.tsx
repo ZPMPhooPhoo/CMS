@@ -72,12 +72,13 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
             }
         };
 
+
         fetchData();
     }, [id, token]);
 
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div className="l-width"><p className="loading"></p></div>
     }
 
     if (error) {
@@ -110,53 +111,29 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
             Cusname = cus.name;
         }
     });
-
-    const downloadFile = (url: string, fileName: string) => {
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      };
       
     const category = pjdata?.category.category;
     const status = pjdata?.status;
     const description = pjdata?.description;
-    function handleDownload(url: string, filename: string): void {
-        const fileUrl = 'http://127.0.0.1:8000/storage/quotations/238379_wallpaper.jpg';
-        const fileName = 'wallpaper.jpg';
-        downloadFile(fileUrl, fileName);
-        fetch('http://127.0.0.1:8000/storage/quotations/238379_wallpaper.jpg'
-        )
+
+    const handleDownload = (url: string, filename: string) => {
+        fetch(url)
             .then(response => response.blob())
             .then(blob => {
-                // Create a download link
+                const blobUrl = URL.createObjectURL(blob);
                 const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
+                link.href = blobUrl;
                 link.download = filename;
-
-                // Trigger a click event to start the download
                 link.click();
-                console.log(url)
+                URL.revokeObjectURL(blobUrl);
             })
             .catch(error => {
-                console.log("This is url " + url)
                 console.error('Downloading Error:', error);
-
             });
-        // const fileUrl = url; // Replace with your file URL
-        // const link = document.createElement('a');
-        // link.href = fileUrl;
-        // link.download = name; // Replace with the desired file name
-        // document.body.appendChild(link);
-        // link.click();
-        // document.body.removeChild(link);
-    }
+    };
 
-    console.log(QuotationData)
+    // const devName = devData.filter((item: any) => { item.id == 4 }).map((item: any) => { item.name });
+    // console.log(devData.filter((item: any) => { item.id == 4 }))
 
     return (
 
@@ -181,6 +158,31 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                             <div className="leftcard_pro">
                                 <ProjectCard category={category} status={status} description={description} />
                                 {/* <ProjectCard />      */}
+                                <div className="assigned-dev">
+                                    <h3>ASSIGNED DEVELOPERS FOR THIS PROJECT</h3>
+                                    <ul>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                        <li>YYK</li>
+                                    </ul>
+
+                                </div>
+                                <div className="modal-btn">
+                                    <button onClick={handleModalOpen}>Quotations </button>
+                                    <button onClick={handleModalOpen}>Contracts </button>
+                                </div>
                             </div>
                             <div className="right_card_category">
                                 <div className="category_list">
@@ -192,14 +194,12 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                                         <p>60%</p>
                                     </div>
                                 </div>
-                                <div className="modal-btn">
-                                    <button onClick={handleModalOpen}>Quotations&#62;&#62;&#62; </button>
-                                    <button onClick={handleModalOpen}>Contracts&#62;&#62;&#62; </button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
+
 
 
             </div>
@@ -281,7 +281,7 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                                                 <div className="accordion-content">
                                                     <p>{quotation.description}</p>
                                                     <div>
-                                                        <a href="#"><i className="fa-solid fa-pen-to-square update"></i></a>
+                                                        <Link to={`/quotation-edit?quotation_id=${quotation.id}&project_id=${projectID}&customerID=${id}`}><i className="fa-solid fa-pen-to-square update"></i></Link>
                                                         {/* <a href="#"><i className="fa-solid fa-trash delete"></i></a> */}
                                                         {quotation.quotation_url &&
                                                             <button style={{ background: 'none', border: '0', cursor: 'pointer' }} onClick={() => handleDownload(quotation.quotation_url!, quotation.quotation)} ><i className="fa-solid fa-file-arrow-down download"></i></button>

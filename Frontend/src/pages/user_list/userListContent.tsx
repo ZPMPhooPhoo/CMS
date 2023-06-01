@@ -95,7 +95,7 @@ const UserListContent = () => {
   }, [token]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="l-width"><p className="loading"></p></div>
   }
 
   if (error) {
@@ -153,7 +153,6 @@ const UserListContent = () => {
                 <th>Contact Mail</th>
                 <th>Contact Phone</th>
                 <th>Position</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>

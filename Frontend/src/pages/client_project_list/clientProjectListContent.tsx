@@ -60,7 +60,7 @@ export const ClientProjectListContent = () => {
   }, [id, token]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="l-width"><p className="loading"></p></div>
   }
 
   if (error) {

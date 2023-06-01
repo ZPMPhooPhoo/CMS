@@ -6,6 +6,7 @@ import ClientCreate from "./pages/client_create/clientCreate";
 import { Login } from "./pages/auth/login";
 import UserEditFrom from "./pages/user_edit/userEdit";
 import UserDelete from "./pages/user_edit/userDelete";
+
 import ProjectDetail from "./pages/project_detail/projectDetail";
 import ClientProjectList from "./pages/client_project_list/clientProjectList";
 import ClientList from "./pages/client_list/clientList";
@@ -24,6 +25,7 @@ import CategoryEdit from "./pages/category_edit/categoryEdit";
 import CategoryDelete from "./pages/category_edit/category_delete";
 import ProjectEdit from "./pages/project-edit/projectEdit";
 import UserCreate from "./pages/user_create/userCreate";
+import QuotationEdit from "./pages/quotation-edit/quotationEdit";
 
 const role_id = localStorage.getItem("role_id");
 const token = localStorage.getItem("token");
@@ -121,7 +123,6 @@ let routes = [
       <ClientCreate />
     )
   },
-  
   {
     path: '/client-edit/:customerId',
     backend_path: 'client-edit',
@@ -175,6 +176,13 @@ let routes = [
     )
   },
   {
+    path: '/quotation-edit',
+    backend_path: 'quotation-edit',
+    element: (
+      <QuotationEdit />
+    )
+  },
+  {
     path: '/contract-create',
     backend_path: 'contract-create',
     element: (
@@ -189,8 +197,6 @@ let routes = [
   }
 
 ];
-
-
 
 export const Routers = () => {
   const err = {
@@ -235,10 +241,11 @@ export const Routers = () => {
   console.log(routes)
   const routeList = createBrowserRouter(roles);
   if (isLoading) {
-    return <p>Loading....</p>
+    return <div className="c-width"><p className="loading"></p></div>
   }
   return (
     <>
+      {/* <div> <Sidebar /> </div> */}
       {localStorage.getItem('token') ? (
         <RouterProvider router={routeList} />) ||
         <Router>
