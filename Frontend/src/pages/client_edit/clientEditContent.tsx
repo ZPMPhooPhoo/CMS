@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/button.component";
 import { Input } from "../../components/input.component";
@@ -16,6 +16,7 @@ export const ClientEditContent: React.FC = () => {
   const [password_confirmation, setPasswordConfirmation] = useState<string>("0000000000");
   const [errors, setErrors] = useState<any>({});
   const token = localStorage.getItem('token');
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const { customerId } = useParams();
@@ -42,9 +43,11 @@ export const ClientEditContent: React.FC = () => {
         setAddress(address);
         setContactPerson(contact_person);
         setClientPosition(position);
+        setIsLoading(false)
       })
       .catch((error) => {
         console.log(error.response.data);
+        setIsLoading(false)
       });
   }, [customerId, token]);
 
@@ -103,6 +106,10 @@ export const ClientEditContent: React.FC = () => {
         console.log(error.response.data);
       });
   };
+
+  if (isLoading) {
+    return <div className="l-width"><p className="loading"></p></div>
+  }
 
   return (
     <>
@@ -194,7 +201,14 @@ export const ClientEditContent: React.FC = () => {
                 </div>
 
               </div>
-              <Button type="submit" className="button" text="Update" />
+              <div className="allbtn">
+                <Button type="submit" className="button" text={isLoading ? "Loading..." : "UPDATE"}
+                  disabled={isLoading} />
+                <Link to={`/client-lists`}>
+                  <Button type="button" className="button" text="BACK"
+                  />
+                </Link>
+              </div>
             </form>
           </div>
         </div>
