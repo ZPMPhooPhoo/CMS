@@ -95,7 +95,7 @@ const UserListCompon = () => {
   }, [token]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="l-width"><p className="loading"></p></div>
   }
 
   if (error) {
@@ -153,7 +153,6 @@ const UserListCompon = () => {
                 <th>Contact Mail</th>
                 <th>Contact Phone</th>
                 <th>Position</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -172,17 +171,6 @@ const UserListCompon = () => {
                       <td>{item.phone}</td>
                       <td className="td-category">
                         {options[item.role_id] || ""}
-                      </td>
-                      <td>
-                        <Link to={`/user-edit/${item.id}`}>
-                          <i className="fa-solid fa-pen-to-square update"></i>
-                        </Link>
-                        <Link to={`/user-delete/${item.id}`}>
-                          <i className="fa-solid fa-trash delete"></i>
-                        </Link>
-                        <Link to="/client-project-lists">
-                          <i className="fa-solid fa-angles-right more"></i>
-                        </Link>
                       </td>
                     </tr>
 

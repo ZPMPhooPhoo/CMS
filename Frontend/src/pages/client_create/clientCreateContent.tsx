@@ -76,9 +76,9 @@ export const ClientCreateContent: React.FC = () => {
         password,
         password_confirmation,
         phone,
+        address,
         contact_person,
         position,
-        address,
         role_id,
       }, {
         headers: {
@@ -95,6 +95,10 @@ export const ClientCreateContent: React.FC = () => {
         setLoading(false);
       });
   };
+
+  if (isLoading) {
+    return <p className="loading"></p>
+  }
 
   return (
     <>

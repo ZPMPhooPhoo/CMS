@@ -28,12 +28,6 @@ const sidebar_routes = [
         name: "Services",
         icon: <i className="fa-solid fa-sliders"></i>
     },
-    // {
-    //     path: "/project-detail",
-    //     backend_path: "project-detail",
-    //     name: "​Authorization",
-    //     icon: <i className="fa-sharp fa-solid fa-right-to-bracket"></i>
-    // },
     {
         path: "/users",
         backend_path: "users",
@@ -42,7 +36,6 @@ const sidebar_routes = [
     },
 ]
 
-// const backend_routes = ['dashboard', "users", "services"];
 
 export const Sidebar = () => {
     const [role, setRoles] = useState<string[]>([]);
@@ -69,25 +62,15 @@ export const Sidebar = () => {
 
     }, []);
 
-    //const backend_routes = role.map((item: any) => item.backend_path);
-    //console.log({ sidebar_routes, backend_routes, role });
     const avialable_routes: any[] = useMemo(() => sidebar_routes.filter(route => role.includes(route.backend_path)), [role]);
     console.log({ sidebar_routes, role });
 
 
     return (
         <>
-
             <div className="sidebar-container">
                 <h1> <img src={logo} alt="ACE PLUS LOGO" className='sidebar-logo' /> </h1>
                 <ul>
-                    <li>  <Link to = '/'> <i className="fa-sharp fa-solid fa-house"></i> DASHBOARD </Link> </li>
-                    <li>  <Link to = '/client-lists'><i className="fa-solid fa-handshake-simple"></i> CLIENT LISTS </Link> </li>
-                    <li>  <Link to = '/projects'><i className="fa-solid fa-circle-info"></i> PROJECTS </Link> </li>
-                    <li>  <Link to = '/services'><i className="fa-solid fa-sliders"></i> SERVICES </Link> </li>
-                    <li>  <Link to = '/project-detail'><i className="fa-sharp fa-solid fa-right-to-bracket"></i> AUTHORIZATION </Link>  </li>
-                    <li>  <Link to='/users'><i className="fa-sharp fa-solid fa-user"></i>User List</Link></li>
-                    <li>  <Link to='/roles'><i className="fa-sharp fa-solid fa-user"></i> Roles</Link></li>
                     {
                         avialable_routes.map(route => (
                             <li key={route.path}>  <Link to={route.path}>{route.icon} {route.name} </Link> </li>

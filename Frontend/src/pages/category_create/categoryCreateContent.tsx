@@ -23,7 +23,7 @@ export const CategoryCreateContent: React.FC = () => {
     if (category.trim() === "") {
       validationErrors.name = "Category is required *";
     }
-    
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setLoading(false);
@@ -32,24 +32,27 @@ export const CategoryCreateContent: React.FC = () => {
 
     const token = localStorage.getItem("token");
 
-  axios
-    .post("http://127.0.0.1:8000/api/categories", {
-      category
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-      navigate("/category-list");
-    })
-    .catch((error) => {
-      console.log(error.response.data);
-    }).finally(() => {
-      setLoading(false);
-    });
+    axios
+      .post("http://127.0.0.1:8000/api/categories", {
+        category
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate("/category-list");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      }).finally(() => {
+        setLoading(false);
+      });
   };
+  if (isLoading) {
+    return <div className="l-width"><p className="loading"></p></div>
+  }
 
   return (
     <>
@@ -67,13 +70,13 @@ export const CategoryCreateContent: React.FC = () => {
                     value={category}
                     placeholder="Enter Category"
                   />
-                  <p className="error-message">{errors.category && errors.category }</p>
+                  <p className="error-message">{errors.category && errors.category}</p>
                 </div>
-                
+
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}
-                disabled={isLoading} />
+                  disabled={isLoading} />
                 <Link to={`/category-list`}>
                   <Button type="button" className="button" text="BACK"
                   />
