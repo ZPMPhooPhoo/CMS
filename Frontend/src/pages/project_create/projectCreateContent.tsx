@@ -35,6 +35,7 @@ export const ProjectCreateContent: React.FC = () => {
   const [description, setDescription] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [maintenance_active, setMaintenance] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isChecked, setIsChecked] = useState<boolean>(true);
   const [categories_options, setCategoriesOptions] = useState<Category[]>([]);
   const [category_id, setCategory] = useState<number | undefined>(undefined);
@@ -67,8 +68,10 @@ export const ProjectCreateContent: React.FC = () => {
       }));
 
       setCategoriesOptions(mappedOptions);
+      setIsLoading(false)
     } catch (error: any) {
       console.log(error.message + " Error");
+      setIsLoading(false)
     }
   };
 
@@ -152,6 +155,10 @@ export const ProjectCreateContent: React.FC = () => {
         console.log(error.response.data);
       });
   };
+
+  if (isLoading) {
+    return <div className="l-width"><p className="loading"></p></div>
+  }
 
   // console.log(status)
   return (

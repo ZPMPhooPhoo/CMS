@@ -1,11 +1,11 @@
-import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import { Button } from '../../../components/button.component';
-import { Checkbox } from '../../../components/checkbox';
-import { Input } from '../../../components/input.component';
-import { Label } from '../../../components/label.component';
+import { Button } from '../../components/button.component';
+import { Checkbox } from '../../components/checkbox';
+import { Input } from '../../components/input.component';
+import { Label } from '../../components/label.component';
 
 
 const QuotationEditContent: React.FC = () => {
@@ -13,19 +13,38 @@ const QuotationEditContent: React.FC = () => {
     const [description, setDescription] = useState('');
     const [is_agree, setIsAgree] = useState(false);
     const [quotation_date, setQuotationDate] = useState('');
-
+    const [editData, setEditData] = useState<any>();
     const [isCheckbox, setisCheckbox] = useState<boolean>(false);
     const location = useLocation();
     const searchID = new URLSearchParams(location.search);
-    const customerID = searchID.get("id");
-    const id = searchID.get("projectID")?.toString();
+    const quotation_ID = searchID.get("quotation_id");
+    const project_id = searchID.get("projectID")?.toString();
+    const customerID = searchID.get("customerID");
     let pj_id = 0;
-    if (id !== undefined) {
-        pj_id = parseInt(id);
-    } else {
-        pj_id = 0;
-    }
-    const [project_id, setProjectId] = useState<number>(pj_id);
+
+    const token = localStorage.getItem("token");
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/quotation-edit/${quotation_ID}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
+                //setEditData(response.data);
+                setDescription(response.data.data?.description)
+
+            } catch (error: any) {
+                console.log("Error: " + error)
+            }
+        }
+        fetchData();
+    }, []);
+    // console.log(editData?.data?.description);
+    // console.log(editData.data.quotation);
+    // console.log(editData.data.quotation_date);
+    // console.log(editData.data.is_agree)
+
 
     const navigate = useNavigate();
 
@@ -41,19 +60,18 @@ const QuotationEditContent: React.FC = () => {
         quotationFormData.append("quotation_date", quotation_date);
         quotationFormData.append("project_id", String(project_id));
 
-        axios.post("http://127.0.0.1:8000/api/quotations", quotationFormData, {
+        axios.patch(`http://127.0.0.1:8000/api/quotations/${quotation_ID}`, quotationFormData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 Authorization: `Bearer ${token}`,
             },
         })
             .then((response: any) => {
-                const Q_ID = response.data.data;
                 if (isCheckbox) {
                     localStorage.setItem("project_id", `${project_id}`);
-                    navigate(`/contract-create?id=${customerID}&quotation_ID=${Q_ID}`)
+                    navigate(`/contract-create?id=${customerID}&quotation_ID=${quotation_ID}`)
                 } else {
-                    navigate(`/client-project-lists?id=${customerID}`)
+                    navigate(`/project-detail?id=${customerID}&projectID=${project_id}`)
                 }
             })
             .catch((error: any) => {
@@ -80,16 +98,18 @@ const QuotationEditContent: React.FC = () => {
         const file = event.target.files && event.target.files[0];
         setQuotation(file || null);
     };
+    // const filename = editData?.data?.quotation;
     return (
         <>
             <div className="register add-middle">
                 <div className="main_client_create">
-                    <h1>ADD A QUOTATION</h1>
+                    <h1>EDIT QUOTATION</h1>
                     <div className="form-wrap">
                         <form onSubmit={handleSubmit}>
                             <div className="client_phoneNO">
                                 <div className="client_phone_parent">
                                     <input type="file" onChange={handleFileChange} />
+
                                 </div>
                             </div>
                             <div className="client_phoneNO">
@@ -109,14 +129,14 @@ const QuotationEditContent: React.FC = () => {
                                     <input
                                         type="date"
                                         id="quotation_date"
-                                        value={quotation_date}
+                                        value={editData?.data?.quotation_date}
                                         onChange={(e: any) => setQuotationDate(e.target.value)}
                                     />
                                 </div>
                             </div>
                             <div className="client_phoneNO">
                                 <div className="client_phone_parent">
-                                    <Checkbox className="check_boxquotationform" name="checkbox" checked={isCheckbox} onChange={handleChatboxChange} label={""} />
+                                    <Checkbox className="check_boxquotationform" name="checkbox" checked={editData?.data?.is_agree} onChange={handleChatboxChange} label={""} />
                                     <Label htmlFor="checkbox" text="Is agree?" />
                                 </div>
                             </div>

@@ -20,6 +20,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Category from "./pages/category_list/categoryList";
 import ContractCreate from "./pages/contract/contractCreate";
+import QuotationEdit from "./pages/quotation-edit/quotationEdit";
+import { Sidebar } from "./layout/sidebar.layout";
+//import QuotationEdit from "./pages/quotation-edit/quotationEdit";
 // import { useEffect, useState } from "react";
 // import { redirect } from "react-router-dom";
 
@@ -168,6 +171,13 @@ let routes = [
     )
   },
   {
+    path: '/quotation-edit',
+    backend_path: 'quotation-edit',
+    element: (
+      <QuotationEdit />
+    )
+  },
+  {
     path: '/contract-create',
     backend_path: 'contract-create',
     element: (
@@ -228,10 +238,11 @@ export const Routers = () => {
   console.log(routes)
   const routeList = createBrowserRouter(roles);
   if (isLoading) {
-    return <p>Loading....</p>
+    return <div className="c-width"><p className="loading"></p></div>
   }
   return (
     <>
+      {/* <div> <Sidebar /> </div> */}
       {localStorage.getItem('token') ? (
         <RouterProvider router={routeList} />) ||
         <Router>
