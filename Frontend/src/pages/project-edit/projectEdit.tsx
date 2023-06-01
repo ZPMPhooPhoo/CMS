@@ -1,18 +1,14 @@
-// import { useState  } from 'react'
-// import { Footer, Header } from "./layout"
-// import { Task } from './interface'
-// import { Btn, Txt } from './components'
-// import ClientList from "./components/pages/client-list"
-// import UserListCompon from './user_list'
-import { Register } from "./register";
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
-import { useState ,useEffect} from 'react'
+import { useState } from 'react'
+import { ProjectEditContent } from './projectEditContent';
 
 // type BurgerPropsType = {
 //   onClick :() => void;
 // }
-const RegisterForm = () => {
+const ProjectEdit = () => {
+
+  //hello
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -26,8 +22,8 @@ const RegisterForm = () => {
      <div className='pj-container'>
         <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
         <div className='content'>
-          <div> <Header clickHandler={handleBurgerClick}  text='Client Lists'/> </div>
-          <div className='board-div'><Register /></div>
+          <div> <Header clickHandler={handleBurgerClick}  text='Project Edit'/> </div>
+          <div className='board-div top'><ProjectEditContent /></div>
         </div>
         
      </div>
@@ -35,4 +31,4 @@ const RegisterForm = () => {
   )
 }
 
-export default RegisterForm;
+export default ProjectEdit;

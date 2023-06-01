@@ -8,7 +8,7 @@ interface Role {
 }
 // const navigate =useNavigate();
 
-const UserListCompon = () => {
+const UserListContent = () => {
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -211,4 +211,4 @@ const UserListCompon = () => {
   );
 }
 
-export default UserListCompon;
+export default UserListContent;

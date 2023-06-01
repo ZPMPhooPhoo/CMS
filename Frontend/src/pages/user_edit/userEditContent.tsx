@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import importImg from "../../../img/sidebar/logo.png";
+import importImg from "../../img/sidebar/logo.png"
 import axios from "axios";
-import { Button } from "../../../components/button.component";
-import { Input } from "../../../components/input.component";
-import { SelectBox } from "../../../components/selectbox.component";
+import { Button } from "../../components/button.component";
+import { Input } from "../../components/input.component";
+import { SelectBox } from "../../components/selectbox.component";
 
 interface Role {
   id: number;
   name: string;
 }
 
-export const UserEdit: React.FC = () => {
+export const UserEditContent: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState<string>("09-123456789");

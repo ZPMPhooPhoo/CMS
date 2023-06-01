@@ -2,10 +2,10 @@ import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import { Button } from '../../../components/button.component';
-import { Checkbox } from '../../../components/checkbox';
-import { Input } from '../../../components/input.component';
-import { Label } from '../../../components/label.component';
+import { Button } from '../../components/button.component';
+import { Checkbox } from '../../components/checkbox';
+import { Input } from '../../components/input.component';
+import { Label } from '../../components/label.component';
 
 
 const QuotationEditContent: React.FC = () => {

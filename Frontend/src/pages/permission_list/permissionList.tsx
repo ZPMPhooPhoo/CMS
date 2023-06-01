@@ -3,7 +3,7 @@ import { Header } from '../../layout/header.layout'
 import { useState ,useEffect} from 'react'
 import PermissionListContent from './permissionListContent';
 
-const Permission = () => {
+const PermissionList = () => {
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -24,4 +24,4 @@ const Permission = () => {
   )
 }
 
-export default Permission;
+export default PermissionList;

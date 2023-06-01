@@ -11,7 +11,7 @@ interface Role {
   name: string;
 }
 
-export const Register: React.FC = () => {
+export const UserCreateContent: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

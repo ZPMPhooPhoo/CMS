@@ -119,7 +119,10 @@ export const ClientProjectListContent = () => {
                     </Link>
                   </td>
                   <td>
-                    <i className="fa-solid fa-pen-to-square update"></i>
+                    <Link to={`/project-edit?id=${id}&projectID=${project.id}`}>
+                      <i className="fa-solid fa-pen-to-square update"></i>
+                    </Link>
+                    
                     {/* <i className="fa-solid fa-trash delete"></i> */}
                     <Link to={`/project-detail?id=${id}&projectID=${project.id}`}>
                       <i className="fa-solid fa-angles-right more"></i>

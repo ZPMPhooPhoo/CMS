@@ -13,14 +13,9 @@ export const ClientEditContent: React.FC = () => {
   const [position, setClientPosition] = useState<string>("");
   const [role_id, setRoleId] = useState<number>(5);
   const [password, setPassword] = useState<string>("0000000000");
+  const [password_confirmation, setPasswordConfirmation] = useState<string>("0000000000");
   const [errors, setErrors] = useState<any>({});
   const token = localStorage.getItem('token');
-
-
-
-
-
-
 
   const navigate = useNavigate();
   const { customerId } = useParams();
@@ -87,10 +82,11 @@ export const ClientEditContent: React.FC = () => {
           name,
           email,
           password,
+          password_confirmation,
           phone,
+          address,
           contact_person,
           position,
-          address,
           role_id,
         },
         {

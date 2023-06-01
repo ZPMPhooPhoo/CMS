@@ -42,7 +42,7 @@ export const CategoryCreateContent: React.FC = () => {
     })
     .then((response) => {
       console.log(response.data);
-      navigate("/category-list");
+      navigate("/services");
     })
     .catch((error) => {
       console.log(error.response.data);
@@ -74,7 +74,7 @@ export const CategoryCreateContent: React.FC = () => {
               <div className="allbtn">
                 <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}
                 disabled={isLoading} />
-                <Link to={`/category-list`}>
+                <Link to={`/services`}>
                   <Button type="button" className="button" text="BACK"
                   />
                 </Link>

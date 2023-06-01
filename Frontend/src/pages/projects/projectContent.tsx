@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Checkbox } from '../../components/checkbox';
 import axios from 'axios';
 
-export const ProjectContact = () => {
+export const ProjectContent = () => {
   const [activeChecked, setActiveChecked] = useState<boolean>(false);
   const [unactiveChecked, setUnactiveChecked] = useState<boolean>(false);
   const [projects, setProjects] = useState<any[]>([]);

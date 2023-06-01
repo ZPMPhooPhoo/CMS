@@ -61,7 +61,7 @@ export const CategoryEditContent: React.FC = () => {
       )
       .then((response) => {
         console.log(response.data);
-        navigate("/category-list");
+        navigate("/services");
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -89,7 +89,7 @@ export const CategoryEditContent: React.FC = () => {
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text="Update" />
-                <Link to={`/category-list`}>
+                <Link to={`/services`}>
                   <Button type="button" className="button" text="BACK"
                   />
                 </Link>

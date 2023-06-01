@@ -8,7 +8,7 @@ interface Role {
     name: string;
   }
 
-const UserProfile = () => {
+const UserProfileContent = () => {
     const [userProfile,setUserProfile] =useState<string>("");
     const [name,setName] =useState<string>("");
     const [email,setEmail] =useState<string>("");
@@ -106,4 +106,4 @@ const UserProfile = () => {
     );
 }
 
-export default UserProfile;
+export default UserProfileContent;

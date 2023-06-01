@@ -1,17 +1,12 @@
-// import { useState  } from 'react'
-// import { Footer, Header } from "./layout"
-// import { Task } from './interface'
-// import { Btn, Txt } from './components'
-// import ClientList from "./components/pages/client-list"
-import UserListCompon from './user_list'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useState ,useEffect} from 'react'
+import UserProfileContent from './userProfileContent'
 
 // type BurgerPropsType = {
 //   onClick :() => void;
 // }
-const UserList = () => {
+const UserProfile = () => {
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -25,8 +20,8 @@ const UserList = () => {
      <div className='pj-container'>
         <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
         <div className='content'>
-          <div> <Header clickHandler={handleBurgerClick}  text='Client Lists'/> </div>
-          <div className='board-div'><UserListCompon /></div>
+          <div> <Header clickHandler={handleBurgerClick}  text='User Profile'/> </div>
+          <div className='board-div'><UserProfileContent /></div>
         </div>
         
      </div>
@@ -34,4 +29,4 @@ const UserList = () => {
   )
 }
 
-export default UserList;
+export default UserProfile;

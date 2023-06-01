@@ -7,7 +7,7 @@ import { Input } from '../../components/input.component';
 import { Checkbox } from '../../components/checkbox';
 import { Label } from '../../components/label.component';
 
-const QuotationFormContent: React.FC = () => {
+const QuotationListContent: React.FC = () => {
   const [quotation, setQuotation] = useState<File | null>(null);
   const [description, setDescription] = useState('');
   const [is_agree, setIsAgree] = useState(false);
@@ -129,4 +129,4 @@ const QuotationFormContent: React.FC = () => {
     </>
   );
 };
-export default QuotationFormContent;
+export default QuotationListContent;

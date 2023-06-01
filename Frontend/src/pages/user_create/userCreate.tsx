@@ -1,18 +1,18 @@
-// import { useState } from 'react'
+// import { useState  } from 'react'
 // import { Footer, Header } from "./layout"
 // import { Task } from './interface'
 // import { Btn, Txt } from './components'
-
 // import ClientList from "./components/pages/client-list"
-import { ClientEditContent } from './client_edit'
+// import UserListCompon from './user_list'
+import { UserCreateContent } from "./userCreateContent";
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
-import { useState } from 'react'
+import { useState ,useEffect} from 'react'
 
 // type BurgerPropsType = {
 //   onClick :() => void;
 // }
-const ClientEdit = () => {
+const UserCreate = () => {
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -27,7 +27,7 @@ const ClientEdit = () => {
         <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
         <div className='content'>
           <div> <Header clickHandler={handleBurgerClick}  text='Client Lists'/> </div>
-          <div className='board-div'><ClientEditContent /></div>
+          <div className='board-div'><UserCreateContent /></div>
         </div>
         
      </div>
@@ -35,4 +35,4 @@ const ClientEdit = () => {
   )
 }
 
-export default ClientEdit;
+export default UserCreate;

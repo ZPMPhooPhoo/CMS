@@ -3,7 +3,7 @@
 // import { Task } from './interface'
 // import { Btn, Txt } from './components'
 // import ClientList from "./components/pages/client-list"
-import UserProfile from './profile'
+import UserListContent from './userListContent'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useState ,useEffect} from 'react'
@@ -11,7 +11,7 @@ import { useState ,useEffect} from 'react'
 // type BurgerPropsType = {
 //   onClick :() => void;
 // }
-const Profile = () => {
+const UserList = () => {
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -26,7 +26,7 @@ const Profile = () => {
         <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
         <div className='content'>
           <div> <Header clickHandler={handleBurgerClick}  text='Client Lists'/> </div>
-          <div className='board-div'><UserProfile /></div>
+          <div className='board-div'><UserListContent /></div>
         </div>
         
      </div>
@@ -34,4 +34,4 @@ const Profile = () => {
   )
 }
 
-export default Profile;
+export default UserList;

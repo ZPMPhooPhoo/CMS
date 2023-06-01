@@ -111,11 +111,26 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
         }
     });
 
+    const downloadFile = (url: string, fileName: string) => {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+      
     const category = pjdata?.category.category;
     const status = pjdata?.status;
     const description = pjdata?.description;
     function handleDownload(url: string, filename: string): void {
-        fetch(url)
+        const fileUrl = 'http://127.0.0.1:8000/storage/quotations/238379_wallpaper.jpg';
+        const fileName = 'wallpaper.jpg';
+        downloadFile(fileUrl, fileName);
+        fetch('http://127.0.0.1:8000/storage/quotations/238379_wallpaper.jpg'
+        )
             .then(response => response.blob())
             .then(blob => {
                 // Create a download link

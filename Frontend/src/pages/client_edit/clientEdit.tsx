@@ -1,17 +1,12 @@
-// import { useState  } from 'react'
-// import { Footer, Header } from "./layout"
-// import { Task } from './interface'
-// import { Btn, Txt } from './components'
-// import ClientList from "./components/pages/client-list"
-import Rolelist from './rolelist';
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
-import { useState ,useEffect} from 'react'
+import { useState } from 'react'
+import { ClientEditContent } from './clientEditContent';
 
 // type BurgerPropsType = {
 //   onClick :() => void;
 // }
-const MainRoleList = () => {
+const ClientEdit = () => {
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -26,7 +21,7 @@ const MainRoleList = () => {
         <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
         <div className='content'>
           <div> <Header clickHandler={handleBurgerClick}  text='Client Lists'/> </div>
-          <div className='board-div'><Rolelist /></div>
+          <div className='board-div'><ClientEditContent /></div>
         </div>
         
      </div>
@@ -34,4 +29,4 @@ const MainRoleList = () => {
   )
 }
 
-export default MainRoleList;
+export default ClientEdit;

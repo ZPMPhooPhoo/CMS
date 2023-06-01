@@ -16,7 +16,7 @@ const CategoryDelete = () => {
             Authorization: `Bearer ${token}`,
           },
           
-        }),navigate("/category-list");
+        }),navigate("/services");
         // Handle successful deletion, e.g., update state or fetch updated data
       } catch (error) {
         console.log(error);

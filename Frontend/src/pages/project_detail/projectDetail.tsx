@@ -8,7 +8,8 @@
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useContext, useEffect, useState } from 'react'
-import { ProjectDetailContent } from './projectdetailContent';
+import { ProjectDetailContent } from './projectDetailContent';
+
 
 // type BurgerPropsType = {
 //   onClick :() => void;
@@ -28,7 +29,7 @@ const ProjectDetail = () => {
         <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
         <div className='content'>
           <div> <Header clickHandler={handleBurgerClick} text='Dashboard' /> </div>
-          <div className='board-div'><ProjectDetailContent /></div>
+          <div className='board-div'><ProjectDetailContent category={''} status={''} description={''} developer_names={[]} /></div>
         </div>
         
      </div>

@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/button.component";
 import { Input } from "../../components/input.component";
-import { SelectBox } from "../../components/selectbox.component";
 import { Checkbox } from "../../components/checkbox.component";
 import { Link } from "react-router-dom";
 
