@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import importImg from "../../../img/sidebar/logo.png";
 import axios from "axios";
 import { Button } from "../../../components/button.component";
@@ -158,26 +158,6 @@ export const UserEdit: React.FC = () => {
           />
           {errors.email && <p className="error-message">{errors.email}</p>}
 
-          {/* <Input
-            onChange={(e) => setPhoneNo(e.target.value)}
-            type="text"
-            value={phone}
-            name="phone"
-            placeholder="Phone Number"
-            id=""
-          /> */}
-          {/* {errors.phone && <p className="error-message">{errors.phone}</p>}
-          
-          <Input
-            onChange={(e) => setAddress(e.target.value)}
-            type="text"
-            value={address}
-            name="address"
-            placeholder="Enter Address"
-            id=""
-          />
-          {errors.address && <p className="error-message">{errors.address}</p>} */}
-
           <SelectBox
             name="role_id"
             options={options.map((item) => ({
@@ -189,7 +169,15 @@ export const UserEdit: React.FC = () => {
           />
           {errors.role && <p className="error-message">{errors.role}</p>}
 
-          <Button type="submit" className="button" text="Update" />
+
+          <div className="allbtn">
+            <Button type="submit" className="button" text={isLoading ? "Loading..." : "UPDATE"}
+              disabled={isLoading} />
+            <Link to={`/users`}>
+              <Button type="button" className="button" text="BACK"
+              />
+            </Link>
+          </div>
         </form>
       </div>
     </div>
