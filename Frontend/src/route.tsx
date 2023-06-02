@@ -26,6 +26,7 @@ import CategoryDelete from "./pages/category_edit/category_delete";
 import ProjectEdit from "./pages/project-edit/projectEdit";
 import UserCreate from "./pages/user_create/userCreate";
 import QuotationEdit from "./pages/quotation-edit/quotationEdit";
+import UserProfile from "./pages/user_profile/userProfilec";
 
 const role_id = localStorage.getItem("role_id");
 const token = localStorage.getItem("token");
@@ -88,6 +89,13 @@ let routes = [
     )
   },
   {
+    path: '/user-profile',
+    backend_path: 'user-profile',
+    element: (
+      <UserProfile />
+    )
+  },
+  {
     path: '/services',
     backend_path: 'services',
     element: (
@@ -138,13 +146,6 @@ let routes = [
     backend_path: 'login',
     element: (
       <Login email="" password="" />
-    )
-  },
-  {
-    path: '/logout',
-    backend_path: 'logout',
-    element: (
-      <Logout />
     )
   },
   {
@@ -209,7 +210,7 @@ export const Routers = () => {
   const [roles, setRoles] = useState<any[]>([err]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(() => {
+  role_id && useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {

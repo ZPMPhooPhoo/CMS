@@ -20,10 +20,7 @@ export const ClientEditContent: React.FC = () => {
 
   const navigate = useNavigate();
   const { customerId } = useParams();
-  //   console.log("Customer ID:", customerId);
-  //   console.log(customerId);
   useEffect(() => {
-    // Fetch customer data from the server using axios
     axios
       .get(`http://127.0.0.1:8000/api/users/${customerId}`, {
         headers: {
@@ -31,10 +28,6 @@ export const ClientEditContent: React.FC = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
-        // Update the state variables with the retrieved data
-
-        // console.log(response.data.name);
         const { name, email, phone, address, contact_person, position } = response.data.data;
         setName(name);
         console.log(name);
@@ -99,7 +92,6 @@ export const ClientEditContent: React.FC = () => {
         }
       )
       .then((response) => {
-        console.log(response.data);
         navigate("/client-lists");
       })
       .catch((error) => {
@@ -139,7 +131,7 @@ export const ClientEditContent: React.FC = () => {
                     id="email"
                     name="email"
                     type="email"
-                    value={email} // Display the email state variable
+                    value={email}
                     placeholder="Enter Email"
                   />
                   <p className="error-message">{errors.email && errors.email}</p>
@@ -151,7 +143,7 @@ export const ClientEditContent: React.FC = () => {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     id="phone_number"
                     name="phone"
-                    type="number"
+                    type="tel"
                     value={phone}
                     placeholder="Enter Phone Number"
                   />

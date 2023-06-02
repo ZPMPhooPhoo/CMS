@@ -4,8 +4,6 @@ import axios from "axios";
 import { Button } from "../../components/button.component";
 import { Input } from "../../components/input.component";
 import { Link } from "react-router-dom";
-
-
 export const ClientCreateContent: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -23,11 +21,8 @@ export const ClientCreateContent: React.FC = () => {
 
   const handleClientCreate = (e: React.FormEvent) => {
     e.preventDefault();
-    // Reset errors
     setErrors({});
     setLoading(true);
-
-    // Perform validation
     let validationErrors: any = {};
     if (name.trim() === "") {
       validationErrors.name = "Name is required *";
@@ -124,7 +119,7 @@ export const ClientCreateContent: React.FC = () => {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     id="phone_number"
                     name="phone"
-                    type="number"
+                    type="tel"
                     value={phone}
                     placeholder="Enter Phone Number"
                   />

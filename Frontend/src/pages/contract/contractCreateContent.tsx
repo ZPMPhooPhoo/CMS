@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button } from '../../components/button.component';
 import { Input } from '../../components/input.component';
@@ -7,8 +7,8 @@ import { Input } from '../../components/input.component';
 const ContractCreateContent: React.FC = () => {
     const location = useLocation();
     const searchID = new URLSearchParams(location.search);
-    const customerID = searchID.get("id");
-    const id = searchID.get("quotation_ID")?.toString();
+    const customerID = searchID.get('id');
+    const id = searchID.get('quotation_ID')?.toString();
     let q_id = 0;
     if (id !== undefined) {
         q_id = parseInt(id);
@@ -19,38 +19,59 @@ const ContractCreateContent: React.FC = () => {
     const [description, setDescription] = useState('');
     const [contract_date, setContractDate] = useState('');
     const [quotation_id, setQuotation_id] = useState<number>(q_id);
+    const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        const token = localStorage.getItem("token");
+        const errors: Record<string, string> = {};
+
+        if (!contract) {
+            errors.contract = 'Please select a file.';
+        }
+
+        if (!description) {
+            errors.description = 'Please enter a description.';
+        }
+
+        if (!contract_date) {
+            errors.contract_date = 'Please select a date.';
+        }
+
+        if (Object.keys(errors).length > 0) {
+            setValidationErrors(errors);
+            return;
+        }
+
+        const token = localStorage.getItem('token');
         const formData = new FormData();
-        formData.append("contract", contract as File);
-        formData.append("description", description);
-        formData.append("contract_date", contract_date);
-        formData.append("quotation_id", String(quotation_id));
+        formData.append('contract', contract as File);
+        formData.append('description', description);
+        formData.append('contract_date', contract_date);
+        formData.append('quotation_id', String(quotation_id));
+
         axios
-            .post("http://127.0.0.1:8000/api/contracts", formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
+            .post('http://127.0.0.1:8000/api/contracts', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`,
+                },
+            })
             .then((response: any) => {
                 console.log(response.data);
-                navigate(`/client-project-lists?id=${customerID}`)
+                navigate(`/client-project-lists?id=${customerID}`);
             })
             .catch((error: any) => {
                 if (error.response && error.response.data && error.response.data.message) {
                     console.log(error.response.data.message);
                 } else {
-                    console.log("An error occured:", error.message);
+                    console.log('An error occurred:', error.message);
                 }
-            })
-    }
+            });
+    };
+
     return (
         <>
             <div className="register add-middle">
@@ -66,7 +87,11 @@ const ContractCreateContent: React.FC = () => {
                                         onChange={(e: any) => {
                                             const file = e.target.files?.[0];
                                             setContract(file);
-                                        }} />
+                                        }}
+                                    />
+                                    {validationErrors.contract && (
+                                        <p className="error">{validationErrors.contract}</p>
+                                    )}
                                 </div>
                             </div>
                             <div className="client_phoneNO">
@@ -79,6 +104,9 @@ const ContractCreateContent: React.FC = () => {
                                         value={description}
                                         placeholder="Enter Description"
                                     />
+                                    {validationErrors.description && (
+                                        <p className="error">{validationErrors.description}</p>
+                                    )}
                                 </div>
                             </div>
 
@@ -88,14 +116,23 @@ const ContractCreateContent: React.FC = () => {
                                         type="date"
                                         id="contract_date"
                                         value={contract_date}
-                                        onChange={(e: any) => setContractDate(e.target.value)} placeholder={''} name={''} />
+                                        onChange={(e: any) => setContractDate(e.target.value)}
+                                        placeholder=""
+                                        name=""
+                                    />
+                                    {validationErrors.contract_date && (
+                                        <p className="error">{validationErrors.contract_date}</p>
+                                    )}
                                 </div>
                             </div>
                             <div className="allbtn">
                                 <Button type="submit" className="button" text="ADD" />
-                                <Link to={`/quotation-create?id=${customerID}&projectID=${localStorage.getItem("project_id")}`}>
-                                    <Button type="button" className="button" text="BACK"
-                                    />
+                                <Link
+                                    to={`/quotation-create?id=${customerID}&projectID=${localStorage.getItem(
+                                        'project_id'
+                                    )}`}
+                                >
+                                    <Button type="button" className="button" text="BACK" />
                                 </Link>
                             </div>
                         </form>
@@ -104,6 +141,6 @@ const ContractCreateContent: React.FC = () => {
             </div>
         </>
     );
-}
+};
 
 export default ContractCreateContent;

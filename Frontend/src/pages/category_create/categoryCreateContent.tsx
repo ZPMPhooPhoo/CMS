@@ -14,11 +14,8 @@ export const CategoryCreateContent: React.FC = () => {
 
   const handleCategoryCreate = (e: React.FormEvent) => {
     e.preventDefault();
-    // Reset errors
     setErrors({});
     setLoading(true);
-
-    // Perform validation
     let validationErrors: any = {};
     if (category.trim() === "") {
       validationErrors.category = "Category is required *";
@@ -32,23 +29,23 @@ export const CategoryCreateContent: React.FC = () => {
 
     const token = localStorage.getItem("token");
 
-  axios
-    .post("http://127.0.0.1:8000/api/categories", {
-      category
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-      navigate("/services");
-    })
-    .catch((error) => {
-      console.log(error.response.data);
-    }).finally(() => {
-      setLoading(false);
-    });
+    axios
+      .post("http://127.0.0.1:8000/api/categories", {
+        category
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        navigate("/services");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      }).finally(() => {
+        setLoading(false);
+      });
 
   };
   if (isLoading) {
@@ -77,7 +74,7 @@ export const CategoryCreateContent: React.FC = () => {
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}
-                disabled={isLoading} />
+                  disabled={isLoading} />
                 <Link to={`/services`}>
                   <Button type="button" className="button" text="BACK"
                   />

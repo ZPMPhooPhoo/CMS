@@ -486,5 +486,11 @@ input:checked+.slider:before {
         padding: 14px 16px;
         border-radius: 5px;
         color: #fff;
+        cursor: pointer;
     }
+}
+
+small {
+    padding: 15px 0;
+    display: block;
 }

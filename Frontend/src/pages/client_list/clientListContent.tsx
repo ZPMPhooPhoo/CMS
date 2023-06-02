@@ -125,9 +125,6 @@ const ClientListContent = () => {
                         <Link to={`/client-edit/${item.id}`}>
                           <i className="fa-solid fa-pen-to-square update"></i>
                         </Link>
-                        {/* <Link to={`/client_delete/${item.id}`}>
-                          <i className="fa-solid fa-trash delete"></i>
-                        </Link> */}
                         <Link to={`/client-project-lists?id=${item.id}`}>
                           <i className="fa-solid fa-angles-right more"></i>
                         </Link>

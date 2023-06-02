@@ -1,14 +1,31 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 export const Logout = () => {
   useEffect(() => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role_id");
-    window.location.reload();
-    window.location.href = '/';
-
+    handleLogout();
   }, []);
 
-  return null;
-};
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/auth/logout", {
+        method: 'POST',
+      });
+      if (response) {
+        clearLocalStorage();
+
+        window.location.href = "/login"
+      }
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
+
+  const clearLocalStorage = () => {
+    localStorage.clear();
+  }
+  return null
+}
+
+

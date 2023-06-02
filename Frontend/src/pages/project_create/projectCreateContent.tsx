@@ -147,7 +147,6 @@ export const ProjectCreateContent: React.FC = () => {
         Authorization: `Bearer ${token}`,
       },
     }).then((response) => {
-      console.log(response.data);
       navigate(`/client-project-lists?id=${id}`);
     })
       .catch((error) => {
@@ -159,7 +158,6 @@ export const ProjectCreateContent: React.FC = () => {
     return <div className="l-width"><p className="loading"></p></div>
   }
 
-  // console.log(status)
   return (
     <>
       <div className="register add-middle">

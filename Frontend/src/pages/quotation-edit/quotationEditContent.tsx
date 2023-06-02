@@ -14,6 +14,7 @@ const QuotationEditContent: React.FC = () => {
     const [is_agree, setIsAgree] = useState(false);
     const [quotation_date, setQuotationDate] = useState('');
     const [editData, setEditData] = useState<any>();
+    const [isLoading, setIsLoading] = useState(true);
     const [isCheckbox, setisCheckbox] = useState<boolean>(false);
     const location = useLocation();
     const searchID = new URLSearchParams(location.search);
@@ -31,21 +32,16 @@ const QuotationEditContent: React.FC = () => {
                         Authorization: `Bearer ${token}`,
                     }
                 });
-                //setEditData(response.data);
                 setDescription(response.data.data?.description)
+                setIsLoading(false)
 
             } catch (error: any) {
                 console.log("Error: " + error)
+                setIsLoading(false)
             }
         }
         fetchData();
     }, []);
-    // console.log(editData?.data?.description);
-    // console.log(editData.data.quotation);
-    // console.log(editData.data.quotation_date);
-    // console.log(editData.data.is_agree)
-
-
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -76,10 +72,8 @@ const QuotationEditContent: React.FC = () => {
             })
             .catch((error: any) => {
                 if (error.response && error.response.data && error.response.data.message) {
-                    // Display the error message to the user
                     console.log(error.response.data.message);
                 } else {
-                    // Handle other types of errors
                     console.log("An error occurred:", error.message);
                 }
             });
@@ -89,16 +83,16 @@ const QuotationEditContent: React.FC = () => {
 
     function handleChatboxChange(checked: boolean) {
         setisCheckbox(checked);
-        console.log(checked);
     }
-    console.log(isCheckbox)
 
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
         setQuotation(file || null);
     };
-    // const filename = editData?.data?.quotation;
+    if (isLoading) {
+        return <div className="l-width"><p className="loading"></p></div>
+    }
     return (
         <>
             <div className="register add-middle">

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useParams, useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const CategoryDelete = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -15,19 +15,17 @@ const CategoryDelete = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          
-        }),navigate("/services");
-        // Handle successful deletion, e.g., update state or fetch updated data
+
+        }), navigate("/services");
       } catch (error) {
         console.log(error);
-        // Handle the error, e.g., show an error message
       }
     };
 
     deleteCategory();
   }, [categoryId, token]);
 
-  return <></>; // Empty fragment, as this component doesn't render anything
+  return <></>;
 };
 
 export default CategoryDelete;

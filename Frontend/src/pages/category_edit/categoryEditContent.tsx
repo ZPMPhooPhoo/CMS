@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/button.component";
@@ -12,7 +12,6 @@ export const CategoryEditContent: React.FC = () => {
   const { categoryId } = useParams();
 
   useEffect(() => {
-    // Fetch customer data from the server using axios
     axios
       .get(`http://127.0.0.1:8000/api/categories/${categoryId}`, {
         headers: {
@@ -21,9 +20,6 @@ export const CategoryEditContent: React.FC = () => {
       })
       .then((response) => {
         console.log(response.data);
-        // Update the state variables with the retrieved data
-        
-        // console.log(response.data.name);
         const { category } = response.data.data;
         setCategory(category);
         console.log(category);
@@ -84,7 +80,7 @@ export const CategoryEditContent: React.FC = () => {
                     value={category}
                     placeholder="Enter Category Name"
                   />
-                  <p className="error-message">{errors.category && errors.category }</p>
+                  <p className="error-message">{errors.category && errors.category}</p>
                 </div>
               </div>
               <div className="allbtn">

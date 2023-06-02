@@ -18,8 +18,11 @@ interface pj_pass_data {
 
 export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
     const [showQuotationModal, setShowQuotationModal] = useState<boolean>(false);
+    const [showContractModal, setShowContractModal] = useState<boolean>(false);
     const [isQuotationsEmpty, setIsQuotationsEmpty] = useState<boolean>(false);
+    const [isContractsEmpty, setContractsEmpty] = useState<boolean>(false);
     const [QuotationData, setQuotationData] = useState<any[]>([]);
+    const [ContractAllData, setContractAllData] = useState<any[]>([]);
     const [expandedIndex, setExpandedIndex] = useState(-1);
     const [error, setError] = useState<string | undefined>();
     const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -56,7 +59,23 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
-                    });
+                    }
+                );
+                const contractResponse = await axios.get(`
+                    http://127.0.0.1:8000/api/contract-quotations/${projectID}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+
+                    }
+                );
+                console.log(contractResponse.data.data);
+                if (contractResponse.data.data.length === 0) {
+                    setContractsEmpty(true)
+                } else {
+                    setContractAllData(contractResponse.data.data)
+                }
                 if (quotationResponse.data.data.length === 0) {
                     setIsQuotationsEmpty(true);
                 } else {
@@ -84,17 +103,22 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
     if (error) {
         return <div>We are having trouble when fetching data. Please try again later.</div>;
     }
-
-    console.log(QuotationData);
     QuotationData.map((item: any) => {
         console.log(item.quotation);
     })
-    const handleModalClose = () => {
+    const handleQModalClose = () => {
         setShowQuotationModal(false);
     };
 
-    const handleModalOpen = () => {
+    const handleQModalOpen = () => {
         setShowQuotationModal(true);
+    };
+    const handleCModalClose = () => {
+        setShowContractModal(false);
+    };
+
+    const handleCModalOpen = () => {
+        setShowContractModal(true);
     };
 
 
@@ -111,35 +135,36 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
             Cusname = cus.name;
         }
     });
-      
+
     const category = pjdata?.category.category;
     const status = pjdata?.status;
     const description = pjdata?.description;
-
-    const handleDownload = (url: string, filename: string) => {
-        fetch(url)
-            .then(response => response.blob())
-            .then(blob => {
-                const blobUrl = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = blobUrl;
-                link.download = filename;
-                link.click();
-                URL.revokeObjectURL(blobUrl);
-            })
-            .catch(error => {
-                console.error('Downloading Error:', error);
+    const handleDownload = async (url: string, fileName: string) => {
+        try {
+            const response = await axios.get(url, {
+                responseType: 'blob',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
+
+            const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.setAttribute('download', fileName);
+            link.click();
+            window.URL.revokeObjectURL(downloadUrl);
+        } catch (error) {
+            console.error('Error downloading the file:', error);
+        }
     };
-
-    // const devName = devData.filter((item: any) => { item.id == 4 }).map((item: any) => { item.name });
-    // console.log(devData.filter((item: any) => { item.id == 4 }))
-
+    const filteredAllContracts = ContractAllData.filter((contract: any) => contract.contract_url !== null);
+    const filteredContracts = filteredAllContracts.map((c: any) => c.contract);
+    filteredAllContracts.map((contract: any) => { console.log(contract.contract_url) });
+    const assignedDev = devData.filter((dev: any) => dev.id !== 5);
     return (
 
         <>
-
-
             <div className="mainclientls" >
                 <div className="clils">
                     <div className="maincliproli">
@@ -157,31 +182,20 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
 
                             <div className="leftcard_pro">
                                 <ProjectCard category={category} status={status} description={description} />
-                                {/* <ProjectCard />      */}
                                 <div className="assigned-dev">
                                     <h3>ASSIGNED DEVELOPERS FOR THIS PROJECT</h3>
                                     <ul>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
-                                        <li>YYK</li>
+                                        {
+                                            devData.filter((dev: any) => dev.id !== 5).map((devName: any) =>
+                                                <li key={devName.id}> {devName.name} </li>
+                                            )
+                                        }
                                     </ul>
 
                                 </div>
                                 <div className="modal-btn">
-                                    <button onClick={handleModalOpen}>Quotations </button>
-                                    <button onClick={handleModalOpen}>Contracts </button>
+                                    <button onClick={handleQModalOpen}>Quotations </button>
+                                    <button onClick={handleCModalOpen}>Contracts </button>
                                 </div>
                             </div>
                             <div className="right_card_category">
@@ -199,72 +213,11 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
             {showQuotationModal && (
                 <div className="modal-overlay">
                     <div className="modal">
                         <div className="modal-content">
-                            {/* <div className="accordion">
-                                <h1>Quotations Of Project Name</h1>
-                                <div className="accordion-item">
-                                    <div className="accordion-header" onClick={() => toggleAccordion(0)}>
-                                        <h3>Quotation_1</h3>
-                                        <span className={expandedIndex === 0 ? "accordion-icon expanded" : "accordion-icon"}>
-                                            {expandedIndex === 0 ? "\u25BC" : "\u25B6"}
-                                        </span>
-                                    </div>
-                                    {expandedIndex === 0 && (
-                                        <div className="accordion-content">
-                                            <p>Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1</p>
-                                            jm                     <div>
-                                                <a href="#"><i className="fa-solid fa-pen-to-square update"></i></a>
-                                                <a href="#"><i className="fa-solid fa-trash delete"></i></a>
-                                                <a href="#"><i className="fa-solid fa-file-arrow-down download"></i></a>
-                                            </div>
-                                        </div>
-
-                                    )}
-                                </div>
-                                <div className="accordion-item">
-                                    <div className="accordion-header" onClick={() => toggleAccordion(1)}>
-                                        <h3>Quotation_2</h3>
-                                        <span className={expandedIndex === 1 ? "accordion-icon expanded" : "accordion-icon"}>
-                                            {expandedIndex === 1 ? "\u25BC" : "\u25B6"}
-                                        </span>
-                                    </div>
-                                    {expandedIndex === 1 && (
-                                        <div className="accordion-content">
-                                            <p>Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1</p>
-                                            <div>
-                                                <a href="#"><i className="fa-solid fa-pen-to-square update"></i></a>
-                                                <a href="#"><i className="fa-solid fa-trash delete"></i></a>
-                                                <a href="#"><i className="fa-solid fa-file-arrow-down download"></i></a>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="accordion-item">
-                                    <div className="accordion-header" onClick={() => toggleAccordion(2)}>
-                                        <h3>Quotation_3</h3>
-                                        <span className={expandedIndex === 2 ? "accordion-icon expanded" : "accordion-icon"}>
-                                            {expandedIndex === 2 ? "\u25BC" : "\u25B6"}
-                                        </span>
-                                    </div>
-                                    {expandedIndex === 2 && (
-                                        <div className="accordion-content">
-                                            <p>Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1 Quotation Description 1</p>
-                                            <div>
-                                                <a href="#"><i className="fa-solid fa-pen-to-square update"></i></a>
-                                                <a href="#"><i className="fa-solid fa-trash delete"></i></a>
-                                                <a href="#"><i className="fa-solid fa-file-arrow-down download"></i></a>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div> */}
                             {isQuotationsEmpty ? (
                                 <div>No quotations are added for this project.</div>
                             ) : (
@@ -279,15 +232,24 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                                             </div>
                                             {expandedIndex === index && (
                                                 <div className="accordion-content">
+                                                    <small>{quotation.quotation_date}</small>
                                                     <p>{quotation.description}</p>
                                                     <div>
-                                                        <Link to={`/quotation-edit?quotation_id=${quotation.id}&project_id=${projectID}&customerID=${id}`}><i className="fa-solid fa-pen-to-square update"></i></Link>
-                                                        {/* <a href="#"><i className="fa-solid fa-trash delete"></i></a> */}
                                                         {quotation.quotation_url &&
-                                                            <button style={{ background: 'none', border: '0', cursor: 'pointer' }} onClick={() => handleDownload(quotation.quotation_url!, quotation.quotation)} ><i className="fa-solid fa-file-arrow-down download"></i></button>
-                                                        }
+                                                            (quotation.quotation_url.toLowerCase().endsWith('.jpg') ||
+                                                                quotation.quotation_url.toLowerCase().endsWith('.jpeg') ||
+                                                                quotation.quotation_url.toLowerCase().endsWith('.png')) ? (
+                                                            <div>
 
-                                                        {/* <a href={quotation.quotation_url} download={quotation.quotation_url}>Download</a> */}
+                                                                <button className="down-btn" onClick={() => handleDownload(quotation.quotation_url!, quotation.quotation)}>
+                                                                    <i className="fa-solid fa-file-arrow-down download"></i>
+                                                                </button>
+                                                            </div>
+                                                        ) : (
+                                                            <button className="down-btn" onClick={() => handleDownload(quotation.quotation_url!, quotation.quotation)}>
+                                                                <i className="fa-solid fa-file-arrow-down download"></i>
+                                                            </button>
+                                                        )}
                                                     </div>
                                                 </div>
                                             )}
@@ -295,14 +257,59 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                                     ))}
                                 </div>
                             )}
-
-
-
-
-
-
                             <div className="btn-gp">
-                                <button onClick={handleModalClose}>Close</button>
+                                <button onClick={handleQModalClose}>Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showContractModal && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <div className="modal-content">
+                            {isContractsEmpty ? (
+                                <div>No contracts are added for this project.</div>
+                            ) : (
+                                <div className="accordion">
+                                    {filteredAllContracts.map((contract: any, index: number) => (
+                                        <div className="accordion-item" key={index}>
+                                            <div className="accordion-header" onClick={() => toggleAccordion(index)}>
+                                                <h3> Contract_{index + 1} </h3>
+                                                <span className={expandedIndex === index ? "accordion-icon expanded" : "accordion-icon"}>
+                                                    {expandedIndex === index ? "\u25BC" : "\u25B6"}
+                                                </span>
+                                            </div>
+                                            {expandedIndex === index && (
+                                                <div className="accordion-content">
+                                                    <small>{contract.contract.contract_date}</small>
+                                                    <p>{contract.contract.description}</p>
+                                                    <div>
+                                                        {contract.contract_url &&
+                                                            (contract.contract_url.toLowerCase().endsWith('.jpg') ||
+                                                                contract.contract_url.toLowerCase().endsWith('.jpeg') ||
+                                                                contract.contract_url.toLowerCase().endsWith('.png')) ? (
+                                                            <div>
+
+                                                                <button className="down-btn" onClick={() => handleDownload(contract.contract_url!, contract.contract.contract)}>
+                                                                    <i className="fa-solid fa-file-arrow-down download"></i>
+                                                                </button>
+                                                            </div>
+                                                        ) : (
+                                                            <button className="down-btn" onClick={() => handleDownload(contract.contract_url!, contract.contract.contract)}>
+                                                                <i className="fa-solid fa-file-arrow-down download"></i>
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            <div className="btn-gp">
+                                <button onClick={handleCModalClose}>Close</button>
                             </div>
                         </div>
                     </div>

@@ -1,17 +1,11 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-
 interface prjdataProps {
-        category: string,
-        status: string,
-        description: string,
+    category: string,
+    status: string,
+    description: string,
 }
+export const ProjectCard: React.FC<prjdataProps> = ({ category, status, description }) => {
 
-
-
-export const ProjectCard: React.FC<prjdataProps> = ({category, status, description}) => {
-    
-    return(
+    return (
         <>
             <div className="maincard_pro">
                 <h1 className="pro_title_swit">
@@ -22,7 +16,7 @@ export const ProjectCard: React.FC<prjdataProps> = ({category, status, descripti
             </div>
             <hr />
 
-            
+
         </>
     )
 }

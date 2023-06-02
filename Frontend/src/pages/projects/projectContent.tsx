@@ -5,6 +5,8 @@ import axios from 'axios';
 export const ProjectContent = () => {
   const [activeChecked, setActiveChecked] = useState<boolean>(false);
   const [unactiveChecked, setUnactiveChecked] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
@@ -27,7 +29,6 @@ export const ProjectContent = () => {
           },
         });
         setProjects(response.data.data);
-        // console.log(response.data);
         setLoading(false);
       } catch (error) {
         setError('Failed to fetch projects.');
@@ -45,8 +46,11 @@ export const ProjectContent = () => {
   if (error) {
     return <div>Error: {error}</div>; // Display an error message
   }
-  console.log(projects)
-
+  let totalItems = projects.length;
+  const totalPages = Math.ceil(totalItems / perPage);
+  const indexOfLastItem = currentPage * perPage;
+  const indexOfFirstItem = indexOfLastItem - perPage;
+  const currentItems = projects.slice(indexOfFirstItem, indexOfLastItem);
   return (
     <>
       <div className="table-wrap" style={{ width: '97%' }}>
@@ -54,26 +58,6 @@ export const ProjectContent = () => {
           <div className="pro_listincliinfo">
             <span className="material-symbols-outlined">person</span>
             <p>All Projects</p>
-            <div className="check_projectmatain">
-              <span>
-                <Checkbox
-                  label="Under Matain"
-                  className=""
-                  name="1"
-                  checked={activeChecked}
-                  onChange={handleActiveChange}
-                />
-              </span>
-              <span>
-                <Checkbox
-                  label="No Service"
-                  className=""
-                  name="0"
-                  checked={unactiveChecked}
-                  onChange={handleUnactiveChange}
-                />
-              </span>
-            </div>
           </div>
         </div>
 
@@ -89,17 +73,14 @@ export const ProjectContent = () => {
           </thead>
           <tbody>
             {Array.isArray(projects) &&
-              projects.map((project, index) => (
+              currentItems.map((project, index) => (
                 <tr key={project.id}>
                   <td>{index + 1}</td>
                   <td>{project.title}</td>
                   <td className="td-category">
-                    {project.categories && Array.isArray(project.categories)
-                      ? project.categories.map((category: string) => (
-                        <span key={category}>{category}</span>
-                      ))
-                      : null}
+                    {project.category.category}
                   </td>
+
                   <td>{project.status}</td>
                   <td>
                     {project.maintenance_active
@@ -110,6 +91,17 @@ export const ProjectContent = () => {
               ))}
           </tbody>
         </table>
+        <div className="pagination">
+          <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+            &lt;&lt;
+          </button>
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            &gt;&gt;
+          </button>
+        </div>
       </div>
     </>
   );

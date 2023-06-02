@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
@@ -13,8 +13,9 @@ const QuotationListContent: React.FC = () => {
   const [is_agree, setIsAgree] = useState(false);
   const [quotation_date, setQuotationDate] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isCheckbox, setIsCheckbox] = useState<boolean>(false);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
-  const [isCheckbox, setisCheckbox] = useState<boolean>(false);
   const location = useLocation();
   const searchID = new URLSearchParams(location.search);
   const customerID = searchID.get("id");
@@ -38,6 +39,25 @@ const QuotationListContent: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const errors: Record<string, string> = {};
+
+    if (!quotation) {
+      errors.quotation = 'Please select a file.*';
+    }
+
+    if (!description) {
+      errors.description = 'Please enter a description.*';
+    }
+
+    if (!quotation_date) {
+      errors.quotation_date = 'Please select a date.*';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
 
     const token = localStorage.getItem("token");
 
@@ -72,19 +92,15 @@ const QuotationListContent: React.FC = () => {
       });
   };
 
-  function handleChatboxChange(checked: boolean) {
-    setisCheckbox(checked);
-    console.log(checked);
-  }
-  console.log(isCheckbox)
-  if (isLoading) {
-    return <div className="l-width"><p className="loading"></p></div>
-  }
-
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     setQuotation(file || null);
   };
+
+  if (isLoading) {
+    return <div className="l-width"><p className="loading"></p></div>
+  }
+
   return (
     <>
       <div className="register add-middle">
@@ -95,6 +111,9 @@ const QuotationListContent: React.FC = () => {
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
                   <input type="file" onChange={handleFileChange} />
+                  {validationErrors.quotation && (
+                    <p className="error">{validationErrors.quotation}</p>
+                  )}
                 </div>
               </div>
               <div className="client_phoneNO">
@@ -107,6 +126,9 @@ const QuotationListContent: React.FC = () => {
                     value={description}
                     placeholder="Enter Quotation Description"
                   />
+                  {validationErrors.description && (
+                    <p className="error">{validationErrors.description}</p>
+                  )}
                 </div>
               </div>
               <div className="client_phoneNO">
@@ -117,19 +139,21 @@ const QuotationListContent: React.FC = () => {
                     value={quotation_date}
                     onChange={(e: any) => setQuotationDate(e.target.value)}
                   />
+                  {validationErrors.quotation_date && (
+                    <p className="error">{validationErrors.quotation_date}</p>
+                  )}
                 </div>
               </div>
               <div className="client_phoneNO">
                 <div className="client_phone_parent">
-                  <Checkbox className="check_boxquotationform" name="checkbox" checked={isCheckbox} onChange={handleChatboxChange} label={""} />
+                  <Checkbox className="check_boxquotationform" name="checkbox" checked={isCheckbox} onChange={setIsCheckbox} label={""} />
                   <Label htmlFor="checkbox" text="Is agree?" />
                 </div>
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text="ADD" />
                 <Link to={`/client-project-lists?id=${customerID}`}>
-                  <Button type="button" className="button" text="BACK"
-                  />
+                  <Button type="button" className="button" text="BACK" />
                 </Link>
               </div>
             </form>
@@ -139,4 +163,5 @@ const QuotationListContent: React.FC = () => {
     </>
   );
 };
+
 export default QuotationListContent;

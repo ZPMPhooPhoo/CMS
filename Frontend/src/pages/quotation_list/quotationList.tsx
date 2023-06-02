@@ -3,9 +3,6 @@ import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
 import QuotationListContent from './quotationListContent';
 
-// type BurgerPropsType = {
-//   onClick :() => void;
-// }
 const Quotation = () => {
 
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
@@ -16,7 +13,6 @@ const Quotation = () => {
 
     return (
         <>
-            {/* <ClientList /> */}
             <div className='pj-container'>
                 <div className={`bar-div ${sidebarOpen ? '' : 'close'} `}><Sidebar /></div>
                 <div className='content'>

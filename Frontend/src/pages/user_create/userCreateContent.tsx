@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import importImg from '../../img/sidebar/logo.png';
 import axios from "axios";
 import { Button } from '../../components/button.component';
 import { Input } from '../../components/input.component';
-import { SelectBox } from "../../components/selectbox.component";
 
 interface Role {
   id: number;
@@ -48,18 +47,9 @@ export const UserCreateContent: React.FC = () => {
 
     fetchData();
   }, [token]);
-
-  // const handleSelectChange = (selectedOption: string, selectedIndex: number) => {
-  //   setRole(options[selectedIndex].id);
-  //   console.log([options[selectedIndex].id]);
-  // };
-
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    // Reset errors
     setErrors({});
-
-    // Perform validation
     let validationErrors: any = {};
     if (name.trim() === "") {
       validationErrors.name = "Name is required *";
@@ -166,7 +156,14 @@ export const UserCreateContent: React.FC = () => {
             ))}
           </select>
           <p className="error-message">{errors.role && errors.role}</p>
-          <Button type="submit" className="button" text="Register" />
+          <div className="allbtn">
+            <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}
+              disabled={isLoading} />
+            <Link to={`/users`}>
+              <Button type="button" className="button" text="BACK"
+              />
+            </Link>
+          </div>
         </form>
       </div>
     </div>

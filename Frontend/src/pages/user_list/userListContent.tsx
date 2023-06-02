@@ -6,8 +6,6 @@ interface Role {
   id: number;
   name: string;
 }
-// const navigate =useNavigate();
-
 const UserListContent = () => {
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +15,6 @@ const UserListContent = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
-  // const [options, setOptions] = useState<Role[]>([]);
   const [options, setOptions] = useState<{ [key: number]: string }>({});
 
 
@@ -98,9 +95,9 @@ const UserListContent = () => {
     return <div className="l-width"><p className="loading"></p></div>
   }
 
-  // if (error) {
-  //   return <div>We are having trouble when fetching data. Please try again later.</div>;
-  // }
+  if (error) {
+    return <div>We are having trouble when fetching data. Please try again later.</div>;
+  }
 
   if (!data || !data.data || data.data.length === 0) {
     return <div>Data is not available</div>;
@@ -177,12 +174,6 @@ const UserListContent = () => {
                         <Link to={`/user-edit/${item.id}`}>
                           <i className="fa-solid fa-pen-to-square update"></i>
                         </Link>
-                        {/* <Link to={`/user-delete/${item.id}`}>
-                          <i className="fa-solid fa-trash delete"></i>
-                        </Link> */}
-                        {/* <Link to="/client-project-lists">
-                          <i className="fa-solid fa-angles-right more"></i>
-                        </Link> */}
                       </td>
                     </tr>
                   );

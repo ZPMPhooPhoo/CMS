@@ -15,7 +15,7 @@ export const Login: React.FC<Props> = ({ }) => {
   const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState<any>({});
   const [errMsg, setErrMsg] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false); // Add loading state
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ export const Login: React.FC<Props> = ({ }) => {
     e.preventDefault();
     setErrors({});
     setErrMsg('');
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     let validationErrors: any = {};
     if (email.trim() === '') {
@@ -35,7 +35,7 @@ export const Login: React.FC<Props> = ({ }) => {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
       return;
     }
 
@@ -47,17 +47,18 @@ export const Login: React.FC<Props> = ({ }) => {
 
       const { token } = response.data;
       const { role_id } = response.data;
+      const { name } = response.data;
+      const { id } = response.data;
+      localStorage.setItem('name', name);
       localStorage.setItem('token', token);
       localStorage.setItem('role_id', role_id);
+      localStorage.setItem("id", id);
       setTimeout(() => {
         localStorage.removeItem('token');
         localStorage.removeItem('role_id');
       }, 1200000);
-      console.log(response.data);
-      setIsLoading(false); // Stop loading
-
+      setIsLoading(false);
       window.location.reload();
-
     } catch (error: any) {
       console.log(error.message);
       if (error.response && error.response.data && error.response.data.message) {
@@ -66,7 +67,7 @@ export const Login: React.FC<Props> = ({ }) => {
       } else {
         setErrMsg('An error has occurred during the API request.');
       }
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 

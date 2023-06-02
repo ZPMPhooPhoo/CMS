@@ -69,7 +69,6 @@ export const Sidebar = () => {
     }, []);
 
     const avialable_routes: any[] = useMemo(() => sidebar_routes.filter(route => role.includes(route.backend_path)), [role]);
-    console.log({ sidebar_routes, role });
 
 
     return (

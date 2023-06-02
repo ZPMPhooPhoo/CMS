@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom"
-
+import { Link } from "react-router-dom";
+const name = localStorage.getItem('name');
 
 
 export const Dropdown = () => {
@@ -8,6 +7,9 @@ export const Dropdown = () => {
 
         localStorage.removeItem("token");
         localStorage.removeItem("role_id");
+        localStorage.removeItem("name");
+        localStorage.removeItem("id");
+        localStorage.removeItem("project_id");
         window.location.reload();
         window.location.href = '/';
 
@@ -18,14 +20,13 @@ export const Dropdown = () => {
             <label className="dropdown">
 
                 <div className="dd-button">
-                    Ye Yint Kyaw &nbsp;
+                    {name} &nbsp;
                 </div>
-
                 <input type="checkbox" className="dd-input" id="test" />
 
                 <ul className="dd-menu">
-                    <li>My account</li>
-                    <li onClick={handleLougout} >Logout</li>
+                    <li><Link to="/user-profile">My account</Link></li>
+                    <li onClick={handleLougout}><a>Logout</a></li>
                 </ul>
 
             </label>

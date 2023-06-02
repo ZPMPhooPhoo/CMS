@@ -1,96 +1,120 @@
-.main_userprofile{
-    display:flex;
-    flex-wrap:wrap;
+.main_userprofile {
+    display: flex;
+    flex-wrap: wrap;
 
 }
-.left_userprofile{
-    width:90%;
-    margin:20px;
+
+.left_userprofile {
+    width: 90%;
+    margin: 20px;
     // height:100px;
-    background:white;
-    box-shadow:0px 0px 10px rgba(255, 255, 255, 0.5);
-    border-radius:20px;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    margin-top: 0;
 }
-.profile_icon{
-    padding:20px;
-    text-align:center;
+
+.profile_icon {
+    padding: 17px;
+    text-align: center;
+
     // border-bottom:solid 1px rgba(26, 24, 24, 0.5);
+    h1 {
+        font-weight: 700;
+        font-size: 25px;
+        margin-top: 10px;
+    }
 }
-.vip_icon{
-    margin:0 !important;
+
+.vip_icon {
+    margin: 0 !important;
 }
-.usericon_prof{
-    font-size:6rem;
-    text-align:center;
-    background:rgb(245, 239, 239);
-    padding:50px;
-    border-radius:100%;
-    border:solid 10px #e96f28;
+
+.usericon_prof {
+    font-size: 3rem;
+    text-align: center;
+    background: rgb(245, 239, 239);
+    padding: 50px;
+    border-radius: 100%;
+    border: solid 10px #e96f28;
+    color: #e96f28;
 }
-.profile_text{
-    width:40%;
-    padding:20px;
+
+.profile_text {
+    width: 40%;
+    padding: 20px;
+    padding-bottom: 0;
     // box-shadow:0px 0px 10px rgba(121, 55, 55, 0.5);
-    margin:20px;
+    margin: 20px;
+    margin-bottom: 0;
     // border-radius:20px;
 }
-.my_profile{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:space-between;
-    margin-bottom:40px;
+
+.my_profile {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 40px;
 }
-.user_phone{
-    background:#e96f28;
-    color:white;
-    width:100%;
-    margin-bottom:30px;
-    text-align:center;
-    padding:10px 30px;
-    border-radius:20px;
+
+.user_phone {
+    background: #e96f28;
+    color: white;
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 10px 30px;
+    border-radius: 20px;
 }
-.user_chat{
-    background:rgb(195, 106, 195);
-    padding:10px 30px;
-    border-radius:20px;
-    color:white;
-    width:100%;
-    margin-bottom:30px;
-    text-align:center;
+
+.user_chat {
+    background: rgb(195, 106, 195);
+    padding: 10px 30px;
+    border-radius: 20px;
+    color: white;
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
 }
-.user_mail{
-    background:rgb(196, 229, 29);
-    padding:10px 30px;
-    border-radius:20px;
-    color:white;
-    width:100%;
-    margin-bottom:30px;
-    text-align:center;
+
+.user_mail {
+    background: rgb(196, 229, 29);
+    padding: 10px 30px;
+    border-radius: 20px;
+    color: white;
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
 }
-.user_facebook{
-    background:rgb(85, 109, 204);
-    padding:10px 30px;
-    border-radius:20px;
-    color:white;
-    width:100%;
-    margin-bottom:30px;
-    text-align:center;
+
+.user_facebook {
+    background: rgb(85, 109, 204);
+    padding: 10px 30px;
+    border-radius: 20px;
+    color: white;
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
 }
-.user_project{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:space-between;
-    margin:20px 0px;
+
+.user_project {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0px;
 }
-.user_contact{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:space-around;
+
+.user_contact {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
-.user_contact_icon{
-    width:40%;
-    padding:10px;
+
+.user_contact_icon {
+    width: 40%;
+    padding: 10px;
+    padding-bottom: 0;
     // box-shadow:0px 0px 10px rgba(121, 55, 55, 0.5);
-    margin:20px;
+    margin: 20px;
+    margin-bottom: 0;
 }
-  

@@ -1,15 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 const CategoryListContent = () => {
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const id = searchParams.get("id");
   const token = localStorage.getItem('token');
   const [filter, setFilter] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);

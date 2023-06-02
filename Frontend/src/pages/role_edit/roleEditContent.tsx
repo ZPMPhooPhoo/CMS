@@ -1,20 +1,20 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "../../components/button.component";
 import { Input } from "../../components/input.component";
 
 interface Permission {
-    id: number;
-    name: string;
-    guard_name: string;
-    created_at: string;
-    updated_at: string;
-    pivot: {
-      role_id: number;
-      permission_id: number;
-    };
-  }
+  id: number;
+  name: string;
+  guard_name: string;
+  created_at: string;
+  updated_at: string;
+  pivot: {
+    role_id: number;
+    permission_id: number;
+  };
+}
 export const RoleEditContent: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [permissions, setPermissions] = useState<Permission[]>([]);
@@ -23,8 +23,8 @@ export const RoleEditContent: React.FC = () => {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const { roleId } = useParams();
-useEffect(() => {
-    
+  useEffect(() => {
+
     axios
       .get(`http://127.0.0.1:8000/api/roles/${roleId}`, {
         headers: {
@@ -32,21 +32,15 @@ useEffect(() => {
         },
       })
       .then((response) => {
-        console.log(response.data);
-        // Update the state variables with the retrieved data
-        
-        // console.log(response.data.name);
-         const { name } = response.data.data.role;
-         setName(name);
-        //console.log(name);
-        
+        const { name } = response.data.data.role;
+        setName(name);
+
         const extractedPermissions = response.data.data.permissions;
         setPermissions(extractedPermissions);
-        console.log(extractedPermissions);
+
 
         const rolePermissionData = response.data.data.rolePermission;
         setRolePermission(rolePermissionData);
-        console.log(rolePermissionData);
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -57,10 +51,8 @@ useEffect(() => {
   const handlePermissionChange = (permissionId: number) => {
     setRolePermission((prevPermissions) => {
       if (prevPermissions.includes(permissionId)) {
-        // Permission is currently selected, remove it from the list
         return prevPermissions.filter((id) => id !== permissionId);
       } else {
-        // Permission is not selected, add it to the list
         return [...prevPermissions, permissionId];
       }
     });
@@ -119,15 +111,14 @@ useEffect(() => {
                     value={name}
                     placeholder="Enter Role Name"
                   />
-                  <p className="error-message">{errors.name && errors.name }</p>
+                  <p className="error-message">{errors.name && errors.name}</p>
                 </div>
-                
+
               </div>
-              
+
 
               <div className="client_phoneNO">
                 <div style={{ height: "300px", width: "280px", overflowY: "scroll", alignItems: 'center', flexDirection: 'row' }}>
-                  {/* <label> Please select permissions. </label> */}
 
                   {permissions.map((item: Permission) => {
                     const isChecked = rolePermission.includes(item.id);
