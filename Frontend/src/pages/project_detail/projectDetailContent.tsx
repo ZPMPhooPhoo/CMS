@@ -22,6 +22,7 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
     const [QuotationData, setQuotationData] = useState<any[]>([]);
     const [expandedIndex, setExpandedIndex] = useState(-1);
     const [error, setError] = useState<string | undefined>();
+    const [errMsg, setErrMsg] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [pjdata, setPjdata] = useState<Pjdata>();
     const [devData, setDevData] = useState<[]>([]);
@@ -66,16 +67,18 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                 setDevData(newResponse.data.data)
                 setIsLoading(false);
             } catch (error: any) {
+                if (error.response && error.response.data && error.response.data.message) {
+                    const apiErrorMessage = error.response.data.message;
+                    setErrMsg(apiErrorMessage);
+                  } else {
+                    setErrMsg('An error has occurred during the API request.');
+                  }
                 setError(error.message);
-                console.log(error)
                 setIsLoading(false);
             }
         };
-
-
         fetchData();
     }, [id, token]);
-
 
     if (isLoading) {
         return <div className="l-width"><p className="loading"></p></div>
@@ -84,10 +87,8 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
     if (error) {
         return <div>We are having trouble when fetching data. Please try again later.</div>;
     }
-
-    console.log(QuotationData);
     QuotationData.map((item: any) => {
-        console.log(item.quotation);
+        
     })
     const handleModalClose = () => {
         setShowQuotationModal(false);
@@ -128,7 +129,7 @@ export const ProjectDetailContent: React.FC<pj_pass_data> = ({ }) => {
                 URL.revokeObjectURL(blobUrl);
             })
             .catch(error => {
-                console.error('Downloading Error:', error);
+                
             });
     };
 

@@ -1,13 +1,8 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-
 interface prjdataProps {
         category: string,
         status: string,
         description: string,
 }
-
-
 
 export const ProjectCard: React.FC<prjdataProps> = ({category, status, description}) => {
     
@@ -21,8 +16,6 @@ export const ProjectCard: React.FC<prjdataProps> = ({category, status, descripti
                 <p>{description}</p>
             </div>
             <hr />
-
-            
         </>
     )
 }

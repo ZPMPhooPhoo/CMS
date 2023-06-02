@@ -1,24 +1,22 @@
 import {useState,useEffect} from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 
 interface Role {
     id: number;
     name: string;
   }
 
-const UserProfileContent = () => {
+export const UserProfileContent = () => {
     const [userProfile,setUserProfile] =useState<string>("");
     const [name,setName] =useState<string>("");
     const [email,setEmail] =useState<string>("");
     const [phone,setPhone] =useState<string>("");
     const [address,setAddress] =useState<string>("");
     const [role,setRole] =useState<any>();
-    // const [userRole,setUserRole] =useState<any>();
     const token = localStorage.getItem('token');
     const { userId } = useParams();
-    const [error, setError] = useState(null);
+    const [errMsg, setErrMsg] = useState<string>('');
     const [options, setOptions] = useState<{ [key: number]: string }>({});
 
    useEffect(() => {
@@ -36,35 +34,32 @@ const UserProfileContent = () => {
               },
             }),
           ]);
-    
-        // const {name ,email,phone ,address,role} =usersResponse.data.data;
           setName(usersResponse.data.data.name);
           setEmail(usersResponse.data.data.email);
           setAddress(usersResponse.data.data.address);
           setPhone(usersResponse.data.data.phone);
           setRole(usersResponse.data.data.role_id);
-        //   console.log(usersResponse.data.data.name);
-        //   setUserRole(rolesResponse.data.data);
           const rolesData = rolesResponse.data.data;
           const mappedOptions: { [key: number]: string } = {};
           rolesData.forEach((item: Role) => {
             mappedOptions[item.id] = item.name;
           });
-    
           setOptions(mappedOptions);
         } catch (error: any) {
-          setError(error);
+          if (error.response && error.response.data && error.response.data.message) {
+            const apiErrorMessage = error.response.data.message;
+            setErrMsg(apiErrorMessage);
+          } else {
+            setErrMsg('An error has occurred during the API request.');
+          }
         }
       };
     
       fetchData();
     }, [token,userId]);
 
-    console.log(userProfile);
-
     return (
         <>
-
             <div className="main_userprofile">
                 <div className="left_userprofile">
                     <div className="profile_icon">
@@ -88,22 +83,17 @@ const UserProfileContent = () => {
                                 <h1>role</h1>
                                 <p>{options[role] || ""}</p>
                             </div>
-                            
-                        
                         </div>
                         <div className="user_contact_icon">
-                            
-                                <i className="fa-solid fa-phone user_phone"></i>
-                                <i className="fa-brands fa-rocketchat user_chat"></i>
-                                <i className="fa-solid fa-envelope user_mail"></i>
-                                <i className="fa-brands fa-facebook-f user_facebook"></i>                        </div>
+                          <i className="fa-solid fa-phone user_phone"></i>
+                          <i className="fa-brands fa-rocketchat user_chat"></i>
+                          <i className="fa-solid fa-envelope user_mail"></i>
+                          <i className="fa-brands fa-facebook-f user_facebook"></i>
+                        </div>
                     </div>
-                    
+                    <p className="error-message">{errMsg && errMsg}</p>
                 </div>
             </div>
-            
         </>
     );
 }
-
-export default UserProfileContent;

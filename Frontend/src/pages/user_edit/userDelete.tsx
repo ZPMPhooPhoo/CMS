@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate} from "react-router-dom";
 
-const UserDelete = () => {
+export const UserDelete = () => {
   const { userId } = useParams<{ userId: string }>();
+  const [errMsg, setErrMsg] = useState<string>('');
   const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
@@ -15,19 +16,23 @@ const UserDelete = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          
         }),navigate("/users");
-        // Handle successful deletion, e.g., update state or fetch updated data
-      } catch (error) {
-        console.log(error);
-        // Handle the error, e.g., show an error message
+      } catch (error:any) {
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       }
     };
 
     deleteUser();
   }, [userId, token]);
 
-  return <></>; // Empty fragment, as this component doesn't render anything
+  return (
+  <>
+    <p className="error-message">{errMsg && errMsg}</p>
+  </>
+  );
 };
-
-export default UserDelete;

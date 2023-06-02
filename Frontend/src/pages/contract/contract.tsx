@@ -9,12 +9,12 @@ interface ContractData {
   contract_url: string | null;
 }
 
-const ContractAll: React.FC = () => {
+export const ContractAll: React.FC = () => {
   const [contractData, setContractData] = useState<ContractData[]>([]);
+  const [errMsg, setErrMsg] = useState<string>('');
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    // Make an API request to retrieve the contract data
     axios
       .get('http://127.0.0.1:8000/api/contracts', {
         headers: {
@@ -22,29 +22,34 @@ const ContractAll: React.FC = () => {
         },
       })
       .then((response: AxiosResponse) => {
-        setContractData(response.data.data); // Access the contract data from the 'data' property
-      
+        setContractData(response.data.data);
       })
       .catch((error: any) => {
-        console.error(error);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   }, [token]);
-  console.log(contractData);
 
   function handleDownload(url: string, filename: string): void {
     fetch(url)
       .then(response => response.blob())
       .then(blob => {
-        // Create a download link
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = filename;
-  
-        // Trigger a click event to start the download
         link.click();
       })
       .catch(error => {
-        console.error('Downloading Error:', error);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   }
   
@@ -71,6 +76,7 @@ const ContractAll: React.FC = () => {
                 Download Contract
               </button>
             )}
+            <p className="error-message">{errMsg && errMsg}</p>
           </div>
         ))
       ) : (
@@ -79,5 +85,3 @@ const ContractAll: React.FC = () => {
     </div>
   );
 };
-
-export default ContractAll;

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import importImg from '../../img/ace_plus_logo.png';
 import { Button } from '../../components/button.component';
@@ -15,15 +14,13 @@ export const Login: React.FC<Props> = ({ }) => {
   const [password, setPassword] = useState<string>('');
   const [errors, setErrors] = useState<any>({});
   const [errMsg, setErrMsg] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false); // Add loading state
-
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
     setErrMsg('');
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     let validationErrors: any = {};
     if (email.trim() === '') {
@@ -35,7 +32,7 @@ export const Login: React.FC<Props> = ({ }) => {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
       return;
     }
 
@@ -53,20 +50,18 @@ export const Login: React.FC<Props> = ({ }) => {
         localStorage.removeItem('token');
         localStorage.removeItem('role_id');
       }, 1200000);
-      console.log(response.data);
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
 
       window.location.reload();
 
     } catch (error: any) {
-      console.log(error.message);
       if (error.response && error.response.data && error.response.data.message) {
         const apiErrorMessage = error.response.data.message;
         setErrMsg(apiErrorMessage);
       } else {
         setErrMsg('An error has occurred during the API request.');
       }
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
@@ -119,4 +114,3 @@ export const Login: React.FC<Props> = ({ }) => {
     </div>
   );
 };
-

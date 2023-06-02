@@ -6,20 +6,17 @@ interface Role {
   id: number;
   name: string;
 }
-// const navigate =useNavigate();
 
-const UserListContent = () => {
+export const UserListContent = () => {
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [errMsg, setErrMsg] = useState<string>('');
   const token = localStorage.getItem('token');
   const [filter, setFilter] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
-  // const [options, setOptions] = useState<Role[]>([]);
   const [options, setOptions] = useState<{ [key: number]: string }>({});
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +45,12 @@ const UserListContent = () => {
 
         setOptions(mappedOptions);
       } catch (error: any) {
-        setError(error);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
         setIsLoading(false);
       }
     };
@@ -70,8 +72,13 @@ const UserListContent = () => {
         }
       );
       setSearchResults(response.data.data);
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      if (error.response && error.response.data && error.response.data.message) {
+        const apiErrorMessage = error.response.data.message;
+        setErrMsg(apiErrorMessage);
+      } else {
+        setErrMsg('An error has occurred during the API request.');
+      }
     }
   };
 
@@ -86,7 +93,12 @@ const UserListContent = () => {
         setData(response.data);
         setIsLoading(false);
       } catch (error: any) {
-        setError(error);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
         setIsLoading(false);
       }
     };
@@ -106,7 +118,6 @@ const UserListContent = () => {
     return <div>Data is not available</div>;
   }
 
-
   let totalItems = data.data.length;
   if (searchResults.length > 0) {
     totalItems = searchResults.length
@@ -116,8 +127,6 @@ const UserListContent = () => {
   const indexOfFirstItem = indexOfLastItem - perPage;
   const currentItems = data.data.slice(indexOfFirstItem, indexOfLastItem);
   const currentSearchItems = searchResults?.slice(indexOfFirstItem, indexOfLastItem);
-
-
 
   return (
     <>
@@ -158,7 +167,6 @@ const UserListContent = () => {
             </thead>
             <tbody>
               {
-
                 (filter && currentSearchItems.length > 0
                   ? currentSearchItems
                   : currentItems
@@ -188,8 +196,7 @@ const UserListContent = () => {
                   );
                 })
               }
-
-
+              <p className="error-message">{errMsg && errMsg}</p>
             </tbody>
           </table>
 
@@ -200,14 +207,9 @@ const UserListContent = () => {
             <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
               &gt;&gt;
             </button>
-
           </div>
-
-
         </div>
       </div>
     </>
   );
 }
-
-export default UserListContent;

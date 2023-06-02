@@ -15,15 +15,14 @@ export const ClientEditContent: React.FC = () => {
   const [password, setPassword] = useState<string>("0000000000");
   const [password_confirmation, setPasswordConfirmation] = useState<string>("0000000000");
   const [errors, setErrors] = useState<any>({});
+  const [errMsg, setErrMsg] = useState<string>('');
   const token = localStorage.getItem('token');
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const { customerId } = useParams();
-  //   console.log("Customer ID:", customerId);
-  //   console.log(customerId);
+
   useEffect(() => {
-    // Fetch customer data from the server using axios
     axios
       .get(`http://127.0.0.1:8000/api/users/${customerId}`, {
         headers: {
@@ -31,13 +30,8 @@ export const ClientEditContent: React.FC = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
-        // Update the state variables with the retrieved data
-
-        // console.log(response.data.name);
         const { name, email, phone, address, contact_person, position } = response.data.data;
         setName(name);
-        console.log(name);
         setEmail(email);
         setPhoneNumber(phone);
         setAddress(address);
@@ -46,11 +40,15 @@ export const ClientEditContent: React.FC = () => {
         setIsLoading(false)
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
         setIsLoading(false)
       });
   }, [customerId, token]);
-
 
   const handleClientUpdate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,11 +97,15 @@ export const ClientEditContent: React.FC = () => {
         }
       )
       .then((response) => {
-        console.log(response.data);
         navigate("/client-lists");
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   };
 
@@ -139,7 +141,7 @@ export const ClientEditContent: React.FC = () => {
                     id="email"
                     name="email"
                     type="email"
-                    value={email} // Display the email state variable
+                    value={email}
                     placeholder="Enter Email"
                   />
                   <p className="error-message">{errors.email && errors.email}</p>
@@ -198,8 +200,8 @@ export const ClientEditContent: React.FC = () => {
                     placeholder="Customer Position"
                   />
                   <p className="error-message">{errors.clientPosition && errors.clientPosition}</p>
+                  <p className="error-message">{errMsg && errMsg}</p>
                 </div>
-
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text={isLoading ? "Loading..." : "UPDATE"}

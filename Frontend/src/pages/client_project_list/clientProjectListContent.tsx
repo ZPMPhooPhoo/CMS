@@ -11,11 +11,11 @@ interface Project {
   };
 }
 
-
 export const ClientProjectListContent = () => {
   const [clientproject, setClientproject] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | undefined>();
+  const [errMsg, setErrMsg] = useState<string>('');
   const [name, setName] = useState<string>("");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -51,6 +51,12 @@ export const ClientProjectListContent = () => {
         setClientproject(clientProjects);
         setIsLoading(false);
       } catch (error: any) {
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
         setError(error.message);
         setIsLoading(false);
       }
@@ -131,6 +137,7 @@ export const ClientProjectListContent = () => {
                 </tr>
               ))
             )}
+            <p className="error-message">{errMsg && errMsg}</p>
           </tbody>
         </table>
       </div>

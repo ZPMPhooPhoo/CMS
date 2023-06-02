@@ -20,6 +20,7 @@ export const RoleEditContent: React.FC = () => {
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const [rolePermission, setRolePermission] = useState<number[]>([]);
   const [errors, setErrors] = useState<any>({});
+  const [errMsg, setErrMsg] = useState<string>('');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const { roleId } = useParams();
@@ -32,24 +33,22 @@ useEffect(() => {
         },
       })
       .then((response) => {
-        console.log(response.data);
-        // Update the state variables with the retrieved data
-        
-        // console.log(response.data.name);
          const { name } = response.data.data.role;
          setName(name);
-        //console.log(name);
         
         const extractedPermissions = response.data.data.permissions;
         setPermissions(extractedPermissions);
-        console.log(extractedPermissions);
 
         const rolePermissionData = response.data.data.rolePermission;
         setRolePermission(rolePermissionData);
-        console.log(rolePermissionData);
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   }, [roleId, token]);
 
@@ -57,10 +56,8 @@ useEffect(() => {
   const handlePermissionChange = (permissionId: number) => {
     setRolePermission((prevPermissions) => {
       if (prevPermissions.includes(permissionId)) {
-        // Permission is currently selected, remove it from the list
         return prevPermissions.filter((id) => id !== permissionId);
       } else {
-        // Permission is not selected, add it to the list
         return [...prevPermissions, permissionId];
       }
     });
@@ -94,11 +91,15 @@ useEffect(() => {
         }
       )
       .then((response) => {
-        console.log(response.data);
         navigate("/role-list");
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   };
 
@@ -121,17 +122,12 @@ useEffect(() => {
                   />
                   <p className="error-message">{errors.name && errors.name }</p>
                 </div>
-                
               </div>
-              
 
               <div className="client_phoneNO">
                 <div style={{ height: "300px", width: "280px", overflowY: "scroll", alignItems: 'center', flexDirection: 'row' }}>
-                  {/* <label> Please select permissions. </label> */}
-
                   {permissions.map((item: Permission) => {
                     const isChecked = rolePermission.includes(item.id);
-
                     return (
                       <div key={item.id} style={{ display: "flex", padding: "15px" }}>
                         <div style={{ justifyContent: "flex-start" }}>
@@ -149,11 +145,10 @@ useEffect(() => {
                       </div>
                     );
                   })}
-
                   <p className="error-message">{errors.address && errors.address}</p>
+                  <p className="error-message">{errMsg && errMsg}</p>
                 </div>
               </div>
-
               <Button type="submit" className="button" text="Update" />
             </form>
           </div>

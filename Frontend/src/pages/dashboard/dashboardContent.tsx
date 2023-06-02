@@ -1,7 +1,7 @@
 
 import { Card } from "../../components/card.component"
-import BarChart from "../../components/barchart.component"
-import LineChart from "../../components/linechart.component"
+import {BarChart} from "../../components/barchart.component"
+import {LineChart} from "../../components/linechart.component"
 export const DashboardContent = () => {
 
     return (

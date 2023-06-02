@@ -5,20 +5,19 @@ import { Button } from "../../components/button.component";
 import { Input } from "../../components/input.component";
 import { Link } from "react-router-dom";
 
-
 export const CategoryCreateContent: React.FC = () => {
   const [category, setCategory] = useState<string>("");
   const [errors, setErrors] = useState<any>({});
+  const [errMsg, setErrMsg] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const handleCategoryCreate = (e: React.FormEvent) => {
     e.preventDefault();
-    // Reset errors
     setErrors({});
     setLoading(true);
 
-    // Perform validation
     let validationErrors: any = {};
     if (category.trim() === "") {
       validationErrors.category = "Category is required *";
@@ -30,8 +29,6 @@ export const CategoryCreateContent: React.FC = () => {
       return;
     }
 
-    const token = localStorage.getItem("token");
-
   axios
     .post("http://127.0.0.1:8000/api/categories", {
       category
@@ -41,16 +38,20 @@ export const CategoryCreateContent: React.FC = () => {
       },
     })
     .then((response) => {
-      console.log(response.data);
       navigate("/services");
     })
     .catch((error) => {
-      console.log(error.response.data);
+      if (error.response && error.response.data && error.response.data.message) {
+        const apiErrorMessage = error.response.data.message;
+        setErrMsg(apiErrorMessage);
+      } else {
+        setErrMsg('An error has occurred during the API request.');
+      }
     }).finally(() => {
       setLoading(false);
     });
-
   };
+
   if (isLoading) {
     return <div className="l-width"><p className="loading"></p></div>
   }
@@ -72,8 +73,8 @@ export const CategoryCreateContent: React.FC = () => {
                     placeholder="Enter Category"
                   />
                   <p className="error-message">{errors.category && errors.category}</p>
+                  <p className="error-message">{errMsg && errMsg}</p>
                 </div>
-
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}

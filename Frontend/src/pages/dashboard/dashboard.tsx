@@ -1,12 +1,9 @@
 import { DashboardContent } from './dashboardContent'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
-import { useContext, useEffect, useState } from 'react'
+import { useState } from 'react'
 
-// type BurgerPropsType = {
-//   onClick :() => void;
-// }
-const Dashboard = () => {
+export const Dashboard = () => {
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -16,7 +13,6 @@ const Dashboard = () => {
 
   return (
     <> 
-     {/* <ClientList /> */}
      <div className='pj-container'>
         <div className={`bar-div ${sidebarOpen ? '': 'close'} `}><Sidebar /></div>
         <div className='content'>
@@ -28,5 +24,3 @@ const Dashboard = () => {
     </>
   )
 }
-
-export default Dashboard;

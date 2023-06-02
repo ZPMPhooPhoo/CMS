@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Button } from '../../components/button.component';
 import { Input } from '../../components/input.component';
 
-const ContractCreateContent: React.FC = () => {
+export const ContractCreateContent: React.FC = () => {
     const location = useLocation();
     const searchID = new URLSearchParams(location.search);
     const customerID = searchID.get("id");
@@ -19,6 +19,7 @@ const ContractCreateContent: React.FC = () => {
     const [description, setDescription] = useState('');
     const [contract_date, setContractDate] = useState('');
     const [quotation_id, setQuotation_id] = useState<number>(q_id);
+    const [errMsg, setErrMsg] = useState<string>('');
 
     const navigate = useNavigate();
 
@@ -40,15 +41,15 @@ const ContractCreateContent: React.FC = () => {
                     },
                 })
             .then((response: any) => {
-                console.log(response.data);
                 navigate(`/client-project-lists?id=${customerID}`)
             })
             .catch((error: any) => {
                 if (error.response && error.response.data && error.response.data.message) {
-                    console.log(error.response.data.message);
-                } else {
-                    console.log("An error occured:", error.message);
-                }
+                    const apiErrorMessage = error.response.data.message;
+                    setErrMsg(apiErrorMessage);
+                  } else {
+                    setErrMsg('An error has occurred during the API request.');
+                  }
             })
     }
     return (
@@ -98,6 +99,7 @@ const ContractCreateContent: React.FC = () => {
                                     />
                                 </Link>
                             </div>
+                            <p className="error-message">{errMsg && errMsg}</p>
                         </form>
                     </div>
                 </div>
@@ -105,5 +107,3 @@ const ContractCreateContent: React.FC = () => {
         </>
     );
 }
-
-export default ContractCreateContent;
