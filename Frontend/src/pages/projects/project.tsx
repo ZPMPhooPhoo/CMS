@@ -2,7 +2,8 @@ import { ProjectContent } from './projectContent'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
-const Project = () => {
+
+export const Project = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
@@ -18,10 +19,7 @@ const Project = () => {
           <div> <Header clickHandler={handleBurgerClick} text="Projects" /> </div>
           <div className='board-div'><ProjectContent /></div>
         </div>
-
       </div>
     </>
   )
 }
-
-export default Project;

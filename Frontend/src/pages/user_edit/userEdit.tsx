@@ -3,7 +3,7 @@ import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
 import { UserEditContent } from './userEditContent';
 
-const UserEdit = () => {
+export const UserEdit = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
@@ -16,13 +16,10 @@ const UserEdit = () => {
       <div className='pj-container'>
         <div className={`bar-div ${sidebarOpen ? '' : 'close'} `}><Sidebar /></div>
         <div className='content'>
-          <div> <Header clickHandler={handleBurgerClick} text='Client Lists' /> </div>
+          <div> <Header clickHandler={handleBurgerClick} text='User Edit' /> </div>
           <div className='board-div'><UserEditContent /></div>
         </div>
-
       </div>
     </>
   )
 }
-
-export default UserEdit;

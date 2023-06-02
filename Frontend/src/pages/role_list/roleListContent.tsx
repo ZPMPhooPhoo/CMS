@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-const RoleListContent = () => {
+export const RoleListContent = () => {
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [errMsg, setErrMsg] = useState<string>('');
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const id = searchParams.get("id");
@@ -29,8 +30,13 @@ const RoleListContent = () => {
           }
         );
         setSearchResults(response.data.data);
-      } catch (error) {
-        console.log(error);
+      } catch (error:any) {
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       }
     };
   
@@ -45,11 +51,15 @@ const RoleListContent = () => {
           setData(response.data);
           setIsLoading(false);
         } catch (error:any) {
-          setError(error);
+          if (error.response && error.response.data && error.response.data.message) {
+            const apiErrorMessage = error.response.data.message;
+            setErrMsg(apiErrorMessage);
+          } else {
+            setErrMsg('An error has occurred during the API request.');
+          }
           setIsLoading(false);
         }
       };
-  
       fetchData();
     }, [token]);
   
@@ -83,9 +93,7 @@ const RoleListContent = () => {
                             </div>     
                         </abbr> 
                     </div>
-
                     <table className='pj-table'>
-                
                       <thead>
                           <tr className="table-header">
                               <th>No</th>
@@ -110,6 +118,7 @@ const RoleListContent = () => {
                         </tr>
                       );
                     })}
+                    <p className="error-message">{errMsg && errMsg}</p>
                       </tbody>
                     </table>                
                 </div>
@@ -117,5 +126,3 @@ const RoleListContent = () => {
         </>
     );
 }
-
-export default RoleListContent;

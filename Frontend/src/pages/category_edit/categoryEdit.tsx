@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { CategoryEditContent } from './categoryEditContent';
 
 const CategoryEdit = () => {
-
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
   const handleBurgerClick = () => {

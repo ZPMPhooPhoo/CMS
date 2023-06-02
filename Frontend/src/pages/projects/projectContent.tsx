@@ -10,6 +10,7 @@ export const ProjectContent = () => {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
+  const [errMsg, setErrMsg] = useState<string>('');
 
   const handleActiveChange = (checked: boolean) => {
     setActiveChecked(checked);
@@ -30,8 +31,13 @@ export const ProjectContent = () => {
         });
         setProjects(response.data.data);
         setLoading(false);
-      } catch (error) {
-        setError('Failed to fetch projects.');
+      } catch (error: any) {
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
         setLoading(false);
       }
     };
@@ -44,13 +50,14 @@ export const ProjectContent = () => {
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Display an error message
+    return <div>Error: {error}</div>;
   }
   let totalItems = projects.length;
   const totalPages = Math.ceil(totalItems / perPage);
   const indexOfLastItem = currentPage * perPage;
   const indexOfFirstItem = indexOfLastItem - perPage;
   const currentItems = projects.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <>
       <div className="table-wrap" style={{ width: '97%' }}>
@@ -89,6 +96,7 @@ export const ProjectContent = () => {
                   </td>
                 </tr>
               ))}
+            <p className="error-message">{errMsg && errMsg}</p>
           </tbody>
         </table>
         <div className="pagination">

@@ -1,8 +1,9 @@
-import UserListContent from './userListContent'
+import { UserListContent } from './userListContent'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useState, useEffect } from 'react'
-const UserList = () => {
+
+export const UserList = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
@@ -23,5 +24,3 @@ const UserList = () => {
     </>
   )
 }
-
-export default UserList;

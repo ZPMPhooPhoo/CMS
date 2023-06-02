@@ -1,32 +1,30 @@
 import { Route, RouterProvider, Routes, createBrowserRouter, BrowserRouter as Router } from "react-router-dom";
-import Dashboard from "./pages/dashboard/dashboard";
-import Project from "./pages/projects/project";
+import { Dashboard } from "./pages/dashboard/dashboard";
+import { Project } from "./pages/projects/project";
 import { Error } from "./pages/notfound";
-import ClientCreate from "./pages/client_create/clientCreate";
 import { Login } from "./pages/auth/login";
-import UserEditFrom from "./pages/user_edit/userEdit";
-import UserDelete from "./pages/user_edit/userDelete";
-
-import ProjectDetail from "./pages/project_detail/projectDetail";
-import ClientProjectList from "./pages/client_project_list/clientProjectList";
-import ClientList from "./pages/client_list/clientList";
-import ProjectCreate from "./pages/project_create/projectCreate";
-import UserList from "./pages/user_list/userList";
-import ClientEdit from "./pages/client_edit/clientEdit";
-import ClientDelete from "./pages/client_edit/client_delete";
-import Quotation from "./pages/quotation_list/quotationList";
-import { Logout } from "./pages/auth/logout";
+import { UserEdit } from "./pages/user_edit/userEdit";
+import { UserDelete } from "./pages/user_edit/userDelete";
+import { ProjectDetail } from "./pages/project_detail/projectDetail";
+import { ClientProjectList } from "./pages/client_project_list/clientProjectList";
+import { ClientList } from "./pages/client_list/clientList";
+import { ProjectCreate } from "./pages/project_create/projectCreate";
+import { UserList } from "./pages/user_list/userList";
+import { ClientEdit } from "./pages/client_edit/clientEdit";
+import { ClientDelete } from "./pages/client_edit/client_delete";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Category from "./pages/category_list/categoryList";
-import ContractCreate from "./pages/contract/contractCreate";
-import CategoryCreate from "./pages/category_create/categoryCreate";
+import { ContractCreate } from "./pages/contract/contractCreate";
+import { CategoryCreate } from "./pages/category_create/categoryCreate";
 import CategoryEdit from "./pages/category_edit/categoryEdit";
-import CategoryDelete from "./pages/category_edit/category_delete";
-import ProjectEdit from "./pages/project-edit/projectEdit";
-import UserCreate from "./pages/user_create/userCreate";
-import QuotationEdit from "./pages/quotation-edit/quotationEdit";
-import UserProfile from "./pages/user_profile/userProfilec";
+import { CategoryDelete } from "./pages/category_edit/category_delete";
+import { ProjectEdit } from "./pages/project-edit/projectEdit";
+import { QuotationEdit } from "./pages/quotation-edit/quotationEdit";
+import { QuotationList } from "./pages/quotation_list/quotationList";
+import { ClientCreate } from "./pages/client_create/clientCreate";
+import { UserCreate } from "./pages/user_create/userCreate";
+import { UserProfile } from "./pages/user_profile/userProfilec";
+import axios from "axios";
 
 const role_id = localStorage.getItem("role_id");
 const token = localStorage.getItem("token");
@@ -159,7 +157,7 @@ let routes = [
     path: '/user-edit/:userId',
     backend_path: 'user-edit',
     element: (
-      <UserEditFrom />
+      <UserEdit />
     )
   },
   {
@@ -173,7 +171,7 @@ let routes = [
     path: '/quotation-create',
     backend_path: 'quotation-create',
     element: (
-      <Quotation />
+      <QuotationList />
     )
   },
   {
@@ -220,17 +218,15 @@ export const Routers = () => {
           },
         });
         const backend_routes = response.data.data.rolePermissions;
-
         let avialable_routes = routes.filter(route => backend_routes.includes(route.backend_path)).map(route => ({ element: route.element, path: route.path }));
-        // avialable_routes = [
-        //   {
-        //     path: "/logout",
-        //     element: <Logout />
-        //   }
-        // ];
         setRoles(prev => [...avialable_routes, ...prev])
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        // if (error.response && error.response.data && error.response.data.message) {
+        //   const apiErrorMessage = error.response.data.message;
+        //   setErrMsg(apiErrorMessage);
+        // } else {
+        //   setErrMsg('An error has occurred during the API request.');
+        // }
       } finally {
         setIsLoading(false);
       }
@@ -238,15 +234,12 @@ export const Routers = () => {
     fetchData();
   }, [role_id, token]);
 
-  console.log(roles)
-  console.log(routes)
   const routeList = createBrowserRouter(roles);
   if (isLoading) {
     return <div className="c-width"><p className="loading"></p></div>
   }
   return (
     <>
-      {/* <div> <Sidebar /> </div> */}
       {localStorage.getItem('token') ? (
         <RouterProvider router={routeList} />) ||
         <Router>
@@ -261,6 +254,7 @@ export const Routers = () => {
           </Routes>
         </Router>
       )}
+      {/* <p className="error-message">{errMsg && errMsg}</p> */}
     </>
   )
 }

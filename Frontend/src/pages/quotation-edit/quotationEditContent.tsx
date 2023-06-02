@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ChangeEventHandler, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
@@ -7,8 +7,7 @@ import { Checkbox } from '../../components/checkbox';
 import { Input } from '../../components/input.component';
 import { Label } from '../../components/label.component';
 
-
-const QuotationEditContent: React.FC = () => {
+export const QuotationEditContent: React.FC = () => {
     const [quotation, setQuotation] = useState<File | null>(null);
     const [description, setDescription] = useState('');
     const [is_agree, setIsAgree] = useState(false);
@@ -21,7 +20,8 @@ const QuotationEditContent: React.FC = () => {
     const quotation_ID = searchID.get("quotation_id");
     const project_id = searchID.get("projectID")?.toString();
     const customerID = searchID.get("customerID");
-    let pj_id = 0;
+    const [errMsg, setErrMsg] = useState<string>('');
+
 
     const token = localStorage.getItem("token");
     useEffect(() => {
@@ -33,15 +33,19 @@ const QuotationEditContent: React.FC = () => {
                     }
                 });
                 setDescription(response.data.data?.description)
-                setIsLoading(false)
 
             } catch (error: any) {
-                console.log("Error: " + error)
-                setIsLoading(false)
+                if (error.response && error.response.data && error.response.data.message) {
+                    const apiErrorMessage = error.response.data.message;
+                    setErrMsg(apiErrorMessage);
+                } else {
+                    setErrMsg('An error has occurred during the API request.');
+                }
             }
         }
         fetchData();
     }, []);
+
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -72,19 +76,17 @@ const QuotationEditContent: React.FC = () => {
             })
             .catch((error: any) => {
                 if (error.response && error.response.data && error.response.data.message) {
-                    console.log(error.response.data.message);
+                    const apiErrorMessage = error.response.data.message;
+                    setErrMsg(apiErrorMessage);
                 } else {
-                    console.log("An error occurred:", error.message);
+                    setErrMsg('An error has occurred during the API request.');
                 }
             });
     };
 
-
-
     function handleChatboxChange(checked: boolean) {
         setisCheckbox(checked);
     }
-
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
@@ -93,6 +95,7 @@ const QuotationEditContent: React.FC = () => {
     if (isLoading) {
         return <div className="l-width"><p className="loading"></p></div>
     }
+
     return (
         <>
             <div className="register add-middle">
@@ -103,7 +106,6 @@ const QuotationEditContent: React.FC = () => {
                             <div className="client_phoneNO">
                                 <div className="client_phone_parent">
                                     <input type="file" onChange={handleFileChange} />
-
                                 </div>
                             </div>
                             <div className="client_phoneNO">
@@ -133,6 +135,7 @@ const QuotationEditContent: React.FC = () => {
                                     <Checkbox className="check_boxquotationform" name="checkbox" checked={editData?.data?.is_agree} onChange={handleChatboxChange} label={""} />
                                     <Label htmlFor="checkbox" text="Is agree?" />
                                 </div>
+                                <p className="error-message">{errMsg && errMsg}</p>
                             </div>
                             <div className="allbtn">
                                 <Button type="submit" className="button" text="ADD" />
@@ -148,4 +151,3 @@ const QuotationEditContent: React.FC = () => {
         </>
     );
 };
-export default QuotationEditContent;

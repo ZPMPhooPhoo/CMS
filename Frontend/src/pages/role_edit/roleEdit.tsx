@@ -3,7 +3,7 @@ import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
 import { RoleEditContent } from './roleEditContent';
 
-const RoleEdit = () => {
+export const RoleEdit = () => {
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -23,5 +23,3 @@ const RoleEdit = () => {
     </>
   )
 }
-
-export default RoleEdit;

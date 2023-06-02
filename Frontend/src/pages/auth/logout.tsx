@@ -1,6 +1,9 @@
 import { useEffect } from "react";
+<<<<<<< HEAD
 import axios from "axios";
 
+=======
+>>>>>>> 4d6eac444645a90ec635f86d171e27625f352265
 
 export const Logout = () => {
   useEffect(() => {

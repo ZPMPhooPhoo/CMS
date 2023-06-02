@@ -7,7 +7,8 @@ import { Input } from '../../components/input.component';
 import { Checkbox } from '../../components/checkbox';
 import { Label } from '../../components/label.component';
 
-const QuotationListContent: React.FC = () => {
+export const QuotationListContent: React.FC = () => {
+  const [errMsg, setErrMsg] = useState<string>('');
   const [quotation, setQuotation] = useState<File | null>(null);
   const [description, setDescription] = useState('');
   const [is_agree, setIsAgree] = useState(false);
@@ -15,7 +16,6 @@ const QuotationListContent: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isCheckbox, setIsCheckbox] = useState<boolean>(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
-
   const location = useLocation();
   const searchID = new URLSearchParams(location.search);
   const customerID = searchID.get("id");
@@ -85,12 +85,20 @@ const QuotationListContent: React.FC = () => {
       })
       .catch((error: any) => {
         if (error.response && error.response.data && error.response.data.message) {
-          console.log(error.response.data.message);
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
         } else {
-          console.log("An error occurred:", error.message);
+          setErrMsg('An error has occurred during the API request.');
         }
       });
   };
+
+  // function handleChatboxChange(checked: boolean) {
+  //   setisCheckbox(checked);
+  // }
+  // if (isLoading) {
+  //   return <div className="l-width"><p className="loading"></p></div>
+  // }
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
@@ -149,6 +157,7 @@ const QuotationListContent: React.FC = () => {
                   <Checkbox className="check_boxquotationform" name="checkbox" checked={isCheckbox} onChange={setIsCheckbox} label={""} />
                   <Label htmlFor="checkbox" text="Is agree?" />
                 </div>
+                <p className="error-message">{errMsg && errMsg}</p>
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text="ADD" />
@@ -163,5 +172,3 @@ const QuotationListContent: React.FC = () => {
     </>
   );
 };
-
-export default QuotationListContent;

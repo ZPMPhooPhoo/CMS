@@ -7,6 +7,7 @@ import { Input } from "../../components/input.component";
 export const CategoryEditContent: React.FC = () => {
   const [category, setCategory] = useState<string>("");
   const [errors, setErrors] = useState<any>({});
+  const [errMsg, setErrMsg] = useState<string>('');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const { categoryId } = useParams();
@@ -19,13 +20,16 @@ export const CategoryEditContent: React.FC = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
         const { category } = response.data.data;
         setCategory(category);
-        console.log(category);
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   }, [categoryId, token]);
 
@@ -56,11 +60,15 @@ export const CategoryEditContent: React.FC = () => {
         }
       )
       .then((response) => {
-        console.log(response.data);
         navigate("/services");
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   };
 
@@ -81,6 +89,7 @@ export const CategoryEditContent: React.FC = () => {
                     placeholder="Enter Category Name"
                   />
                   <p className="error-message">{errors.category && errors.category}</p>
+                  <p className="error-message">{errMsg && errMsg}</p>
                 </div>
               </div>
               <div className="allbtn">

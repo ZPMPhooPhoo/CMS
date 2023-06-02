@@ -1,8 +1,10 @@
 import { DashboardContent } from './dashboardContent'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
-import { useContext, useEffect, useState } from 'react'
-const Dashboard = () => {
+
+import { useState } from 'react'
+
+export const Dashboard = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
@@ -23,5 +25,3 @@ const Dashboard = () => {
     </>
   )
 }
-
-export default Dashboard;

@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-const PermissionListContent = () => {
+export const PermissionListContent = () => {
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [errMsg, setErrMsg] = useState<string>('');
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const id = searchParams.get("id");
@@ -29,8 +30,13 @@ const PermissionListContent = () => {
           }
         );
         setSearchResults(response.data.data);
-      } catch (error) {
-        console.log(error);
+      } catch (error:any) {
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       }
     };
   
@@ -110,6 +116,7 @@ const PermissionListContent = () => {
                         </tr>
                       );
                     })}
+                    <p className="error-message">{errMsg && errMsg}</p>
                       </tbody>
                     </table>                
                 </div>
@@ -117,5 +124,3 @@ const PermissionListContent = () => {
         </>
     );
 }
-
-export default PermissionListContent;

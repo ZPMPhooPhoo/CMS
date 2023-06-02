@@ -1,8 +1,9 @@
-import ClientListContent from './clientListContent'
+import { ClientListContent } from './clientListContent'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
-const ClientList = () => {
+
+export const ClientList = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
@@ -23,5 +24,3 @@ const ClientList = () => {
     </>
   )
 }
-
-export default ClientList;

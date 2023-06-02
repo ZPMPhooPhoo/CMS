@@ -42,7 +42,6 @@ const sidebar_routes = [
     },
 ]
 
-
 export const Sidebar = () => {
     const [role, setRoles] = useState<string[]>([]);
     const role_id = localStorage.getItem("role_id");
@@ -57,19 +56,14 @@ export const Sidebar = () => {
                     },
                 });
                 setRoles(response.data.data.rolePermissions);
-
-
             } catch (error: any) {
 
             }
-
         }
         fetchData();
-
     }, []);
 
     const avialable_routes: any[] = useMemo(() => sidebar_routes.filter(route => role.includes(route.backend_path)), [role]);
-
 
     return (
         <>
@@ -81,13 +75,11 @@ export const Sidebar = () => {
                             <li key={route.path}>  <Link to={route.path}>{route.icon} {route.name} </Link> </li>
                         ))
                     }
-
                 </ul>
                 <div className='system-name'>
                     <h2>CLIENT MANAGEMENT SYSTEM</h2>
                 </div>
             </div>
-
         </>
     )
 }

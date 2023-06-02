@@ -4,6 +4,7 @@ import axios from "axios";
 import { Button } from "../../components/button.component";
 import { Input } from "../../components/input.component";
 import { Link } from "react-router-dom";
+
 export const ClientCreateContent: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -15,6 +16,7 @@ export const ClientCreateContent: React.FC = () => {
   const [password, setPassword] = useState<string>("0000000000");
   const [password_confirmation, setConfirmpassword] = useState<string>("0000000000");
   const [errors, setErrors] = useState<any>({});
+  const [errMsg, setErrMsg] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ export const ClientCreateContent: React.FC = () => {
     e.preventDefault();
     setErrors({});
     setLoading(true);
+
     let validationErrors: any = {};
     if (name.trim() === "") {
       validationErrors.name = "Name is required *";
@@ -65,11 +68,15 @@ export const ClientCreateContent: React.FC = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
         navigate("/client-lists");
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       }).finally(() => {
         setLoading(false);
       });
@@ -166,8 +173,8 @@ export const ClientCreateContent: React.FC = () => {
                     placeholder="Customer Position"
                   />
                   <p className="error-message">{errors.clientPosition && errors.clientPosition}</p>
+                  <p className="error-message">{errMsg && errMsg}</p>
                 </div>
-
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}

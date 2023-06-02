@@ -16,6 +16,7 @@ export const UserCreateContent: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [password_confirmation, setPasswordConfirmation] = useState<string>("");
   const [errors, setErrors] = useState<any>({});
+  const [errMsg, setErrMsg] = useState<string>('');
   const token = localStorage.getItem('token');
   const [options, setOptions] = useState<Role[]>([]);
   const [role_id, setRole] = useState<number | undefined>();
@@ -39,17 +40,24 @@ export const UserCreateContent: React.FC = () => {
 
         setOptions(mappedOptions);
         setIsLoading(false)
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
         setIsLoading(false)
       }
     };
 
     fetchData();
   }, [token]);
+
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
+
     let validationErrors: any = {};
     if (name.trim() === "") {
       validationErrors.name = "Name is required *";
@@ -64,7 +72,7 @@ export const UserCreateContent: React.FC = () => {
       validationErrors.confirmPassword = "Confirm Password is required *";
     }
     if (password_confirmation.trim() !== password.trim()) {
-      validationErrors.confirmPassword = "Passwords do not match *";
+      validationErrors.confirmPassword = "Password does not match *";
     }
     if (!role_id) {
       validationErrors.role = "Role is required *";
@@ -83,11 +91,15 @@ export const UserCreateContent: React.FC = () => {
         role_id
       })
       .then((response) => {
-        console.log(response.data);
         navigate("/users");
       })
       .catch((error) => {
-        console.log(error.message);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   };
 
@@ -156,6 +168,7 @@ export const UserCreateContent: React.FC = () => {
             ))}
           </select>
           <p className="error-message">{errors.role && errors.role}</p>
+          <p className="error-message">{errMsg && errMsg}</p>
           <div className="allbtn">
             <Button type="submit" className="button" text={isLoading ? "Loading..." : "ADD"}
               disabled={isLoading} />

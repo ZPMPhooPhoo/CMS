@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-const ClientListContent = () => {
+export const ClientListContent = () => {
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
   const [error, setError] = useState(null);
+  const [errMsg, setErrMsg] = useState<string>('');
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
@@ -32,8 +33,13 @@ const ClientListContent = () => {
         }
       );
       setSearchResults(response.data.data);
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      if (error.response && error.response.data && error.response.data.message) {
+        const apiErrorMessage = error.response.data.message;
+        setErrMsg(apiErrorMessage);
+      } else {
+        setErrMsg('An error has occurred during the API request.');
+      }
     }
   };
 
@@ -63,6 +69,7 @@ const ClientListContent = () => {
   if (error) {
     return <div>We are having trouble when fetching data. Please try again later.</div>;
   }
+  
   let totalItems = data.data.length;
   if (searchResults.length > 0) {
     totalItems = searchResults.length;
@@ -133,6 +140,7 @@ const ClientListContent = () => {
                   );
                 }
               )}
+              <p className="error-message">{errMsg && errMsg}</p>
             </tbody>
           </table>
           <div className="pagination">
@@ -151,5 +159,3 @@ const ClientListContent = () => {
     </>
   );
 };
-
-export default ClientListContent;

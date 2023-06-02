@@ -9,8 +9,9 @@ interface ContractData {
   contract_url: string | null;
 }
 
-const ContractAll: React.FC = () => {
+export const ContractAll: React.FC = () => {
   const [contractData, setContractData] = useState<ContractData[]>([]);
+  const [errMsg, setErrMsg] = useState<string>('');
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -22,13 +23,20 @@ const ContractAll: React.FC = () => {
       })
       .then((response: AxiosResponse) => {
         setContractData(response.data.data);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4d6eac444645a90ec635f86d171e27625f352265
       })
       .catch((error: any) => {
-        console.error(error);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   }, [token]);
-  console.log(contractData);
 
   function handleDownload(url: string, filename: string): void {
     fetch(url)
@@ -40,7 +48,12 @@ const ContractAll: React.FC = () => {
         link.click();
       })
       .catch(error => {
-        console.error('Downloading Error:', error);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   }
 
@@ -67,6 +80,7 @@ const ContractAll: React.FC = () => {
                 Download Contract
               </button>
             )}
+            <p className="error-message">{errMsg && errMsg}</p>
           </div>
         ))
       ) : (
@@ -75,5 +89,3 @@ const ContractAll: React.FC = () => {
     </div>
   );
 };
-
-export default ContractAll;

@@ -1,9 +1,9 @@
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
-import QuotationListContent from './quotationListContent';
+import { QuotationListContent } from './quotationListContent';
 
-const Quotation = () => {
+export const QuotationList = () => {
 
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
@@ -19,10 +19,7 @@ const Quotation = () => {
                     <div> <Header clickHandler={handleBurgerClick} text="Projects" /> </div>
                     <div className='board-div'><QuotationListContent /></div>
                 </div>
-
             </div>
         </>
     )
 }
-
-export default Quotation;

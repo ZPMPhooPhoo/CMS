@@ -15,11 +15,13 @@ export const ClientEditContent: React.FC = () => {
   const [password, setPassword] = useState<string>("0000000000");
   const [password_confirmation, setPasswordConfirmation] = useState<string>("0000000000");
   const [errors, setErrors] = useState<any>({});
+  const [errMsg, setErrMsg] = useState<string>('');
   const token = localStorage.getItem('token');
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const { customerId } = useParams();
+
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/api/users/${customerId}`, {
@@ -30,7 +32,6 @@ export const ClientEditContent: React.FC = () => {
       .then((response) => {
         const { name, email, phone, address, contact_person, position } = response.data.data;
         setName(name);
-        console.log(name);
         setEmail(email);
         setPhoneNumber(phone);
         setAddress(address);
@@ -39,11 +40,15 @@ export const ClientEditContent: React.FC = () => {
         setIsLoading(false)
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
         setIsLoading(false)
       });
   }, [customerId, token]);
-
 
   const handleClientUpdate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,7 +100,12 @@ export const ClientEditContent: React.FC = () => {
         navigate("/client-lists");
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   };
 
@@ -190,8 +200,8 @@ export const ClientEditContent: React.FC = () => {
                     placeholder="Customer Position"
                   />
                   <p className="error-message">{errors.clientPosition && errors.clientPosition}</p>
+                  <p className="error-message">{errMsg && errMsg}</p>
                 </div>
-
               </div>
               <div className="allbtn">
                 <Button type="submit" className="button" text={isLoading ? "Loading..." : "UPDATE"}

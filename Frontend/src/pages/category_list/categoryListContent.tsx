@@ -1,14 +1,17 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const CategoryListContent = () => {
+export const CategoryListContent = () => {
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const token = localStorage.getItem('token');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const [filter, setFilter] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [error, setError] = useState(null);
+  const [errMsg, setErrMsg] = useState<string>('');
+  const token = localStorage.getItem('token');
 
   const handleFilterChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const filterValue = event.target.value;
@@ -21,12 +24,16 @@ const CategoryListContent = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-
         }
       );
       setSearchResults(response.data.data);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.response && error.response.data && error.response.data.message) {
+        const apiErrorMessage = error.response.data.message;
+        setErrMsg(apiErrorMessage);
+      } else {
+        setErrMsg('An error has occurred during the API request.');
+      }
     }
   };
 
@@ -106,6 +113,7 @@ const CategoryListContent = () => {
                   </tr>
                 );
               })}
+              <p className="error-message">{errMsg && errMsg}</p>
             </tbody>
           </table>
         </div>
@@ -113,5 +121,3 @@ const CategoryListContent = () => {
     </>
   );
 }
-
-export default CategoryListContent;

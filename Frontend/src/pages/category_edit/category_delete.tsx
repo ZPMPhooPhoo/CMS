@@ -1,9 +1,11 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const CategoryDelete = () => {
+export const CategoryDelete = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
+  const [errors, setErrors] = useState<any>({});
+  const [errMsg, setErrMsg] = useState<string>('');
   const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
@@ -17,15 +19,21 @@ const CategoryDelete = () => {
           },
 
         }), navigate("/services");
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       }
     };
 
     deleteCategory();
   }, [categoryId, token]);
 
-  return <></>;
+  return (
+    <>
+    </>
+  );
 };
-
-export default CategoryDelete;

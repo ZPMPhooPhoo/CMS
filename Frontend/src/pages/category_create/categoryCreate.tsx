@@ -3,7 +3,7 @@ import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
 import { CategoryCreateContent } from './categoryCreateContent';
 
-const CategoryCreate = () => {
+export const CategoryCreate = () => {
 
   const [sidebarOpen , setSidebarOpen] = useState<boolean>(true);
 
@@ -23,5 +23,3 @@ const CategoryCreate = () => {
     </>
   )
 }
-
-export default CategoryCreate;

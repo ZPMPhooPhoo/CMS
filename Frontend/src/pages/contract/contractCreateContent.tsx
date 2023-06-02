@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Button } from '../../components/button.component';
 import { Input } from '../../components/input.component';
 
-const ContractCreateContent: React.FC = () => {
+export const ContractCreateContent: React.FC = () => {
     const location = useLocation();
     const searchID = new URLSearchParams(location.search);
     const customerID = searchID.get('id');
@@ -21,6 +21,7 @@ const ContractCreateContent: React.FC = () => {
     const [quotation_id, setQuotation_id] = useState<number>(q_id);
     const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
+    const [errMsg, setErrMsg] = useState<string>('');
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -60,18 +61,17 @@ const ContractCreateContent: React.FC = () => {
                 },
             })
             .then((response: any) => {
-                console.log(response.data);
-                navigate(`/client-project-lists?id=${customerID}`);
+                navigate(`/client-project-lists?id=${customerID}`)
             })
             .catch((error: any) => {
                 if (error.response && error.response.data && error.response.data.message) {
-                    console.log(error.response.data.message);
+                    const apiErrorMessage = error.response.data.message;
+                    setErrMsg(apiErrorMessage);
                 } else {
-                    console.log('An error occurred:', error.message);
+                    setErrMsg('An error has occurred during the API request.');
                 }
-            });
-    };
-
+            })
+    }
     return (
         <>
             <div className="register add-middle">
@@ -141,6 +141,4 @@ const ContractCreateContent: React.FC = () => {
             </div>
         </>
     );
-};
-
-export default ContractCreateContent;
+}

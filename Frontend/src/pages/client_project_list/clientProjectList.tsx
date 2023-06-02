@@ -2,7 +2,8 @@ import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
 import { ClientProjectListContent } from './clientProjectListContent';
-const ClientProjectList = () => {
+
+export const ClientProjectList = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
@@ -22,5 +23,3 @@ const ClientProjectList = () => {
     </>
   )
 }
-
-export default ClientProjectList;

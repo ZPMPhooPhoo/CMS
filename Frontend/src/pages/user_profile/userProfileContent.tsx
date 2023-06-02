@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 
 interface Role {
   id: number;
   name: string;
 }
 
-const UserProfileContent = () => {
+export const UserProfileContent = () => {
   const [userProfile, setUserProfile] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -102,5 +101,3 @@ const UserProfileContent = () => {
     </>
   );
 }
-
-export default UserProfileContent;
