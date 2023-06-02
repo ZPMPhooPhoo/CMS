@@ -15,8 +15,6 @@ export const ProjectCard: React.FC<prjdataProps> = ({ category, status, descript
                 <p>{description}</p>
             </div>
             <hr />
-
-
         </>
     )
 }

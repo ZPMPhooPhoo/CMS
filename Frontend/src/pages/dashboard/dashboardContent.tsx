@@ -1,8 +1,8 @@
 import { Card } from "../../components/card.component"
-import BarChart from "../../components/barchart.component"
-import LineChart from "../../components/linechart.component"
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { BarChart } from "../../components/barchart.component"
+import { LineChart } from "../../components/linechart.component"
+import { useEffect, useState } from "react";
+import axios from "axios";
 export const DashboardContent = () => {
     const token = localStorage.getItem("token");
     const [customers, setCustomers] = useState<any>();

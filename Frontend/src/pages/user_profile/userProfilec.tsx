@@ -1,8 +1,10 @@
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
-import { useState, useEffect } from 'react'
-import UserProfileContent from './userProfileContent'
-const UserProfile = () => {
+
+import { useState } from 'react'
+import { UserProfileContent } from './userProfileContent'
+
+export const UserProfile = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
@@ -18,10 +20,7 @@ const UserProfile = () => {
           <div> <Header clickHandler={handleBurgerClick} text='User Profile' /> </div>
           <div className='board-div'><UserProfileContent /></div>
         </div>
-
       </div>
     </>
   )
 }
-
-export default UserProfile;

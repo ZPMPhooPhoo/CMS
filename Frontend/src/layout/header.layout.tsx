@@ -6,7 +6,6 @@ type props = {
     text: string
 }
 
-
 export const Header = ({ clickHandler, text }: props) => {
     return (
         <>

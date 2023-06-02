@@ -16,7 +16,6 @@ export const Dropdown = () => {
     }
     return (
         <>
-
             <label className="dropdown">
 
                 <div className="dd-button">
@@ -28,9 +27,7 @@ export const Dropdown = () => {
                     <li><Link to="/user-profile">My account</Link></li>
                     <li onClick={handleLougout}><a>Logout</a></li>
                 </ul>
-
             </label>
-
         </>
     )
 }

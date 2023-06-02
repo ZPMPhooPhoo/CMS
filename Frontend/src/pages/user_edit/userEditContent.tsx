@@ -14,7 +14,7 @@ interface Role {
 export const UserEditContent: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState<string>("09-123456789");
+  const [password, setPassword] = useState<string>("");
   const [contact_person, setContactPerson] = useState("");
   const [position, setPosition] = useState("");
   const [phone, setPhoneNo] = useState("");
@@ -24,6 +24,7 @@ export const UserEditContent: React.FC = () => {
   const [options, setOptions] = useState<Role[]>([]);
   const [role_id, setRole] = useState<number | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
+  const [errMsg, setErrMsg] = useState<string>('');
 
   const navigate = useNavigate();
   const { userId } = useParams();
@@ -62,8 +63,13 @@ export const UserEditContent: React.FC = () => {
           setRole(userRole.id);
         }
         setIsLoading(false)
-      } catch (error) {
-        console.log(error);
+      } catch (error:any) {
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
         setIsLoading(false)
       }
     };
@@ -117,14 +123,14 @@ export const UserEditContent: React.FC = () => {
         }
       )
       .then((response) => {
-        console.log(response.data);
         navigate("/users");
       })
       .catch((error) => {
-        if (error.response) {
-          console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
         } else {
-          console.log(error.message);
+          setErrMsg('An error has occurred during the API request.');
         }
       });
   };
@@ -168,8 +174,7 @@ export const UserEditContent: React.FC = () => {
             value={role_id !== undefined ? role_id.toString() : ""}
           />
           {errors.role && <p className="error-message">{errors.role}</p>}
-
-
+          <p className="error-message">{errMsg && errMsg}</p>
           <div className="allbtn">
             <Button type="submit" className="button" text={isLoading ? "Loading..." : "UPDATE"}
               disabled={isLoading} />

@@ -44,7 +44,7 @@ export const ProjectContent = () => {
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Display an error message
+    return <div>Error: {error}</div>;
   }
   let totalItems = projects.length;
   const totalPages = Math.ceil(totalItems / perPage);

@@ -17,9 +17,8 @@ interface User {
   isChecked: boolean;
 }
 
-
 export const ProjectCreateContent: React.FC = () => {
-
+  const [errMsg, setErrMsg] = useState<string>('');
   const location = useLocation();
   const searchID = new URLSearchParams(location.search);
   const id = searchID.get("id");
@@ -43,8 +42,6 @@ export const ProjectCreateContent: React.FC = () => {
   const token = localStorage.getItem('token');
   const status_options = ['Complete', 'Progress', 'Cancel'];
 
-
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -65,11 +62,15 @@ export const ProjectCreateContent: React.FC = () => {
         id: item.id,
         category: item.category,
       }));
-
       setCategoriesOptions(mappedOptions);
       setIsLoading(false)
     } catch (error: any) {
-      console.log(error.message + " Error");
+      if (error.response && error.response.data && error.response.data.message) {
+        const apiErrorMessage = error.response.data.message;
+        setErrMsg(apiErrorMessage);
+      } else {
+        setErrMsg('An error has occurred during the API request.');
+      }
       setIsLoading(false)
     }
   };
@@ -89,7 +90,12 @@ export const ProjectCreateContent: React.FC = () => {
       });
       setUserOption(response.data.data);
     } catch (error: any) {
-      console.log(error.message + " Error");
+      if (error.response && error.response.data && error.response.data.message) {
+        const apiErrorMessage = error.response.data.message;
+        setErrMsg(apiErrorMessage);
+      } else {
+        setErrMsg('An error has occurred during the API request.');
+      }
     }
   };
 
@@ -97,11 +103,9 @@ export const ProjectCreateContent: React.FC = () => {
     const is_devchecked = users.includes(userId);
 
     if (is_devchecked) {
-      // User is already in the array, remove it
       const updatedUsers = users.filter((user) => user !== userId);
       setUsers(updatedUsers);
     } else {
-      // User is not in the array, add it
       const updatedUsers = [...users, userId];
       setUsers(updatedUsers);
     }
@@ -112,7 +116,6 @@ export const ProjectCreateContent: React.FC = () => {
     e.preventDefault();
     setErrors({});
 
-    // Perform validation
     let validationErrors: any = {};
     if (title.trim() === "") {
       validationErrors.title = "Title is required *";
@@ -126,7 +129,6 @@ export const ProjectCreateContent: React.FC = () => {
     if (!category_id) {
       validationErrors.category = "Category is required *";
     }
-
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -150,14 +152,18 @@ export const ProjectCreateContent: React.FC = () => {
       navigate(`/client-project-lists?id=${id}`);
     })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response && error.response.data && error.response.data.message) {
+          const apiErrorMessage = error.response.data.message;
+          setErrMsg(apiErrorMessage);
+        } else {
+          setErrMsg('An error has occurred during the API request.');
+        }
       });
   };
 
   if (isLoading) {
     return <div className="l-width"><p className="loading"></p></div>
   }
-
   return (
     <>
       <div className="register add-middle">
@@ -178,7 +184,6 @@ export const ProjectCreateContent: React.FC = () => {
                       />
                       <p className="error-message">{errors.title && errors.title}</p>
                     </div>
-
                   </div>
                   <div className="client_phoneNO">
                     <div className="client_phone_parent">
@@ -208,7 +213,6 @@ export const ProjectCreateContent: React.FC = () => {
                       </select>
                       <p className="error-message">{errors.status && errors.status}</p>
                     </div>
-
                   </div>
                   <div className="client_phoneNO">
                     <div className="client_phone_parent">
@@ -219,7 +223,6 @@ export const ProjectCreateContent: React.FC = () => {
                           } else {
                             setCategory(undefined);
                           }
-
                         }}
                       >
                         <option value="__default">Choose Category</option>
@@ -231,7 +234,6 @@ export const ProjectCreateContent: React.FC = () => {
                       </select>
                       <p className="error-message">{errors.category && errors.category}</p>
                     </div>
-
                   </div>
                   <div className="client_phoneNO">
                     <div className="client_phone_parent">
@@ -240,14 +242,12 @@ export const ProjectCreateContent: React.FC = () => {
                         setMaintenance(isChecked);
                       }} />
                     </div>
-
                   </div>
                 </div>
                 <div className="right">
                   <div className="client_phoneNO">
                     <div className="client_phone_parent" style={{ height: "100px", overflowY: "scroll", display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
                       <label> Please select assigned developers. </label>
-
                       {
                         users_option.map((item: any) => {
                           return (
@@ -258,10 +258,9 @@ export const ProjectCreateContent: React.FC = () => {
                           )
                         })
                       }
-
                       <p className="error-message">{errors.address && errors.address}</p>
+                      <p className="error-message">{errMsg && errMsg}</p>
                     </div>
-
                   </div>
                 </div>
               </div>

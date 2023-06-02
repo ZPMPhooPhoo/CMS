@@ -1,7 +1,7 @@
-import CategoryListContent from './categoryListContent'
+import {CategoryListContent} from './categoryListContent'
 import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
-import { useState ,useEffect} from 'react'
+import { useState} from 'react'
 
 const Category = () => {
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import importImg from '../../img/ace_plus_logo.png';
 import { Button } from '../../components/button.component';
@@ -16,8 +15,6 @@ export const Login: React.FC<Props> = ({ }) => {
   const [errors, setErrors] = useState<any>({});
   const [errMsg, setErrMsg] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +57,6 @@ export const Login: React.FC<Props> = ({ }) => {
       setIsLoading(false);
       window.location.reload();
     } catch (error: any) {
-      console.log(error.message);
       if (error.response && error.response.data && error.response.data.message) {
         const apiErrorMessage = error.response.data.message;
         setErrMsg(apiErrorMessage);
@@ -120,4 +116,3 @@ export const Login: React.FC<Props> = ({ }) => {
     </div>
   );
 };
-

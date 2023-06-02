@@ -2,7 +2,8 @@ import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
 import { ClientEditContent } from './clientEditContent';
-const ClientEdit = () => {
+
+export const ClientEdit = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
@@ -18,10 +19,7 @@ const ClientEdit = () => {
           <div> <Header clickHandler={handleBurgerClick} text='Client Lists' /> </div>
           <div className='board-div'><ClientEditContent /></div>
         </div>
-
       </div>
     </>
   )
 }
-
-export default ClientEdit;

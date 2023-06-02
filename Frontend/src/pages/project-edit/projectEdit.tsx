@@ -2,9 +2,10 @@ import { Sidebar } from '../../layout/sidebar.layout'
 import { Header } from '../../layout/header.layout'
 import { useState } from 'react'
 import { ProjectEditContent } from './projectEditContent';
-const ProjectEdit = () => {
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
+export const ProjectEdit = () => {
+
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   const handleBurgerClick = () => {
     setSidebarOpen(!sidebarOpen);
   }
@@ -17,10 +18,7 @@ const ProjectEdit = () => {
           <div> <Header clickHandler={handleBurgerClick} text='Project Edit' /> </div>
           <div className='board-div top'><ProjectEditContent /></div>
         </div>
-
       </div>
     </>
   )
 }
-
-export default ProjectEdit;
