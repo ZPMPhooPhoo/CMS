@@ -1,5 +1,4 @@
 # CMS_Frontend
-
-- Client Management system
+* Client Manage-ment system
 
 `` git clone ``
